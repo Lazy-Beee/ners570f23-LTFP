@@ -1,2 +1,0 @@
-/usr/bin/ar qc liblftp.a CMakeFiles/lftp.dir/exampleSingleton.cpp.o
-/usr/bin/ranlib liblftp.a
