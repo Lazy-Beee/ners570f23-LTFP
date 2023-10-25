@@ -22,7 +22,7 @@ namespace LTFP
 
 		static ExampleClass* getCurrent();
         
-		inline const Real getExampleVariable(int i) const { return exampleVariable[i]; }
+		inline Real getExampleVariable(int i) const { return exampleVariable[i]; }
         inline Real& getExampleVariable(int i) { return exampleVariable[i]; }
         inline void setExampleVariable(int i, Real val) { exampleVariable[i] = val; }
 	};

@@ -1,8 +1,8 @@
-add_executable(lftp_main main.cpp)
+add_executable(simualtor.exe main.cpp)
 
-target_include_directories(lftp_main PUBLIC
+target_include_directories(simualtor.exe PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../src>
   $<INSTALL_INTERFACE:include>
 )
 
-target_link_libraries(lftp_main lftp)
+target_link_libraries(simualtor.exe lftp)

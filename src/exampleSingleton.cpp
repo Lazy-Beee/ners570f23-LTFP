@@ -1,4 +1,4 @@
-#include "ExampleClass.h"
+#include "exampleSingleton.hpp"
 
 
 namespace LTFP
