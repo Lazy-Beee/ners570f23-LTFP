@@ -23,10 +23,6 @@ endif()
 include(gnu_warning_flags)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 
-# Enable testing
-include(CTest)
-enable_testing()
-
+include(add_simulator)
 add_subdirectory(src)
 add_subdirectory(simulator)
-add_subdirectory(tests)

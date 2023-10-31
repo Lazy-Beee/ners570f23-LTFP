@@ -1,8 +1,3 @@
-add_executable(simualtor.exe main.cpp)
+set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../bin)
 
-target_include_directories(simualtor.exe PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../src>
-  $<INSTALL_INTERFACE:include>
-)
-
-target_link_libraries(simualtor.exe lftp)
+add_simulator(default_simulator.cpp)

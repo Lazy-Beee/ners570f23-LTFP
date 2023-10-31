@@ -1,6 +1,7 @@
 .vscode/*
 .scenes/output/*
 build/*
+bin/*
 
 # Prerequisites
 *.d
