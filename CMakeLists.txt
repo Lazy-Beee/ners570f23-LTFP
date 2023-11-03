@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(SpMV VERSION 0.1.0 LANGUAGES CXX)
+project(LTFP VERSION 0.1.0 LANGUAGES CXX)
 
 # Set module path to find our macros
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -24,5 +24,8 @@ include(gnu_warning_flags)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 
 include(add_simulator)
+include(add_test)
 add_subdirectory(src)
+add_subdirectory(utilities)
 add_subdirectory(simulator)
+add_subdirectory(tests)

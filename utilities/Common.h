@@ -1,3 +1,8 @@
+#include "Counting.h"
+#include "Logger.h"
+#include "StringTools.h"
+#include "Timing.h"
+
 #ifdef USE_DOUBLE
 
 typedef double Real;
