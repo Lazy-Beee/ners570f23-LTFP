@@ -1,5 +1,4 @@
 add_library(utilities
-    Common.h
     Counting.h
     Logger.h
     Timing.h

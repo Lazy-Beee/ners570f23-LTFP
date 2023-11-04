@@ -1,7 +1,5 @@
-#include "Counting.h"
-#include "Logger.h"
-#include "StringTools.h"
-#include "Timing.h"
+#ifndef __Common_h__
+#define __Common_h__
 
 #ifdef USE_DOUBLE
 
@@ -15,4 +13,5 @@ typedef float Real;
 #define REAL_MAX FLT_MAX
 #define REAL_MIN FLT_MIN
 
+#endif
 #endif

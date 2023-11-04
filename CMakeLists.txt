@@ -26,6 +26,11 @@ endif()
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+option(USE_DOUBLE_PRECISION "OFF")
+if(USE_DOUBLE_PRECISION STREQUAL "ON")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_DOUBLE")
+endif()
+
 # Enable a long list of warnings to ensure correctness
 include(gnu_warning_flags)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
@@ -36,8 +41,3 @@ add_subdirectory(src)
 add_subdirectory(utilities)
 add_subdirectory(simulator)
 add_subdirectory(tests)
-
-option(USE_DOUBLE_PRECISION "OFF")
-if(USE_DOUBLE_PRECISION STREQUAL "ON")
-add_compile_definitions(USE_DOUBLE)
-endif()

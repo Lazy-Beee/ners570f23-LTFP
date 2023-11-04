@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../utilities/Common.h"
+#include "../src/Common.hpp"
 
 void setSceneFile(std::string filename)
 {
@@ -19,9 +19,9 @@ int main(int argc, char *argv[])
     
     // Check type of Real
 #ifdef USE_DOUBLE
-    std::cout << "LTPF running in double precision." << std::endl;
+    std::cout << "LTPF is running in double precision." << std::endl;
 #else
-    std::cout << "LTPF running in single precision." << std::endl;
+    std::cout << "LTPF is running in single precision." << std::endl;
 #endif
 
     return 0;

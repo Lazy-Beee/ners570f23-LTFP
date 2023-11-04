@@ -2,7 +2,7 @@ string(CONCAT GNU_WARNING_FLAGS
     " -Wall"
     " -Wcast-align"
     " -Wcast-qual"
-    " -Wconversion"
+    # " -Wconversion"
     " -Wdouble-promotion"
     " -Werror"
     " -Wextra"

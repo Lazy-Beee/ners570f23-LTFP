@@ -1,7 +1,7 @@
 #ifndef __ExampleSingleton__
 #define __ExampleSingleton__
 
-#include "../utilities/Common.h"
+#include "Common.hpp"
 #include <vector>
 
 namespace LTFP
