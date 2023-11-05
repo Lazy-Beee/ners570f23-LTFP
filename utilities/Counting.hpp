@@ -3,8 +3,8 @@
 
 #include <iostream>
 #include <unordered_map>
-#include "Logger.h"
-#include "Timing.h"
+#include "Logger.hpp"
+#include "Timing.hpp"
 
 namespace Utilities
 {

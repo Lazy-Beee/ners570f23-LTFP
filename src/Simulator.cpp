@@ -1,8 +1,8 @@
 #include "Simulator.hpp"
 #include <iostream>
-#include "../utilities/Counting.h"
-#include "../utilities/Logger.h"
-#include "../utilities/Timing.h"
+#include "../utilities/Counting.hpp"
+#include "../utilities/Logger.hpp"
+#include "../utilities/Timing.hpp"
 
 INIT_LOGGING
 INIT_TIMING

@@ -2,9 +2,9 @@
 #include <thread>
 #include "../src/Common.hpp"
 #include "../src/Simulator.hpp"
-#include "../utilities/Counting.h"
-#include "../utilities/Logger.h"
-#include "../utilities/Timing.h"
+#include "../utilities/Counting.hpp"
+#include "../utilities/Logger.hpp"
+#include "../utilities/Timing.hpp"
 
 using namespace std;
 using namespace LTFP;

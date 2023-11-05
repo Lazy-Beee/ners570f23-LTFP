@@ -1,7 +1,8 @@
 add_library(utilities
-    Counting.h
-    Logger.h
-    Timing.h
+    Counting.hpp
+    Logger.hpp
+    Timing.hpp
+    json.hpp
 )
 
 set_target_properties(utilities PROPERTIES LINKER_LANGUAGE CXX)

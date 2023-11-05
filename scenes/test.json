@@ -1,0 +1,25 @@
+{
+    "Time":
+    {
+        "minTimeStepSize": 0.001,
+        "maxTimeStepSize": 0.1,
+        "endTime": 1.2,
+        "maxTimeSteps": 1000
+    },
+	"Mesh": 
+	{
+        "start": [1,2,3],
+        "end": [4,5,6],
+        "xCount": 5,
+        "yCount": 10,
+        "zCount": 20,
+        "incrementThickness": 0.1,
+        "incrementPeriod": 0.5
+    },
+    "Export":
+    {
+        "enableVtkExport": true,
+        "consolePeriod": 0.1,
+        "exportPeriod": 0.05
+    }
+}

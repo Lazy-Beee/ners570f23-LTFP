@@ -1,6 +1,7 @@
 add_library(lftp
     Common.hpp
-    
+    SceneLoader.hpp
+    SceneLoader.cpp
     Simulator.hpp
     Simulator.cpp
     TimeManager.hpp

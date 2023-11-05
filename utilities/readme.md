@@ -1,6 +1,4 @@
-Function adopted from https://github.com/InteractiveComputerGraphics/SPlisHSPlasH:
-- Counting.h
-- FileSystem.h
-- Logger.h
-- Timing.h
-- StringTools.h
+Logger.h, Counting.h, timing.h: adopted from https://github.com/InteractiveComputerGraphics/SPlisHSPlasH
+json.hpp: https://github.com/nlohmann/json
+
+

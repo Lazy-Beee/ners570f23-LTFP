@@ -1,6 +1,9 @@
 #ifndef __Common_h__
 #define __Common_h__
 
+#include <cfloat>
+#include <eigen3/Eigen/Dense>
+
 #ifdef USE_DOUBLE
 
 typedef double Real;
@@ -15,3 +18,12 @@ typedef float Real;
 
 #endif
 #endif
+
+using Vector2r = Eigen::Matrix<Real, 2, 1, Eigen::DontAlign>;
+using Vector3r = Eigen::Matrix<Real, 3, 1, Eigen::DontAlign>;
+
+using Vector2i = Eigen::Matrix<int, 2, 1, Eigen::DontAlign>;
+using Vector3i = Eigen::Matrix<int, 3, 1, Eigen::DontAlign>;
+
+using AlignedBox2r = Eigen::AlignedBox<Real, 2>;
+using AlignedBox3r = Eigen::AlignedBox<Real, 3>;

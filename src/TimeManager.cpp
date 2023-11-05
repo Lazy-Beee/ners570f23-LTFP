@@ -1,6 +1,6 @@
 #include "TimeManager.hpp"
-#include "../utilities/Logger.h"
-#include "../utilities/Counting.h"
+#include "../utilities/Logger.hpp"
+#include "../utilities/Counting.hpp"
 
 namespace LTFP
 {
