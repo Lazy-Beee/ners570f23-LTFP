@@ -14,7 +14,7 @@ namespace LTFP
 	class Simulator
 	{
 	private:
-		static Simulator* current;
+		static Simulator *current;
 		std::string _version = "v1.0.0";
 		std::filesystem::path _projectPath;
 		std::filesystem::path _execPath;
@@ -23,20 +23,19 @@ namespace LTFP
 
 	public:
 		Simulator();
-		Simulator(const Simulator&) = delete;
-		Simulator& operator=(const Simulator&) = delete;
+		Simulator(const Simulator &) = delete;
+		Simulator &operator=(const Simulator &) = delete;
 		~Simulator();
 
-		static Simulator* getCurrent();
+		static Simulator *getCurrent();
 		void initUtilities(std::string sceneFile);
 		void step();
 		void finalize();
-		void runSimulation(int argc, char* argv[]);
+		void runSimulation(int argc, char *argv[]);
 
-		inline std::filesystem::path getOutputPath() const {return _outputPath;};
-		inline std::filesystem::path getScenePath() const {return _scenePath;};
+		inline std::filesystem::path getOutputPath() const { return _outputPath; };
+		inline std::filesystem::path getScenePath() const { return _scenePath; };
 	};
 }
-
 
 #endif

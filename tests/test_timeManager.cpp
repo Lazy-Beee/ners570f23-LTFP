@@ -9,8 +9,8 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator* sim = Simulator::getCurrent();
-    TimeManager* tm = TimeManager::getCurrent();
+    Simulator *sim = Simulator::getCurrent();
+    TimeManager *tm = TimeManager::getCurrent();
 
     sim->initUtilities("test.json");
     SceneLoader::getCurrent()->readScene();
@@ -35,7 +35,7 @@ int main()
     }
     COMPARE<Real>(tm->getTimeStepSize(), maxDt, 1e-3, "Time step size 1");
     COMPARE(tm->getTimeStepCount() == n1, "Time step count 1");
-    COMPARE<Real>(tm->getTime(), maxDt*n1, 1e-3, "Current time 1");
+    COMPARE<Real>(tm->getTime(), maxDt * n1, 1e-3, "Current time 1");
 
     tm->setTimeStepSize(dt2);
     for (int i = 0; i < n2; i++)
@@ -44,13 +44,15 @@ int main()
     }
     COMPARE<Real>(tm->getTimeStepSize(), dt2, 1e-3, "Time step size 2");
     COMPARE(tm->getTimeStepCount() == (n1 + n2), "Time step count 2");
-    COMPARE<Real>(tm->getTime(), maxDt*n1 + dt2*n2, 1e-3, "Current time 2");
-    
+    COMPARE<Real>(tm->getTime(), maxDt * n1 + dt2 * n2, 1e-3, "Current time 2");
+
     tm->setTimeStepSize(dt3);
-    while(tm->advance()) {}
+    while (tm->advance())
+    {
+    }
     COMPARE<Real>(tm->getTimeStepSize(), minDt, 1e-3, "Time step size 3");
     COMPARE(tm->getTimeStepCount() == 1000, "Time step count 3");
-    COMPARE<Real>(tm->getTime(), maxDt*n1 + dt2*n2 + (maxSteps-n1-n2)*minDt, 1e-3, "Current time 3");
+    COMPARE<Real>(tm->getTime(), maxDt * n1 + dt2 * n2 + (maxSteps - n1 - n2) * minDt, 1e-3, "Current time 3");
 
     sim->finalize();
 }

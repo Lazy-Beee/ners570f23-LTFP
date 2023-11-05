@@ -5,7 +5,7 @@
 
 namespace LTFP
 {
-    TimeManager* TimeManager::current = nullptr;
+    TimeManager *TimeManager::current = nullptr;
 
     TimeManager::TimeManager()
     {
@@ -18,7 +18,7 @@ namespace LTFP
         current = nullptr;
     }
 
-    TimeManager* TimeManager::getCurrent()
+    TimeManager *TimeManager::getCurrent()
     {
         if (current == nullptr)
             current = new TimeManager();
@@ -33,7 +33,7 @@ namespace LTFP
 
         _minTimeStepSize = timeConfig.minTimeStepSize;
         _maxTimeStepSize = timeConfig.maxTimeStepSize;
-		_timeStepSize = _minTimeStepSize;
+        _timeStepSize = _minTimeStepSize;
         _endTime = timeConfig.endTime;
         _maxTimeSteps = timeConfig.maxTimeSteps;
     }

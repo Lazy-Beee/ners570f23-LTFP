@@ -8,7 +8,7 @@ using namespace std;
 
 namespace LTFP
 {
-    SceneLoader* SceneLoader::current = nullptr;
+    SceneLoader *SceneLoader::current = nullptr;
 
     SceneLoader::SceneLoader()
     {
@@ -20,7 +20,7 @@ namespace LTFP
         current = nullptr;
     }
 
-    SceneLoader* SceneLoader::getCurrent()
+    SceneLoader *SceneLoader::getCurrent()
     {
         if (current == nullptr)
             current = new SceneLoader();
@@ -32,7 +32,7 @@ namespace LTFP
     void SceneLoader::readTimeConfig()
     {
         if (_jsonData.find("Time") != _jsonData.end())
-	    {
+        {
             json config = _jsonData["Time"];
             _timeConfig = TimeConfig{};
 
@@ -59,7 +59,7 @@ namespace LTFP
     void SceneLoader::readMeshConfig()
     {
         if (_jsonData.find("Mesh") != _jsonData.end())
-	    {
+        {
             json config = _jsonData["Mesh"];
             _meshConfig = MeshConfig{};
 
@@ -115,7 +115,7 @@ namespace LTFP
         {
             _jsonData = json::parse(input_file);
         }
-        catch (const exception& e)
+        catch (const exception &e)
         {
             LOG_ERR << "Cannot load scene file to jsonData.";
             LOG_ERR << e.what();

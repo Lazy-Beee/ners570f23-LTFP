@@ -14,14 +14,14 @@ using namespace std;
 
 namespace LTFP
 {
-    Simulator* Simulator::current = nullptr;
+    Simulator *Simulator::current = nullptr;
 
     Simulator::Simulator()
     {
         _execPath = filesystem::canonical("/proc/self/exe");
         _projectPath = _execPath.parent_path().parent_path();
-		_scenePath = _projectPath/"scenes"/"default.json";
-		_outputPath = _projectPath/"output"/"default";
+        _scenePath = _projectPath / "scenes" / "default.json";
+        _outputPath = _projectPath / "output" / "default";
     }
 
     Simulator::~Simulator()
@@ -29,7 +29,7 @@ namespace LTFP
         current = nullptr;
     }
 
-    Simulator* Simulator::getCurrent()
+    Simulator *Simulator::getCurrent()
     {
         if (current == nullptr)
             current = new Simulator();
@@ -42,17 +42,17 @@ namespace LTFP
     void Simulator::initUtilities(string sceneFile)
     {
         // Initialize file paths
-        _scenePath = _projectPath/"scenes"/sceneFile;
+        _scenePath = _projectPath / "scenes" / sceneFile;
         string caseName = sceneFile.substr(0, sceneFile.find_last_of("."));
-        _outputPath = _projectPath/"output"/caseName;
+        _outputPath = _projectPath / "output" / caseName;
 
         // Create output and log directory
-        filesystem::path logPath = _outputPath/"log";
+        filesystem::path logPath = _outputPath / "log";
         try
         {
             filesystem::create_directories(logPath);
         }
-        catch (filesystem::filesystem_error const& ex)
+        catch (filesystem::filesystem_error const &ex)
         {
             cerr << "Creat output and log directory failed" << endl;
             cerr << ex.what() << endl;
@@ -60,10 +60,10 @@ namespace LTFP
         }
 
         // Start logger
-        filesystem::path logFilePath = logPath/"log.txt";
+        filesystem::path logFilePath = logPath / "log.txt";
         Utilities::logger.addSink(unique_ptr<Utilities::ConsoleSink>(new Utilities::ConsoleSink(Utilities::LogLevel::DEBUG)));
         Utilities::logger.addSink(unique_ptr<Utilities::FileSink>(new Utilities::FileSink(Utilities::LogLevel::DEBUG, logFilePath)));
-        
+
         LOG_INFO << "Laser additive manufacturing Thermal Field Prediction (LTFP) " << _version;
 #ifdef USE_DOUBLE
         LOG_INFO << "LTPF is running in double precision mode";
@@ -78,9 +78,9 @@ namespace LTFP
         // Copy scene file to output directory
         try
         {
-            filesystem::copy_file(_scenePath, logPath/"scene.json", filesystem::copy_options::overwrite_existing);
+            filesystem::copy_file(_scenePath, logPath / "scene.json", filesystem::copy_options::overwrite_existing);
         }
-        catch (filesystem::filesystem_error const& ex)
+        catch (filesystem::filesystem_error const &ex)
         {
             LOG_WARN << "Copy scene file to output directory failed.";
             LOG_WARN << ex.what();
@@ -88,29 +88,28 @@ namespace LTFP
     }
 
     /// @brief Advance one time step
-	void Simulator::step()
+    void Simulator::step()
     {
-
     }
 
     /// @brief Wrap up simulation
     void Simulator::finalize()
     {
         LOG_INFO << "---------------------------------------------------------------------------";
-		Utilities::Timing::printAverageTimes();
-		Utilities::Timing::printTimeSums();
-		Utilities::Counting::printAverageCounts();
-		Utilities::Counting::printCounterSums();
+        Utilities::Timing::printAverageTimes();
+        Utilities::Timing::printTimeSums();
+        Utilities::Counting::printAverageCounts();
+        Utilities::Counting::printCounterSums();
     }
 
     /// @brief Run the simulation from beginning to end
     /// @param argc Number of command line inputs
     /// @param argv Command line inputs
     /// @note Only path the scene filename from command line. The scene file should be placed in ./scenes folder.
-    void Simulator::runSimulation(int argc, char* argv[])
+    void Simulator::runSimulation(int argc, char *argv[])
     {
-        SceneLoader* sceneLoader = SceneLoader::getCurrent();
-        TimeManager* timeManager = TimeManager::getCurrent();
+        SceneLoader *sceneLoader = SceneLoader::getCurrent();
+        TimeManager *timeManager = TimeManager::getCurrent();
 
         // Initialization
         if (argc == 1)
@@ -126,11 +125,10 @@ namespace LTFP
         sceneLoader->readScene();
         timeManager->init();
 
-        while(timeManager->advance())
+        while (timeManager->advance())
         {
-            
         }
-        
+
         finalize();
     }
 }
