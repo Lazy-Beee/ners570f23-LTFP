@@ -2,8 +2,8 @@
     "Time":
     {
         "minTimeStepSize": 0.001,
-        "maxTimeStepSize": 0.1,
-        "endTime": 1.2,
+        "maxTimeStepSize": 0.2,
+        "endTime": 120.0,
         "maxTimeSteps": 1000
     },
 	"Mesh": 
@@ -13,6 +13,7 @@
         "xCount": 5,
         "yCount": 10,
         "zCount": 20,
+        "meshSize": 0.1,
         "incrementThickness": 0.1,
         "incrementPeriod": 0.5
     },

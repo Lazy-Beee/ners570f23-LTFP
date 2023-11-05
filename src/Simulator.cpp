@@ -1,5 +1,7 @@
 #include "Simulator.hpp"
 #include <iostream>
+#include "SceneLoader.hpp"
+#include "TimeManager.hpp"
 #include "../utilities/Counting.hpp"
 #include "../utilities/Logger.hpp"
 #include "../utilities/Timing.hpp"
@@ -107,6 +109,9 @@ namespace LTFP
     /// @note Only path the scene filename from command line. The scene file should be placed in ./scenes folder.
     void Simulator::runSimulation(int argc, char* argv[])
     {
+        SceneLoader* sceneLoader = SceneLoader::getCurrent();
+        TimeManager* timeManager = TimeManager::getCurrent();
+
         // Initialization
         if (argc == 1)
             initUtilities("default.json");
@@ -116,6 +121,14 @@ namespace LTFP
         {
             cout << "Invalid number of command line inputs" << endl;
             exit(1);
+        }
+
+        sceneLoader->readScene();
+        timeManager->init();
+
+        while(timeManager->advance())
+        {
+            
         }
         
         finalize();

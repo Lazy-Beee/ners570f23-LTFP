@@ -28,7 +28,7 @@ namespace LTFP
         return current;
     }
 
-    /// @brief Read Time section from scene file
+    /// @brief Read Time section of scene file
     void SceneLoader::readTimeConfig()
     {
         if (_jsonData.find("Time") != _jsonData.end())
@@ -42,31 +42,67 @@ namespace LTFP
             _timeConfig.maxTimeStepSize = REAL_MAX;
             readValue(config["maxTimeStepSize"], _timeConfig.maxTimeStepSize);
 
-            bool exitEnsured = false;
-
             _timeConfig.endTime = REAL_MAX;
-            if (readValue(config["endTime"], _timeConfig.endTime))
-                exitEnsured = true;
+            readValue(config["endTime"], _timeConfig.endTime);
 
             _timeConfig.maxTimeSteps = INT_MAX;
-            if (readValue(config["maxTimeSteps"], _timeConfig.maxTimeSteps))
-                exitEnsured = true;
-
-            if (!exitEnsured)
-            {
-                LOG_ERR << "Both end time and maximum time steps are undefined.";
-                _fatalError = true;
-            }
+            readValue(config["maxTimeSteps"], _timeConfig.maxTimeSteps);
         }
         else
         {
-            LOG_ERR << "Cannot load TimeConfig from scene file";
+            LOG_ERR << "Failed to load TimeConfig from scene file.";
+            _fatalError = true;
+        }
+    }
+
+    /// @brief Read Mesh section of scene file
+    void SceneLoader::readMeshConfig()
+    {
+        if (_jsonData.find("Mesh") != _jsonData.end())
+	    {
+            json config = _jsonData["Mesh"];
+            _meshConfig = MeshConfig{};
+
+            if (!readVector(config["start"], _meshConfig.start))
+            {
+                LOG_ERR << "Failed to load domain start.";
+                _fatalError = true;
+            }
+
+            if (!readVector(config["end"], _meshConfig.end))
+            {
+                LOG_ERR << "Failed to load domain end.";
+                _fatalError = true;
+            }
+
+            _meshConfig.xCount = -1;
+            readValue(config["xCount"], _meshConfig.xCount);
+
+            _meshConfig.yCount = -1;
+            readValue(config["yCount"], _meshConfig.xCount);
+
+            _meshConfig.zCount = -1;
+            readValue(config["zCount"], _meshConfig.xCount);
+
+            _meshConfig.meshSize = -1.0;
+            readValue(config["meshSize"], _meshConfig.meshSize);
+
+            _meshConfig.incrementThickness = 0.0;
+            readValue(config["incrementThickness"], _meshConfig.incrementThickness);
+
+            _meshConfig.incrementPeriod = REAL_MAX;
+            readValue(config["incrementPeriod"], _meshConfig.incrementPeriod);
+        }
+        else
+        {
+            LOG_ERR << "Failed to load TimeConfig from scene file.";
             _fatalError = true;
         }
     }
 
     /// @brief Read scene file and save the configurations
-    void SceneLoader::readScene()
+    /// @param terminateOnError Terminate simulation on missing essential info
+    void SceneLoader::readScene(bool terminateOnError)
     {
         filesystem::path scenePath = Simulator::getCurrent()->getScenePath();
         ifstream input_file(scenePath);
@@ -88,9 +124,9 @@ namespace LTFP
 
         readTimeConfig();
 
-        if (_fatalError)
+        if (_fatalError && terminateOnError)
         {
-            LOG_ERR << "Failed to load essential configuration(s)";
+            LOG_ERR << "Failed to load essential configuration(s), aborting simulation.";
             exit(1);
         }
     }

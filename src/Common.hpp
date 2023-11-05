@@ -24,6 +24,3 @@ using Vector3r = Eigen::Matrix<Real, 3, 1, Eigen::DontAlign>;
 
 using Vector2i = Eigen::Matrix<int, 2, 1, Eigen::DontAlign>;
 using Vector3i = Eigen::Matrix<int, 3, 1, Eigen::DontAlign>;
-
-using AlignedBox2r = Eigen::AlignedBox<Real, 2>;
-using AlignedBox3r = Eigen::AlignedBox<Real, 3>;

@@ -13,7 +13,11 @@ namespace LTFP
         static TimeManager* current;
 		Real _currentTime;
 		Real _timeStepSize;
+		Real _minTimeStepSize;
+		Real _maxTimeStepSize;
         int _timeStepCount;
+		Real _endTime;
+		int _maxTimeSteps;
 
 	public:
 		TimeManager();
@@ -22,14 +26,13 @@ namespace LTFP
 		~TimeManager();
 
 		static TimeManager* getCurrent();
-        void advance();
+        void init();
+		bool advance();
+		Real setTimeStepSize(Real dt);
 
 		inline Real getTime() const { return _currentTime; };
-		// inline void setTime(const Real& t) { _currentTime = t; };
 		inline Real getTimeStepSize() const { return _timeStepSize; };
-		inline void setTimeStepSize(const Real& dt) { _timeStepSize = dt; };
 		inline int 	getTimeStepCount() const { return _timeStepCount; };
-		// inline void setTimeStepCount(const int& n) { _timeStepCount = n; };
 	};
 }
 

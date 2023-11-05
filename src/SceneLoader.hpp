@@ -2,6 +2,7 @@
 #define __SceneLoader__
 
 #include "Common.hpp"
+#include <vector>
 #include "../utilities/json.hpp"
 
 using json = nlohmann::json;
@@ -25,10 +26,12 @@ namespace LTFP
 		/// @brief Mesh configurations
 		struct MeshConfig
 		{
-			AlignedBox3r domain;		///< Domain of mesh
+			Vector3r start;				///< Minimum domain coordinate
+			Vector3r end;				///< Maximum domain coordinate
 			int xCount;					///< Number of mesh in X
 			int yCount;					///< Number of mesh in Y
 			int zCount;					///< Number of mesh in Z
+			Real meshSize;				///< Size of cubic mesh
 			Real incrementThickness;	///< Thickness of each domain increment
 			Real incrementPeriod;		///< Period between domain increment
 		};
@@ -44,32 +47,46 @@ namespace LTFP
 	private:
         static SceneLoader* current;
 		json _jsonData;
-		bool _fatalError;
+		bool _fatalError;				///< Mark whether the scene file is missing essential info
 		TimeConfig _timeConfig;
 		MeshConfig _meshConfig;
 		ExportConfig _exportConfig;
 
 		void readTimeConfig();
+		void readMeshConfig();
+		void readExportConfig();
 
 		template <typename T>
-		bool readValue(const json &j, T &v)
+		bool readValue(const json &jsonData, T &val)
 		{
-			if (j.is_null())
+			if (jsonData.is_null())
 				return false;
 
-			v = j.get<T>();
+			val = jsonData.get<T>();
 			return true;
 		}
 
 		template <typename T>
-		bool readVector(const json &j, std::vector<T> &vec)
+		bool readVector(const json &jsonData, std::vector<T> &vec)
 		{
-			if (j.is_null())
+			if (jsonData.is_null())
 				return false;
 
-			vec = j.get<std::vector<T>>();
+			vec = jsonData.get<std::vector<T>>();
 			return true;
-		}	
+		}
+
+		template <typename T, int size>
+		bool readVector(const json &jsonData, Eigen::Matrix<T, size, 1, Eigen::DontAlign> &vec)
+		{
+			if (jsonData.is_null())
+				return false;
+
+			std::vector<T> values = jsonData.get<std::vector<T>>();
+			for (unsigned int i = 0; i < values.size(); i++)
+				vec[i] = values[i];
+			return true;
+		}
 
 	public:
 		SceneLoader();
@@ -78,7 +95,7 @@ namespace LTFP
 		~SceneLoader();
 
 		static SceneLoader* getCurrent();
-        void readScene();
+        void readScene(bool terminateOnError=true);
 
 		TimeConfig getTimeConfig() const { return _timeConfig; };
 	};
