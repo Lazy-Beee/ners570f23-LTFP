@@ -166,7 +166,7 @@ namespace Utilities
 			}
 			if (Timing::m_startCounter != Timing::m_stopCounter)
 				LOG_INFO << "Problem: " << Timing::m_startCounter << " calls of startTiming and " << Timing::m_stopCounter << " calls of stopTiming. ";
-			LOG_INFO << "---------------------------------------------------------------------------\n";
+			LOG_INFO << "---------------------------------------------------------------------------";
 		}
 
 		inline static void printTimeSums()
@@ -180,7 +180,7 @@ namespace Utilities
 			}
 			if (Timing::m_startCounter != Timing::m_stopCounter)
 				LOG_INFO << "Problem: " << Timing::m_startCounter << " calls of startTiming and " << Timing::m_stopCounter << " calls of stopTiming. ";
-			LOG_INFO << "---------------------------------------------------------------------------\n";
+			LOG_INFO << "---------------------------------------------------------------------------";
 		}
 	};
 }

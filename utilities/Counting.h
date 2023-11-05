@@ -3,7 +3,6 @@
 
 #include <iostream>
 #include <unordered_map>
-#include "Common.h"
 #include "Logger.h"
 #include "Timing.h"
 
@@ -17,7 +16,7 @@ namespace Utilities
 
 	struct AverageCount
 	{
-		Real sum;
+		double sum;
 		unsigned int numberOfCalls;
 	};
 
@@ -31,7 +30,7 @@ namespace Utilities
 			m_averageCounts.clear();
 		}
 
-		inline static void increaseCounter(const std::string& name, const Real increaseBy)
+		inline static void increaseCounter(const std::string& name, const double increaseBy)
 		{
 			std::unordered_map<std::string, AverageCount>::iterator iter;
 			iter = Counting::m_averageCounts.find(name);
@@ -55,10 +54,10 @@ namespace Utilities
 			for (iter = Counting::m_averageCounts.begin(); iter != Counting::m_averageCounts.end(); iter++)
 			{
 				AverageCount &ac = iter->second;
-				const double avgCount = static_cast<double>(ac.sum) / static_cast<double>(ac.numberOfCalls);
+				const double avgCount = ac.sum / ac.numberOfCalls;
 				LOG_INFO << "Average number: " << iter->first.c_str() << ": " << avgCount;
 			}
-			LOG_INFO << "---------------------------------------------------------------------------\n";
+			LOG_INFO << "---------------------------------------------------------------------------";
 		}
 
 		inline static void printCounterSums()
@@ -69,7 +68,7 @@ namespace Utilities
 				AverageCount &ac = iter->second;
 				LOG_INFO << "Total number: " << iter->first.c_str() << ": " << ac.sum;
 			}
-			LOG_INFO << "---------------------------------------------------------------------------\n";
+			LOG_INFO << "---------------------------------------------------------------------------";
 		}
 	};
 }

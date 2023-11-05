@@ -1,6 +1,7 @@
 .vscode/*
 build/*
 bin/*
+output/*
 doc/html/*
 doc/latex/*
 

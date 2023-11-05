@@ -1,6 +1,9 @@
 add_library(lftp
     Common.hpp
     
+    Simulator.hpp
+    Simulator.cpp
+
     exampleSingleton.hpp
     exampleSingleton.cpp
 )
