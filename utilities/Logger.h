@@ -34,13 +34,14 @@ namespace Utilities
 			if (level < m_minLevel)
 				return;
 
-			if (level == LogLevel::INFO)
-				std::cout << "Info: ";
-			else 
-			if (level == LogLevel::WARN)
+			if (level == LogLevel::DEBUG)
+				std::cout << "Debug:   ";
+			else if (level == LogLevel::INFO)
+				std::cout << "Info:    ";
+			else if (level == LogLevel::WARN)
 				std::cout << "Warning: ";
 			else if (level == LogLevel::ERR)
-				std::cerr << "Error: ";
+				std::cerr << "Error:   ";
 
 			std::cout << str << std::endl;
 		}

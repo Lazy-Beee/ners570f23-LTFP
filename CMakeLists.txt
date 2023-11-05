@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(LTFP VERSION 0.1.0 LANGUAGES CXX)
+project(LTFP VERSION 1.0.0 LANGUAGES CXX)
 
 # Set module path to find our macros
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")

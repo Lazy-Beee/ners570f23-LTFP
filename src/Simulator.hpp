@@ -15,6 +15,8 @@ namespace LTFP
 	{
 	private:
 		static Simulator* current;
+		std::string _version = "v1.0.0";
+		std::filesystem::path _projectPath;
 		std::filesystem::path _execPath;
 		std::filesystem::path _scenePath;
 		std::filesystem::path _outputPath;

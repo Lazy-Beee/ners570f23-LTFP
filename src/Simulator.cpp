@@ -17,8 +17,9 @@ namespace LTFP
     Simulator::Simulator()
     {
         _execPath = filesystem::canonical("/proc/self/exe");
-		_scenePath = _execPath.parent_path()/".."/"scenes"/"default.json";
-		_outputPath = _execPath.parent_path()/".."/"output"/"default";
+        _projectPath = _execPath.parent_path().parent_path();
+		_scenePath = _projectPath/"scenes"/"default.json";
+		_outputPath = _projectPath/"output"/"default";
     }
 
     Simulator::~Simulator()
@@ -39,9 +40,9 @@ namespace LTFP
     void Simulator::initUtilities(string sceneFile)
     {
         // Initialize file paths
-        _scenePath = filesystem::canonical(_execPath.parent_path()/".."/"scenes"/sceneFile);
+        _scenePath = _projectPath/"scenes"/sceneFile;
         string caseName = sceneFile.substr(0, sceneFile.find_last_of("."));
-        _outputPath = _execPath.parent_path()/".."/"output"/caseName;
+        _outputPath = _projectPath/"output"/caseName;
 
         // Create output and log directory
         filesystem::path logPath = _outputPath/"log";
@@ -51,28 +52,26 @@ namespace LTFP
         }
         catch (filesystem::filesystem_error const& ex)
         {
-            cout << "Creat output and log directory failed" << endl;
-            cout << ex.what() << endl;
+            cerr << "Creat output and log directory failed" << endl;
+            cerr << ex.what() << endl;
             exit(1);
         }
 
-        _outputPath = filesystem::canonical(_outputPath);
-        logPath = filesystem::canonical(logPath);
-
         // Start logger
         filesystem::path logFilePath = logPath/"log.txt";
-        Utilities::logger.addSink(unique_ptr<Utilities::ConsoleSink>(new Utilities::ConsoleSink(Utilities::LogLevel::INFO)));
+        Utilities::logger.addSink(unique_ptr<Utilities::ConsoleSink>(new Utilities::ConsoleSink(Utilities::LogLevel::DEBUG)));
         Utilities::logger.addSink(unique_ptr<Utilities::FileSink>(new Utilities::FileSink(Utilities::LogLevel::DEBUG, logFilePath)));
         
-        LOG_INFO << "Laser additive manufacturing Thermal Field Prediction (LTFP) solver activated";
+        LOG_INFO << "Laser additive manufacturing Thermal Field Prediction (LTFP) " << _version;
 #ifdef USE_DOUBLE
         LOG_INFO << "LTPF is running in double precision mode";
 #else
         LOG_INFO << "LTPF is running in single precision mode";
 #endif
-        LOG_INFO << "Scene file:        " << _scenePath;
-        LOG_INFO << "Executable path:   " << _execPath;
-        LOG_INFO << "Output path:       " << _outputPath;
+        LOG_DEBUG << "Project path:      " << _projectPath;
+        LOG_DEBUG << "Executable path:   " << _execPath;
+        LOG_DEBUG << "Scene file:        " << _scenePath;
+        LOG_DEBUG << "Output path:       " << _outputPath;
 
         // Copy scene file to output directory
         try
@@ -81,9 +80,8 @@ namespace LTFP
         }
         catch (filesystem::filesystem_error const& ex)
         {
-            cout << "Copy scene file to output directory failed" << endl;
-            cout << ex.what() << endl;
-            exit(1);
+            LOG_WARN << "Copy scene file to output directory failed.";
+            LOG_WARN << ex.what();
         }
     }
 
