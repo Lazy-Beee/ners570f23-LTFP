@@ -1,4 +1,3 @@
-#include "compare.hpp"
 #include <chrono>
 #include <thread>
 #include "../src/Common.hpp"
@@ -13,7 +12,7 @@ using namespace LTFP;
 int main()
 {
     Simulator* sim = Simulator::getCurrent();
-    sim->init("default.json");
+    sim->initUtilities("blank.json");
 
     for (int i = 0; i < 100; i++)
     {

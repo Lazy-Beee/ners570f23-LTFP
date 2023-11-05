@@ -8,17 +8,16 @@
 
 namespace LTFP
 {
-	/// @brief Class managing simulator work flow
+	/// @brief Class managing simulator work flow.
 	/// @details Run the simulation in default mode with runSimulation(). Or assemble the simulation with provided functions.
+	/// @note This class is a singleton.
 	class Simulator
 	{
 	private:
 		static Simulator* current;
-
-	protected:
-		std::filesystem::path _execPath = "";
-		std::filesystem::path _scenePath = "";
-		std::filesystem::path _outputPath = "";
+		std::filesystem::path _execPath;
+		std::filesystem::path _scenePath;
+		std::filesystem::path _outputPath;
 
 	public:
 		Simulator();
@@ -27,7 +26,7 @@ namespace LTFP
 		~Simulator();
 
 		static Simulator* getCurrent();
-		void init(std::string sceneFile);
+		void initUtilities(std::string sceneFile);
 		void step();
 		void finalize();
 		void runSimulation(int argc, char* argv[]);

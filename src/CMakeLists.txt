@@ -3,9 +3,8 @@ add_library(lftp
     
     Simulator.hpp
     Simulator.cpp
-
-    exampleSingleton.hpp
-    exampleSingleton.cpp
+    TimeManager.hpp
+    TimeManager.cpp
 )
 add_dependencies(lftp
 	utilities

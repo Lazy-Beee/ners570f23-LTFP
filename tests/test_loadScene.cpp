@@ -8,8 +8,7 @@ using namespace LTFP;
 int main()
 {
     Simulator* sim = Simulator::getCurrent();
-    sim->init("default.json");
-
+    sim->initUtilities("test.json");
 
 
 }

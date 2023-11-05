@@ -3,7 +3,7 @@ macro(add_test FILENAME)
   set(EXECNAME ${FILENAME})
   get_filename_component(EXECNAME ${EXECNAME} NAME_WE)
   get_filename_component(EXECNAME ${EXECNAME} NAME_WLE)
-  set(EXECNAME test_${EXECNAME}.exe)
+  set(EXECNAME ${EXECNAME}.exe)
 
   add_executable(${EXECNAME} ${FILENAME})
   
