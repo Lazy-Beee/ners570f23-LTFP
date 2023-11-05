@@ -19,6 +19,8 @@ else()
   message(WARNING "You are using an unsupported compiler! This might not work.")
 endif()
 
+find_package(Eigen3 3.4.0 REQUIRED)
+
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release)
 endif()
