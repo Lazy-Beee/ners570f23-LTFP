@@ -35,7 +35,7 @@ endif()
 
 # Enable a long list of warnings to ensure correctness
 include(gnu_warning_flags)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS} -fopenmp")
 
 include(add_simulator)
 include(add_test)

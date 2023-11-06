@@ -1,5 +1,6 @@
 #include "Simulator.hpp"
 #include <iostream>
+#include <omp.h>
 #include "SceneLoader.hpp"
 #include "TimeManager.hpp"
 #include "../utilities/Counting.hpp"
@@ -70,6 +71,7 @@ namespace LTFP
 #else
         LOG_INFO << "LTPF is running in single precision mode";
 #endif
+        LOG_INFO << "Available OpenMP threads: " << omp_get_max_threads();
         LOG_DEBUG << "Project path:      " << _projectPath;
         LOG_DEBUG << "Executable path:   " << _execPath;
         LOG_DEBUG << "Scene file:        " << _scenePath;
@@ -108,6 +110,7 @@ namespace LTFP
     /// @note Only path the scene filename from command line. The scene file should be placed in ./scenes folder.
     void Simulator::runSimulation(int argc, char *argv[])
     {
+        // Get modules
         SceneLoader *sceneLoader = SceneLoader::getCurrent();
         TimeManager *timeManager = TimeManager::getCurrent();
 
@@ -130,5 +133,9 @@ namespace LTFP
         }
 
         finalize();
+
+        // Destroy modules
+        delete sceneLoader;
+        delete timeManager;
     }
 }
