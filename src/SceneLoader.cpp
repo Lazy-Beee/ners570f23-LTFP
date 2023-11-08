@@ -35,24 +35,13 @@ namespace LTFP
         {
             json config = _jsonData["Time"];
             _timeConfig = TimeConfig{};
-
-            _timeConfig.minTimeStepSize = REAL_MIN;
             readValue(config["minTimeStepSize"], _timeConfig.minTimeStepSize);
-
-            _timeConfig.maxTimeStepSize = REAL_MAX;
             readValue(config["maxTimeStepSize"], _timeConfig.maxTimeStepSize);
-
-            _timeConfig.endTime = REAL_MAX;
             readValue(config["endTime"], _timeConfig.endTime);
-
-            _timeConfig.maxTimeSteps = INT_MAX;
             readValue(config["maxTimeSteps"], _timeConfig.maxTimeSteps);
         }
         else
-        {
-            LOG_ERR << "Failed to load TimeConfig from scene file.";
-            _fatalError = true;
-        }
+            LOG_WARN << "Failed to load TimeConfig from scene file";
     }
 
     /// @brief Read Mesh section of scene file
@@ -62,47 +51,36 @@ namespace LTFP
         {
             json config = _jsonData["Mesh"];
             _meshConfig = MeshConfig{};
-
-            if (!readVector(config["start"], _meshConfig.start))
-            {
-                LOG_ERR << "Failed to load domain start.";
-                _fatalError = true;
-            }
-
-            if (!readVector(config["end"], _meshConfig.end))
-            {
-                LOG_ERR << "Failed to load domain end.";
-                _fatalError = true;
-            }
-
-            _meshConfig.xCount = -1;
+            readVector(config["start"], _meshConfig.start);
+            readVector(config["end"], _meshConfig.end);
             readValue(config["xCount"], _meshConfig.xCount);
-
-            _meshConfig.yCount = -1;
-            readValue(config["yCount"], _meshConfig.xCount);
-
-            _meshConfig.zCount = -1;
-            readValue(config["zCount"], _meshConfig.xCount);
-
-            _meshConfig.meshSize = -1.0;
+            readValue(config["yCount"], _meshConfig.yCount);
+            readValue(config["zCount"], _meshConfig.zCount);
             readValue(config["meshSize"], _meshConfig.meshSize);
-
-            _meshConfig.incrementThickness = 0.0;
             readValue(config["incrementThickness"], _meshConfig.incrementThickness);
-
-            _meshConfig.incrementPeriod = REAL_MAX;
             readValue(config["incrementPeriod"], _meshConfig.incrementPeriod);
         }
         else
+            LOG_WARN << "Failed to load MeshConfig from scene file";
+    }
+
+    /// @brief Read Export section of scene file
+    void SceneLoader::readExportConfig()
+    {
+        if (_jsonData.find("Export") != _jsonData.end())
         {
-            LOG_ERR << "Failed to load TimeConfig from scene file.";
-            _fatalError = true;
+            json config = _jsonData["Export"];
+            _exportConfig = ExportConfig{};
+            readValue(config["enableVtkExport"], _exportConfig.enableVtkExport);
+            readValue(config["printPeriod"], _exportConfig.printPeriod);
+            readValue(config["exportPeriod"], _exportConfig.exportPeriod);
         }
+        else
+            LOG_WARN << "Failed to load ExportConfig from scene file";
     }
 
     /// @brief Read scene file and save the configurations
-    /// @param terminateOnError Terminate simulation on missing essential info
-    void SceneLoader::readScene(bool terminateOnError)
+    void SceneLoader::readScene()
     {
         filesystem::path scenePath = Simulator::getCurrent()->getScenePath();
         ifstream input_file(scenePath);
@@ -117,17 +95,13 @@ namespace LTFP
         }
         catch (const exception &e)
         {
-            LOG_ERR << "Cannot load scene file to jsonData.";
+            LOG_ERR << "Cannot open scene file";
             LOG_ERR << e.what();
             exit(1);
         }
 
         readTimeConfig();
-
-        if (_fatalError && terminateOnError)
-        {
-            LOG_ERR << "Failed to load essential configuration(s), aborting simulation.";
-            exit(1);
-        }
+        readMeshConfig();
+        readExportConfig();
     }
 }

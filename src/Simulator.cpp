@@ -23,6 +23,7 @@ namespace LTFP
         _projectPath = _execPath.parent_path().parent_path();
         _scenePath = _projectPath / "scenes" / "default.json";
         _outputPath = _projectPath / "output" / "default";
+        _printPeriod = INT_MAX;
     }
 
     Simulator::~Simulator()
@@ -84,14 +85,37 @@ namespace LTFP
         }
         catch (filesystem::filesystem_error const &ex)
         {
-            LOG_WARN << "Copy scene file to output directory failed.";
+            LOG_WARN << "Cannot copy scene file to output directory";
             LOG_WARN << ex.what();
         }
+    }
+
+    /// @brief Initialize simulation
+    void Simulator::initialize()
+    {
+        SceneLoader *sl = SceneLoader::getCurrent();
+        TimeManager *tm = TimeManager::getCurrent();
+
+        sl->readScene();
+
+        if (sl->getExportConfig().printPeriod > 0)
+            _printPeriod = sl->getExportConfig().printPeriod;
+
+        tm->init();
     }
 
     /// @brief Advance one time step
     void Simulator::step()
     {
+        TimeManager *tm = TimeManager::getCurrent();
+
+        // Print info to consol periodically
+        static int nextPrint = 0;
+        if (tm->getTimeStepCount() >= nextPrint)
+        {
+            LOG_INFO << "Step: " << tm->getTimeStepCount() << " \tStep size: " << tm->getTimeStepSize() * 1000 << " ms";
+            nextPrint += _printPeriod;
+        }
     }
 
     /// @brief Wrap up simulation
@@ -110,11 +134,11 @@ namespace LTFP
     /// @note Only path the scene filename from command line. The scene file should be placed in ./scenes folder.
     void Simulator::runSimulation(int argc, char *argv[])
     {
-        // Get modules
+        // Create modules
         SceneLoader *sceneLoader = SceneLoader::getCurrent();
         TimeManager *timeManager = TimeManager::getCurrent();
 
-        // Initialization
+        // Setup simulation with scene file path
         if (argc == 1)
             initUtilities("default.json");
         else if (argc == 2)
@@ -125,12 +149,11 @@ namespace LTFP
             exit(1);
         }
 
-        sceneLoader->readScene();
-        timeManager->init();
+        // Run simulator
+        initialize();
 
         while (timeManager->advance())
-        {
-        }
+            step();
 
         finalize();
 

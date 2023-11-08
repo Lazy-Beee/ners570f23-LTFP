@@ -3,7 +3,7 @@ string(CONCAT GNU_WARNING_FLAGS
     " -Wcast-align"
     " -Wcast-qual"
     # " -Wconversion"
-    " -Wdouble-promotion"
+    # " -Wdouble-promotion"
     " -Werror"
     " -Wextra"
     " -Wfloat-equal"

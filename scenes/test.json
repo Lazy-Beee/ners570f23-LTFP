@@ -20,7 +20,14 @@
     "Export":
     {
         "enableVtkExport": true,
-        "consolePeriod": 0.1,
-        "exportPeriod": 0.05
-    }
+        "printPeriod": 100,
+        "exportPeriod": 20.0
+    },
+    "Boundary":
+    [
+        {
+            "type": 0,
+            "location": 0
+        }
+    ]
 }

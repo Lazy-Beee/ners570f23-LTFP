@@ -30,9 +30,9 @@ namespace LTFP
 		bool advance();
 		Real setTimeStepSize(Real dt);
 
-		inline Real getTime() const { return _currentTime; };
-		inline Real getTimeStepSize() const { return _timeStepSize; };
-		inline int getTimeStepCount() const { return _timeStepCount; };
+		inline const Real &getTime() const { return _currentTime; };
+		inline const Real &getTimeStepSize() const { return _timeStepSize; };
+		inline const int &getTimeStepCount() const { return _timeStepCount; };
 	};
 }
 

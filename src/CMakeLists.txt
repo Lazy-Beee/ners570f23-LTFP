@@ -1,9 +1,12 @@
 add_library(lftp
     Common.hpp
+    Common.cpp
     SceneLoader.hpp
     SceneLoader.cpp
     Simulator.hpp
     Simulator.cpp
+    ThermalBoundary.hpp
+    ThermalBoundary.cpp
     TimeManager.hpp
     TimeManager.cpp
 )

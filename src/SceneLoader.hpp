@@ -10,6 +10,9 @@ using json = nlohmann::json;
 namespace LTFP
 {
 	/// @brief Class reads the scene file and store the configurations.
+	/// This module does not perform any check on the configuration, default values
+	/// will be used for missing terms. For meaning of Config struct parameters,
+	/// refer to `scenes/readme.md`.
 	/// @note This class is a singleton.
 	class SceneLoader
 	{
@@ -17,31 +20,31 @@ namespace LTFP
 		/// @brief Time advancement configurations
 		struct TimeConfig
 		{
-			Real minTimeStepSize; ///< Minimum time step size
-			Real maxTimeStepSize; ///< Maximum time step size
-			Real endTime;		  ///< Simulation end time
-			int maxTimeSteps;	  ///< Maximum number of time steps
+			Real minTimeStepSize = REAL_MIN; 
+			Real maxTimeStepSize = REAL_MAX; 
+			Real endTime = -1.0;			
+			int maxTimeSteps = -1;			
 		};
 
 		/// @brief Mesh configurations
 		struct MeshConfig
 		{
-			Vector3r start;			 ///< Minimum domain coordinate
-			Vector3r end;			 ///< Maximum domain coordinate
-			int xCount;				 ///< Number of mesh in X
-			int yCount;				 ///< Number of mesh in Y
-			int zCount;				 ///< Number of mesh in Z
-			Real meshSize;			 ///< Size of cubic mesh
-			Real incrementThickness; ///< Thickness of each domain increment
-			Real incrementPeriod;	 ///< Period between domain increment
+			Vector3r start = {0, 0, 0};		
+			Vector3r end = {1, 1, 1};		
+			int xCount = -1;				
+			int yCount = -1;				
+			int zCount = -1;			
+			Real meshSize = -1.0;
+			Real incrementThickness = -1.0;
+			Real incrementPeriod = REAL_MAX;
 		};
 
 		/// @brief Exportation configurations
 		struct ExportConfig
 		{
-			bool enableVtkExport; ///< Export mesh and data to vtk file
-			int consolePeriod;	  ///< Period between printing simulation status to console
-			Real exportPeriod;	  ///< Period between exporting to file
+			bool enableVtkExport = false;
+			int printPeriod = INT_MAX;
+			Real exportPeriod = REAL_MAX;
 		};
 
 	private:
@@ -95,9 +98,11 @@ namespace LTFP
 		~SceneLoader();
 
 		static SceneLoader *getCurrent();
-		void readScene(bool terminateOnError = true);
+		void readScene();
 
-		TimeConfig getTimeConfig() const { return _timeConfig; };
+		inline const TimeConfig &getTimeConfig() const { return _timeConfig; };
+		inline const MeshConfig &getMeshConfig() const { return _meshConfig; };
+		inline const ExportConfig &getExportConfig() const { return _exportConfig; };
 	};
 }
 

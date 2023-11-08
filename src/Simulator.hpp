@@ -20,6 +20,7 @@ namespace LTFP
 		std::filesystem::path _execPath;
 		std::filesystem::path _scenePath;
 		std::filesystem::path _outputPath;
+		int _printPeriod;
 
 	public:
 		Simulator();
@@ -29,6 +30,7 @@ namespace LTFP
 
 		static Simulator *getCurrent();
 		void initUtilities(std::string sceneFile);
+		void initialize();
 		void step();
 		void finalize();
 		void runSimulation(int argc, char *argv[]);
