@@ -1,6 +1,8 @@
-add_library(lftp
+add_library(ltfp
     Common.hpp
     Common.cpp
+    MaterialProperty.hpp
+    MaterialProperty.cpp
     SceneLoader.hpp
     SceneLoader.cpp
     Simulator.hpp
@@ -8,6 +10,7 @@ add_library(lftp
     TimeManager.hpp
     TimeManager.cpp
 
+    ThermalBoundary/Boundary.hpp
     ThermalBoundary/BoundaryManager.hpp
     ThermalBoundary/BoundaryManager.cpp
     ThermalBoundary/ThermalBoundary.hpp
@@ -16,15 +19,18 @@ add_library(lftp
     ThermalBoundary/ThermalBoundaryDirichlet.cpp
 )
 
-add_dependencies(lftp
+add_dependencies(ltfp
 	utilities
 )
 
-target_link_libraries(lftp
+target_link_libraries(ltfp
 	PUBLIC utilities
 )
 
-target_include_directories(lftp PUBLIC
-  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+# include(CMakePrintHelpers)
+# cmake_print_variables(CMAKE_SOURCE_DIR)
+
+target_include_directories(ltfp PUBLIC
+  $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
   $<INSTALL_INTERFACE:include>
 )

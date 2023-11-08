@@ -8,11 +8,11 @@ macro(add_simulator FILENAME)
   add_executable(${EXECNAME} ${FILENAME})
   
   target_include_directories(${EXECNAME} PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+    $<BUILD_INTERFACE:${PROJECT_SOURCE_DIR}>
     # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../src>
     # $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../utilities>
     $<INSTALL_INTERFACE:include>
   )
 
-  target_link_libraries(${EXECNAME} lftp utilities)
+  target_link_libraries(${EXECNAME} ltfp utilities)
 endmacro()

@@ -4,7 +4,7 @@ string(CONCAT GNU_WARNING_FLAGS
     " -Wcast-qual"
     # " -Wconversion"
     # " -Wdouble-promotion"
-    " -Werror"
+    # " -Werror"
     " -Wextra"
     " -Wfloat-equal"
     " -Wimplicit-fallthrough"

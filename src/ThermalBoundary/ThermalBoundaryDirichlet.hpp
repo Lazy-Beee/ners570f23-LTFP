@@ -1,6 +1,7 @@
 #ifndef __ThermalBoundaryDirichlet__
 #define __ThermalBoundaryDirichlet__
 
+#include <vector>
 #include "src/Common.hpp"
 #include "ThermalBoundary.hpp"
 
@@ -11,7 +12,7 @@ namespace LTFP
     class ThermalBoundaryDirichlet : public ThermalBoundary
     {
     private:
-        Real _temp;
+        std::vector<std::vector<Real>> _tempPolyCoeff;
 
     public:
         ThermalBoundaryDirichlet(int boundaryType);
@@ -19,6 +20,7 @@ namespace LTFP
 
         void init();
         Real getFlux(const Vector3r &pos, const Real &temp);
+        Real getTemp(const Vector3r &pos);
         std::vector<Real> getParam();
     };
 }

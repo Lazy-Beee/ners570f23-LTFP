@@ -8,7 +8,9 @@ namespace LTFP
 
     BoundaryManager::BoundaryManager()
     {
-        _boundaries.resize(6, {});
+        _boundaries.resize(6);
+        for (auto& bs : _boundaries)
+            bs.clear();
     }
 
     BoundaryManager::~BoundaryManager()
@@ -27,7 +29,7 @@ namespace LTFP
     /// @brief Load configuration from SceneLoader
     void BoundaryManager::init()
     {
-        SceneLoader::TimeConfig timeConfig = SceneLoader::getCurrent()->getTimeConfig();
+        // SceneLoader::TimeConfig timeConfig = SceneLoader::getCurrent()->getTimeConfig();
 
         // _minTimeStepSize = timeConfig.minTimeStepSize;
         // _maxTimeStepSize = timeConfig.maxTimeStepSize;

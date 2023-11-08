@@ -5,7 +5,7 @@
 using namespace std;
 using namespace LTFP;
 
-void compare(Real x, vector<Real> coeff)
+void poly(Real x, vector<Real> coeff)
 {
     static int count = 0;
     count++;
@@ -15,6 +15,6 @@ void compare(Real x, vector<Real> coeff)
 
 int main()
 {
-    compare(11.4, {1, 9, 1, 9});
-    compare(5.14, {0, 8, 1, 0});
+    poly(11.4, {1, 9, 1, 9});
+    poly(5.14, {0, 8, 1, 0});
 }

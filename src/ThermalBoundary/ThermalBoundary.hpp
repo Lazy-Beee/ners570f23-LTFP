@@ -8,26 +8,25 @@ namespace LTFP
     /// @brief Thermal boundary type
     enum BoundaryType
     {
-        Neumann = 0,
-        Dirichlet = 1,
-        Radiation = 2
+        NEUMANN = 0,
+        DIRICHLET = 1,
+        RADIATION = 2
     };
 
     /// @brief Thermal boundary location
     enum BoundaryLocation
     {
-        xPositive = 0,
-        xNegative = 1,
-        yPositive = 2,
-        yNegative = 3,
-        zPositive = 4,
-        zNegative = 5
+        XPOSITIVE = 0,
+        XNEGATIVE = 1,
+        YPOSITIVE = 2,
+        YNEGATIVE = 3,
+        ZPOSITIVE = 4,
+        ZNEGATIVE = 5
     };
 
     /// @brief Base class of thermal boundaries.
     class ThermalBoundary
     {
-    private:
     protected:
         int _boundaryIndex;
         const BoundaryType _boundaryType;

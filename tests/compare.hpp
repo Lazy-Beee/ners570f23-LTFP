@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <math.h>
-#include "../src/Common.hpp"
+#include "src/Common.hpp"
 
 void COMPARE(bool compare, std::string message)
 {

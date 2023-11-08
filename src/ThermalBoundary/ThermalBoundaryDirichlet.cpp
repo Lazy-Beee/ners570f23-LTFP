@@ -2,6 +2,8 @@
 #include "src/SceneLoader.hpp"
 #include "utilities/Logger.hpp"
 
+using namespace std;
+
 namespace LTFP
 {
     ThermalBoundaryDirichlet::ThermalBoundaryDirichlet(int boundaryType) : ThermalBoundary(boundaryType)
@@ -14,17 +16,23 @@ namespace LTFP
 
     void ThermalBoundaryDirichlet::init()
     {
-        SceneLoader* sl = SceneLoader::getCurrent();
+        // SceneLoader* sl = SceneLoader::getCurrent();
         
     }
 
     Real ThermalBoundaryDirichlet::getFlux(const Vector3r &pos, const Real &temp)
     {
-        return Real();
+        Real tempBoundary = getTemp(pos);
+        return 0;
     }
 
-    std::vector<Real> ThermalBoundaryDirichlet::getParam()
+    Real ThermalBoundaryDirichlet::getTemp(const Vector3r &pos)
     {
-        return std::vector<Real>();
+        return computePoly3r(pos, _tempPolyCoeff).sum();
+    }
+
+    vector<Real> ThermalBoundaryDirichlet::getParam()
+    {
+        return vector<Real>{};
     }
 }
