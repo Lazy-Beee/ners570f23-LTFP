@@ -1,7 +1,9 @@
 #ifndef __BoundaryManager__
 #define __BoundaryManager__
 
+#include <vector>
 #include "src/Common.hpp"
+#include "ThermalBoundary.hpp"
 
 namespace LTFP
 {
@@ -11,6 +13,7 @@ namespace LTFP
 	{
 	private:
 		static BoundaryManager *current;
+		std::vector<std::vector<ThermalBoundary>> _boundaries;
 
 	public:
 		BoundaryManager();

@@ -2,7 +2,6 @@
 #define __ThermalBoundary__
 
 #include "src/Common.hpp"
-#include <vector>
 
 namespace LTFP
 {
@@ -30,14 +29,25 @@ namespace LTFP
     {
     private:
     protected:
+        int _boundaryIndex;
         const BoundaryType _boundaryType;
 
     public:
         ThermalBoundary(int boundaryType);
-        virtual ~ThermalBoundary()=0;
+        virtual ~ThermalBoundary() = 0;
 
+        /// @brief Initialize thermal boundary
         virtual void init() = 0;
+
+        /// @brief Compute the simple flux thought the boundary
+        /// @param pos Position of the boundary neighboring cell
+        /// @param temp Temperature of boundary neighboring cell
+        /// @return Flux though the boundary
         virtual Real getFlux(const Vector3r &pos, const Real &temp) = 0;
+
+        /// @brief Get the thermal boundary parameters
+        /// @return Vector of parameters
+        virtual std::vector<Real> getParam() = 0;
     };
 }
 

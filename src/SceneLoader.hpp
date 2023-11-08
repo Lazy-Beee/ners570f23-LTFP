@@ -47,6 +47,22 @@ namespace LTFP
 			Real exportPeriod = REAL_MAX;
 		};
 
+		/// @brief Base thermal boundary configurations
+		struct BoundaryConfig
+		{
+			int boundaryId = -1;	///< This value is set by the simulator, inputs will be ignored
+			int type = -1;
+			int location = -1;
+		};
+
+		/// @brief Dirichlet thermal boundary configurations
+		struct BoundaryConfigDirichlet : public BoundaryConfig
+		{
+			std::vector<Real> xTemp = {};
+			std::vector<Real> yTemp = {};
+			std::vector<Real> zTemp = {};
+		};
+
 	private:
 		static SceneLoader *current;
 		json _jsonData;

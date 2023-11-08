@@ -1,7 +1,6 @@
 #include "BoundaryManager.hpp"
 #include "src/SceneLoader.hpp"
 #include "utilities/Logger.hpp"
-#include "utilities/Counting.hpp"
 
 namespace LTFP
 {
@@ -9,7 +8,7 @@ namespace LTFP
 
     BoundaryManager::BoundaryManager()
     {
-        
+        _boundaries.resize(6, {});
     }
 
     BoundaryManager::~BoundaryManager()

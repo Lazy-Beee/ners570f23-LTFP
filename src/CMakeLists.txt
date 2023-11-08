@@ -8,10 +8,12 @@ add_library(lftp
     TimeManager.hpp
     TimeManager.cpp
 
-    ThermalBoundary/ThermalBoundary.hpp
-    ThermalBoundary/ThermalBoundary.cpp
     ThermalBoundary/BoundaryManager.hpp
     ThermalBoundary/BoundaryManager.cpp
+    ThermalBoundary/ThermalBoundary.hpp
+    ThermalBoundary/ThermalBoundary.cpp
+    ThermalBoundary/ThermalBoundaryDirichlet.hpp
+    ThermalBoundary/ThermalBoundaryDirichlet.cpp
 )
 
 add_dependencies(lftp
