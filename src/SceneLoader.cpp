@@ -2,7 +2,7 @@
 #include <fstream>
 #include <filesystem>
 #include "Simulator.hpp"
-#include "../utilities/Logger.hpp"
+#include "utilities/Logger.hpp"
 
 using namespace std;
 

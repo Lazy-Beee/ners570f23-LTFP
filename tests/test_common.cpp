@@ -1,5 +1,5 @@
 #include "compare.hpp"
-#include "../src/Common.hpp"
+#include "src/Common.hpp"
 #include <string>
 
 using namespace std;

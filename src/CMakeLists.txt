@@ -5,15 +5,24 @@ add_library(lftp
     SceneLoader.cpp
     Simulator.hpp
     Simulator.cpp
-    ThermalBoundary.hpp
-    ThermalBoundary.cpp
     TimeManager.hpp
     TimeManager.cpp
+
+    ThermalBoundary/ThermalBoundary.hpp
+    ThermalBoundary/ThermalBoundary.cpp
+    ThermalBoundary/BoundaryManager.hpp
+    ThermalBoundary/BoundaryManager.cpp
 )
+
 add_dependencies(lftp
 	utilities
 )
 
 target_link_libraries(lftp
 	PUBLIC utilities
+)
+
+target_include_directories(lftp PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}>
+  $<INSTALL_INTERFACE:include>
 )

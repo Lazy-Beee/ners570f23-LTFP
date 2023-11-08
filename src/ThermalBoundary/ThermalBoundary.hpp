@@ -1,7 +1,7 @@
 #ifndef __ThermalBoundary__
 #define __ThermalBoundary__
 
-#include "Common.hpp"
+#include "src/Common.hpp"
 #include <vector>
 
 namespace LTFP

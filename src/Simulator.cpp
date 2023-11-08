@@ -3,9 +3,9 @@
 #include <omp.h>
 #include "SceneLoader.hpp"
 #include "TimeManager.hpp"
-#include "../utilities/Counting.hpp"
-#include "../utilities/Logger.hpp"
-#include "../utilities/Timing.hpp"
+#include "utilities/Counting.hpp"
+#include "utilities/Logger.hpp"
+#include "utilities/Timing.hpp"
 
 INIT_LOGGING
 INIT_TIMING

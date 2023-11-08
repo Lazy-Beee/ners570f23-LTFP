@@ -1,10 +1,10 @@
 #include <chrono>
 #include <thread>
-#include "../src/Common.hpp"
-#include "../src/Simulator.hpp"
-#include "../utilities/Counting.hpp"
-#include "../utilities/Logger.hpp"
-#include "../utilities/Timing.hpp"
+#include "src/Common.hpp"
+#include "src/Simulator.hpp"
+#include "utilities/Counting.hpp"
+#include "utilities/Logger.hpp"
+#include "utilities/Timing.hpp"
 
 using namespace std;
 using namespace LTFP;

@@ -1,6 +1,6 @@
 #include "ThermalBoundary.hpp"
-#include "SceneLoader.hpp"
-#include "../utilities/Logger.hpp"
+#include "src/SceneLoader.hpp"
+#include "utilities/Logger.hpp"
 
 namespace LTFP
 {

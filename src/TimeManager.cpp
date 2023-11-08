@@ -1,7 +1,7 @@
 #include "TimeManager.hpp"
 #include "SceneLoader.hpp"
-#include "../utilities/Logger.hpp"
-#include "../utilities/Counting.hpp"
+#include "utilities/Logger.hpp"
+#include "utilities/Counting.hpp"
 
 namespace LTFP
 {

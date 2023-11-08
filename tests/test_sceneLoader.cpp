@@ -1,7 +1,7 @@
 #include "compare.hpp"
-#include "../src/Common.hpp"
-#include "../src/Simulator.hpp"
-#include "../src/SceneLoader.hpp"
+#include "src/Common.hpp"
+#include "src/Simulator.hpp"
+#include "src/SceneLoader.hpp"
 
 using namespace std;
 using namespace LTFP;

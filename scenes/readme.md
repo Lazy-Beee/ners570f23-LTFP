@@ -14,7 +14,7 @@ The `.json` scene file configs the simulation in default mode. The default value
 - xCount(int): Number of mesh in X direction
 - yCount(int): Number of mesh in Y direction
 - zCount(int): Number of mesh in Z direction
-- meshSize(float): mesh size of cubic mesh, priority is lower than xyzCount
+- meshSize(float): mesh size of cubic mesh, priority is lower than xCount+yCount+zCount
 - incrementThickness(float): thickness of each domain increment
 - incrementPeriod(float): time period between domain increments
 
