@@ -15,7 +15,7 @@ namespace LTFP
         std::vector<std::vector<Real>> _tempPolyCoeff;
 
     public:
-        ThermalBoundaryDirichlet(int boundaryType);
+        ThermalBoundaryDirichlet(int boundaryIndex, int boundaryType);
         ~ThermalBoundaryDirichlet();
 
         void init();

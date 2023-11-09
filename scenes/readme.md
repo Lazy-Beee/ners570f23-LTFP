@@ -28,11 +28,22 @@ The `.json` scene file configs the simulation in default mode. The default value
     - 0: Neumann boundary
     - 1: Dirichlet boundary
     - 2: Radiation boundary
-- location(int enum): location of thermal boundary
+- location(int): location of thermal boundary
     - 0: X positive
     - 1: X negative
     - 2: Y positive
     - 3: Y negative
     - 4: Z positive
     - 5: Z negative
-- 
+- **incomplete**
+
+### Material Property
+- type(int): type of material property
+    - 0: Density
+    - 1: Specific heat
+    - 2: Enthalpy
+    - 3: Conductivity
+    - Note that enthalpy has higher priority than specific heat
+- tabulate(bool): enable tabulate of polynomial
+- tempRange(float vector): temperature range endpoints
+- polynomials(float vector): piecewise polynomials

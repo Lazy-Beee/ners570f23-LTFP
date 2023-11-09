@@ -3,6 +3,7 @@
 
 #include "Common.hpp"
 #include <vector>
+#include <string>
 #include "utilities/json.hpp"
 
 using json = nlohmann::json;
@@ -63,6 +64,15 @@ namespace LTFP
 			std::vector<Real> zTemp = {};
 		};
 
+		/// @brief Material Property configurations
+		struct MatPropConfig
+		{
+			int type = -1;
+			bool tabulate = false;
+			std::vector<Real> tempRange = {};
+			std::vector<std::vector<Real>> polynomials = {};
+		};
+
 	private:
 		static SceneLoader *current;
 		json _jsonData;
@@ -70,10 +80,12 @@ namespace LTFP
 		TimeConfig _timeConfig;
 		MeshConfig _meshConfig;
 		ExportConfig _exportConfig;
+		std::vector<MatPropConfig> _matPropConfig;
 
 		void readTimeConfig();
 		void readMeshConfig();
 		void readExportConfig();
+		void readMatProp();
 
 		template <typename T>
 		bool readValue(const json &jsonData, T &val)
@@ -115,10 +127,12 @@ namespace LTFP
 
 		static SceneLoader *getCurrent();
 		void readScene();
+		void readScene(std::filesystem::path scenePath);
 
-		inline const TimeConfig &getTimeConfig() const { return _timeConfig; };
-		inline const MeshConfig &getMeshConfig() const { return _meshConfig; };
-		inline const ExportConfig &getExportConfig() const { return _exportConfig; };
+		inline TimeConfig getTimeConfig() const { return _timeConfig; };
+		inline MeshConfig getMeshConfig() const { return _meshConfig; };
+		inline ExportConfig getExportConfig() const { return _exportConfig; };
+		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
 	};
 }
 

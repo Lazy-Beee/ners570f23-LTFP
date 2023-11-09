@@ -79,10 +79,47 @@ namespace LTFP
             LOG_WARN << "Failed to load ExportConfig from scene file";
     }
 
-    /// @brief Read scene file and save the configurations
+/// @brief Read MatProp section of scene file
+    void SceneLoader::readMatProp()
+    {
+        json configs;
+        _matPropConfig = {};
+
+        if (_jsonData.find("MatProp") != _jsonData.end())
+            configs = _jsonData["MatProp"];
+        else
+            LOG_WARN << "Failed to load MatPropConfig from scene file";
+
+        for (size_t i = 0; i < configs.size(); i++)
+        {
+            json config = configs[i];
+            MatPropConfig mpc = MatPropConfig{};
+
+            readValue(config["type"], mpc.type);
+            readValue(config["tabulate"], mpc.tabulate);
+            readVector(config["tempRange"], mpc.tempRange);
+            
+            json polyConfig = config["polynomials"];
+            for (size_t j = 0; j < polyConfig.size(); j++)
+            {
+                vector<Real> vec = {};
+                readVector(polyConfig[j], vec);
+                mpc.polynomials.push_back(vec);
+            }
+
+            _matPropConfig.push_back(mpc);
+        }
+    }
+
+    /// @brief Read scene file and save the configurations using scene path in Simulator
     void SceneLoader::readScene()
     {
-        filesystem::path scenePath = Simulator::getCurrent()->getScenePath();
+        readScene(Simulator::getCurrent()->getScenePath());
+    }
+
+    /// @brief Read scene file and save the configurations
+    void SceneLoader::readScene(filesystem::path scenePath)
+    {
         ifstream input_file(scenePath);
         if (!input_file.is_open())
         {
@@ -103,5 +140,6 @@ namespace LTFP
         readTimeConfig();
         readMeshConfig();
         readExportConfig();
+        readMatProp();
     }
 }

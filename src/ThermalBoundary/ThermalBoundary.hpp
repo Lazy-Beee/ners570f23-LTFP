@@ -28,11 +28,11 @@ namespace LTFP
     class ThermalBoundary
     {
     protected:
-        int _boundaryIndex;
+        const int _boundaryIndex;
         const BoundaryType _boundaryType;
 
     public:
-        ThermalBoundary(int boundaryType);
+        ThermalBoundary(int boundaryIndex, int boundaryType);
         virtual ~ThermalBoundary() = 0;
 
         /// @brief Initialize thermal boundary

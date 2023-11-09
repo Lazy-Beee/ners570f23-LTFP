@@ -29,5 +29,41 @@
             "type": 0,
             "location": 0
         }
+    ],
+    "MatProp":
+    [
+        {
+            "type": 0,
+            "tabulate": false,
+            "tempRange": [0, 100, 200],
+            "polynomials": [
+                [100], 
+                [1, 0]
+            ]
+        },
+        {
+            "type": -1,
+            "tabulate": false,
+            "tempRange": [0, 200],
+            "polynomials": [
+                [1, 1, 1, 1, 1]
+            ]
+        },
+        {
+            "type": 2,
+            "tabulate": false,
+            "tempRange": [0, 200],
+            "polynomials": [
+                [1, 1, 1, 1, 2]
+            ]
+        },
+        {
+            "type": 3,
+            "tabulate": false,
+            "tempRange": [0, 200],
+            "polynomials": [
+                [1, 1, 1, 1, 3]
+            ]
+        }
     ]
 }

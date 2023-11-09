@@ -6,7 +6,7 @@ using namespace std;
 
 namespace LTFP
 {
-    ThermalBoundaryDirichlet::ThermalBoundaryDirichlet(int boundaryType) : ThermalBoundary(boundaryType)
+    ThermalBoundaryDirichlet::ThermalBoundaryDirichlet(int boundaryIndex, int boundaryType) : ThermalBoundary(boundaryIndex, boundaryType)
     {
     }
 
