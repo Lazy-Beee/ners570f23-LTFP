@@ -2,6 +2,10 @@
 #define __ThermalBoundary__
 
 #include "src/Common.hpp"
+#include <string>
+#include "src/SceneLoader.hpp"
+
+using Config = LTFP::SceneLoader::BoundaryConfig;
 
 namespace LTFP
 {
@@ -10,8 +14,14 @@ namespace LTFP
     {
         NEUMANN = 0,
         DIRICHLET = 1,
-        RADIATION = 2
+        RADIATION = 2,
+        MIRROR = 3
     };
+    static std::vector<std::string> BoundaryTypeName = {
+        "[Neumann]",
+        "[Dirichlet]",
+        "[Radiation]",
+        "[Mirror]"};
 
     /// @brief Thermal boundary location
     enum BoundaryLocation
@@ -23,30 +33,29 @@ namespace LTFP
         ZPOSITIVE = 4,
         ZNEGATIVE = 5
     };
+    static std::vector<std::string> BoundaryLocationName = {
+        "[X+]",
+        "[X-]",
+        "[Y+]",
+        "[Y-]",
+        "[Z+]",
+        "[Z-]",
+    };
 
     /// @brief Base class of thermal boundaries.
     class ThermalBoundary
     {
     protected:
-        const int _boundaryIndex;
-        const BoundaryType _boundaryType;
+        const int _index;
+        const BoundaryType _type;
+        const BoundaryLocation _location;
 
     public:
-        ThermalBoundary(int boundaryIndex, int boundaryType);
+        ThermalBoundary(Config config);
         virtual ~ThermalBoundary() = 0;
 
-        /// @brief Initialize thermal boundary
-        virtual void init() = 0;
-
-        /// @brief Compute the simple flux thought the boundary
-        /// @param pos Position of the boundary neighboring cell
-        /// @param temp Temperature of boundary neighboring cell
-        /// @return Flux though the boundary
-        virtual Real getFlux(const Vector3r &pos, const Real &temp) = 0;
-
-        /// @brief Get the thermal boundary parameters
-        /// @return Vector of parameters
-        virtual std::vector<Real> getParam() = 0;
+        virtual Real getFlux(const Vector3r &pos, const Real &temp);
+        virtual Real getTemp(const Vector3r &pos);
     };
 }
 

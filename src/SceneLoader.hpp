@@ -51,7 +51,7 @@ namespace LTFP
 		/// @brief Base thermal boundary configurations
 		struct BoundaryConfig
 		{
-			int boundaryId = -1;	///< This value is set by the simulator, inputs will be ignored
+			int index = -1;	///< This value is set by the simulator, inputs will be ignored
 			int type = -1;
 			int location = -1;
 		};

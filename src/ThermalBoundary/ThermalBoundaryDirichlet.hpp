@@ -5,6 +5,8 @@
 #include "src/Common.hpp"
 #include "ThermalBoundary.hpp"
 
+using ConfigDirichlet = LTFP::SceneLoader::BoundaryConfigDirichlet;
+
 namespace LTFP
 {
     /// @brief Class of Dirichlet thermal boundary.
@@ -15,13 +17,10 @@ namespace LTFP
         std::vector<std::vector<Real>> _tempPolyCoeff;
 
     public:
-        ThermalBoundaryDirichlet(int boundaryIndex, int boundaryType);
-        ~ThermalBoundaryDirichlet();
-
-        void init();
-        Real getFlux(const Vector3r &pos, const Real &temp);
+        ThermalBoundaryDirichlet(ConfigDirichlet config);
+        ~ThermalBoundaryDirichlet() {};
+        
         Real getTemp(const Vector3r &pos);
-        std::vector<Real> getParam();
     };
 }
 
