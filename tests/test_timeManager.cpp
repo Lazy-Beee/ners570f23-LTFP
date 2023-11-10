@@ -55,4 +55,6 @@ int main()
     COMPARE<Real>(tm->getTime(), maxDt * n1 + dt2 * n2 + (maxSteps - n1 - n2) * minDt, 1e-3, "Current time 3");
 
     sim->finalize();
+
+    COMPARE_summary();
 }

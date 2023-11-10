@@ -34,28 +34,27 @@
     [
         {
             "type": 0,
-            "tabulate": false,
+            "tabulate": true,
             "tempRange": [0, 100, 200],
             "polynomials": [
                 [100], 
                 [1, 0]
-            ]
+            ],
+            "tabulateStep": [1, 10]
         },
         {
-            "type": -1,
-            "tabulate": false,
-            "tempRange": [0, 200],
-            "polynomials": [
-                [1, 1, 1, 1, 1]
-            ]
+            "type": 1,
+            "tabulate": true
         },
         {
             "type": 2,
-            "tabulate": false,
-            "tempRange": [0, 200],
+            "tabulate": true,
+            "tempRange": [0, 100, 200],
             "polynomials": [
-                [1, 1, 1, 1, 2]
-            ]
+                [0.01, 1, 2],
+                [3.01, 2]
+            ],
+            "tabulateStep": [1, 10]
         },
         {
             "type": 3,

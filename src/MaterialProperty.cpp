@@ -13,8 +13,10 @@ namespace LTFP
     {
         _tabulate.resize(PropTypeCount, false);
         _propLoaded.resize(PropTypeCount, false);
-        _propPoly.resize(PropTypeCount, {});
-        _propTable.resize(PropTypeCount, {});
+        _propPoly.resize(PropTypeCount);
+        _propTable.resize(PropTypeCount);
+        _tabulateStep.resize(PropTypeCount);
+        _useEnthalpy = false;
     }
 
     MaterialProperty::~MaterialProperty()
@@ -34,107 +36,159 @@ namespace LTFP
     void MaterialProperty::init()
     {
         vector<SceneLoader::MatPropConfig> configs = SceneLoader::getCurrent()->getMatPropConfig();
-
+        cout << "00" << endl;
         // Load scene config
         for (SceneLoader::MatPropConfig config : configs)
         {
+            // Pre-checks
             if (config.type < 0 || config.type >= PropTypeCount)
             {
-                LOG_WARN << "Undefined material type " << config.type;
+                LOG_WARN << "Undefined material property with id " << config.type;
                 continue;
             }
             if (_propLoaded[config.type])
             {
-                LOG_WARN << "Repeated defintion of type " << config.type;
+                LOG_WARN << "Repeated defintion of property " << PropTypeName[config.type];
                 continue;
             }
 
-            vector<Real> tr = config.tempRange;
-            vector<vector<Real>> ps = config.polynomials;
+            // Load config
+            _propLoaded[config.type] = true;
+            _tabulate[config.type] = config.tabulate;
+            _propPoly[config.type].first = config.tempRange;
+            _propPoly[config.type].second = config.polynomials;
+            if (config.tabulate || config.type == ENTHALPY)
+            {
+                if (config.tabulateStep.empty())
+                    _tabulateStep[config.type].resize(config.polynomials.size(), 0.1f);
+                else
+                    _tabulateStep[config.type] = config.tabulateStep;
+            }
 
+            const vector<Real> &tr = _propPoly[config.type].first;
+            const vector<vector<Real>> &ps = _propPoly[config.type].second;
+            const vector<Real> &ts = _tabulateStep[config.type];
+
+            // Allow specific heat to be loaded in tabulate switch mode
+            if (config.type == SPECIFIC_HEAT && tr.size() == 0 && ps.size() == 0 && ts.size() == 0)
+            {
+                LOG_INFO << "Property " << PropTypeName[config.type] << "loaded in tabulate switch mode";
+                _propLoaded[config.type] = false;
+                continue;
+            }
+
+            // Check piecewise polynomial
             if (tr.size() < 2 || ps.size() < 1 || (tr.size() - ps.size()) != 1)
             {
-                LOG_WARN << "Incorrect size of tempRange or polynomials in type " << config.type;
-                continue;
+                LOG_WARN << "Size mismatch in piecewise polynomial of property " << PropTypeName[config.type];
+                _propLoaded[config.type] = false;
+            }
+            if (_tabulate[config.type] && ts.size() != ps.size() && !ts.empty())
+            {
+                LOG_WARN << "Size mismatch in tabulate step size of property " << PropTypeName[config.type];
+                _propLoaded[config.type] = false;
             }
             for (size_t i = 0; i < (tr.size() - 1); i++)
             {
                 if (tr[i] >= tr[i + 1])
                 {
-                    LOG_WARN << "Reverse temperature range in type " << config.type;
-                    continue;
+                    LOG_WARN << "Reverse temperature range in property " << PropTypeName[config.type];
+                    _propLoaded[config.type] = false;
                 }
             }
             for (size_t i = 0; i < ps.size(); i++)
             {
                 if (ps[i].size() == 0)
                 {
-                    LOG_WARN << "Empty polynomial in type " << config.type;
-                    continue;
+                    LOG_WARN << "Empty polynomial in property " << PropTypeName[config.type];
+                    _propLoaded[config.type] = false;
                 }
             }
-
-            _tabulate[config.type] = config.tabulate;
-            _propPoly[config.type].first = config.tempRange;
-            _propPoly[config.type].second = config.polynomials;
-            _propLoaded[config.type] = true;
         }
 
-        // If enthalpy is loaded, disable specific heat
-        if (_propLoaded[2])
-            _propLoaded[1] = false;
+        // If enthalpy is loaded, override specific heat. Tabulation is still controlled by specific heat config
+        if (_propLoaded[ENTHALPY])
+        {
+            _useEnthalpy = true;
+            _tabulate[ENTHALPY] = true; // Force tabulation for reverse lookup
+
+            _propLoaded[SPECIFIC_HEAT] = true;
+            _propPoly[SPECIFIC_HEAT].first = _propPoly[ENTHALPY].first;
+            _propPoly[SPECIFIC_HEAT].second = _propPoly[ENTHALPY].second;
+            for (size_t i = 0; i < _propPoly[SPECIFIC_HEAT].second.size(); i++)
+                _propPoly[SPECIFIC_HEAT].second[i].pop_back();
+            if (_tabulate[SPECIFIC_HEAT])
+                _tabulateStep[SPECIFIC_HEAT] = _tabulateStep[ENTHALPY];
+        }
+
+        // Check if properties are defined
+        for (int i = 0; i < PropTypeCount; i++)
+        {
+            if (i == ENTHALPY && _propLoaded[SPECIFIC_HEAT])
+                continue;
+
+            if (!_propLoaded[i])
+            {
+                LOG_WARN << "Property " << PropTypeName[i] << " is undefined, abort simulation";
+                exit(1);
+            }
+        }
 
         // Generate tables
-        tabulate();
-    }
+        for (int i = 0; i < PropTypeCount; i++)
+            if (_tabulate[i])
+                _propTable[i] = tabulatePiecewisePoly(_propPoly[i], _tabulateStep[i]);
 
-    /// @brief Generate temperature and property table
-    void MaterialProperty::tabulate()
-    {
-        // TODO: generate table
+        // Check monotonically increment of enthalpy
+        const vector<Real> &enthalpyTable = _propTable[ENTHALPY].second;
+        volatile bool reverse = false;
+#pragma omp parallel for shared(reverse)
+        for (int i = 1; i < static_cast<int>(enthalpyTable.size()); i++)
+        {
+            if (!reverse && enthalpyTable[i] <= enthalpyTable[i - 1])
+            {
+#pragma omp critical
+                reverse = true;
+            }
+        }
+        if (reverse)
+        {
+            LOG_ERR << "Non-increasing enthalpy detected, abort simulation";
+            exit(1);
+        }
     }
 
     /// @brief Compute material property from piecewise polynomial
     /// @param type material property type
-    /// @param temp temperature of material
+    /// @param temp temperature of the material
     /// @return Material property at given temperature
-    /// @note Assuming there should be less than 10, binary search is not used when determining which 'piece' the temperature falls in.
-    /// @note For temperature input out of range, the corresponding endpoint value is returned
-    Real MaterialProperty::getProperty(PropertyType type, Real temp)
+    /// @note For temperature input out of range, the corresponding endpoint value is returned.
+    Real MaterialProperty::getProperty(PropertyType type, const Real &temp)
     {
-        if (!_propLoaded[static_cast<int>(type)])
+#ifndef NDEBUG
+        if (!_propLoaded[type])
         {
-            LOG_ERR << "Attempting to visit empty material property " << static_cast<int>(type);
+            LOG_ERR << "Attempting to visit empty material property " << PropTypeName[type];
             exit(1);
         }
+#endif
 
-        if (_tabulate[static_cast<int>(type)])
-            return getPropertyPoly(type, temp);
+        if (_tabulate[type])
+            return lookupTable(temp, _propTable[type]);
         else
-            return getPropertyTable(type, temp);
+            return computePiecewisePoly(temp, _propPoly[type]);
     }
 
-    /// @brief Subfunction of getProperty()
-    Real MaterialProperty::getPropertyPoly(PropertyType type, Real temp)
+    Real MaterialProperty::getTemperature(const Real &enthalpy)
     {
-        const vector<Real> &tempRange = _propPoly[static_cast<int>(type)].first;
-        const vector<vector<Real>> &propPoly = _propPoly[static_cast<int>(type)].second;
+#ifndef NDEBUG
+        if (!_useEnthalpy)
+        {
+            LOG_ERR << "Attempting to inverse interpolate temperature without setting enthalpy";
+            exit(1);
+        }
+#endif
 
-        if (temp < tempRange.front())
-            return computePoly(tempRange.front(), propPoly.front());
-
-        for (size_t i = 1; i < tempRange.size(); i++)
-            if (temp < tempRange[i])
-                return computePoly(temp, propPoly[i - 1]);
-
-        return computePoly(tempRange.back(), propPoly.back());
-    }
-
-    /// @brief Subfunction of getProperty()
-    Real MaterialProperty::getPropertyTable(PropertyType type, Real temp)
-    {
-        // TODO: look up table
-
-        return getPropertyPoly(type, temp);
+        return lookupTable(enthalpy, _propTable[ENTHALPY], true);
     }
 }

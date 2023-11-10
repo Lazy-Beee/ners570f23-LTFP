@@ -71,6 +71,7 @@ namespace LTFP
 			bool tabulate = false;
 			std::vector<Real> tempRange = {};
 			std::vector<std::vector<Real>> polynomials = {};
+			std::vector<Real> tabulateStep = {};
 		};
 
 	private:

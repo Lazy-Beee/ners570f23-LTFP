@@ -47,3 +47,4 @@ The `.json` scene file configs the simulation in default mode. The default value
 - tabulate(bool): enable tabulate of polynomial
 - tempRange(float vector): temperature range endpoints
 - polynomials(float vector): piecewise polynomials
+- tabulateStep(float vector): Step size during tabulation, default value is 0.1

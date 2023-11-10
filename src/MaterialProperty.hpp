@@ -2,6 +2,7 @@
 #define __MaterialProperty__
 
 #include "Common.hpp"
+#include <string>
 
 namespace LTFP
 {
@@ -12,27 +13,28 @@ namespace LTFP
         ENTHALPY = 2,
         CONDUCTIVITY = 3
     };
-
+    static std::vector<std::string> PropTypeName = {
+        "[Density]",
+        "[Specific heat]",
+        "[Enthalpy]",
+        "[Conductivity]"};
     static const int PropTypeCount = 4;
-    static const Real TabulateSize = 0.1;
 
     /// @brief Class managing material properties.
     /// @note This class is a singleton.
+    /// @note For the enthalpy method, tabulation is enforced for reverse search. Specific heat will be computed from the temperature derivative.
     class MaterialProperty
     {
     private:
         static MaterialProperty *current;
         std::vector<bool> _tabulate;
         std::vector<bool> _propLoaded;
-        /// @brief Pair of temperature points and contained polynomial
-        std::vector<std::pair<std::vector<Real>, std::vector<std::vector<Real>>>> _propPoly;
-        /// @brief Pair of temperature table and value table
-        std::vector<std::pair<std::vector<Real>, std::vector<Real>>> _propTable;
+        std::vector<PiecewisePoly> _propPoly;
+        std::vector<Table> _propTable;
+        std::vector<std::vector<Real>> _tabulateStep;
+        bool _useEnthalpy;
 
-        void tabulate();
-        Real getProperty(PropertyType type, Real temp);
-        Real getPropertyPoly(PropertyType type, Real temp);
-        Real getPropertyTable(PropertyType type, Real temp);
+        Real getProperty(PropertyType type, const Real &temp);
 
     public:
         MaterialProperty();
@@ -43,10 +45,13 @@ namespace LTFP
         static MaterialProperty *getCurrent();
         void init();
 
-        Real getDensity(Real temp) { return getProperty(DENSITY, temp); };
-        Real getSpecificHeat(Real temp) { return getProperty(SPECIFIC_HEAT, temp); };
-        Real getEnthalpy(Real temp) { return getProperty(ENTHALPY, temp); };
-        Real getConductivity(Real temp) { return getProperty(CONDUCTIVITY, temp); };
+        Real getDensity(const Real &temp) { return getProperty(DENSITY, temp); };
+        Real getSpecificHeat(const Real &temp) { return getProperty(SPECIFIC_HEAT, temp); };
+        Real getEnthalpy(const Real &temp) { return getProperty(ENTHALPY, temp); };
+        Real getConductivity(const Real &temp) { return getProperty(CONDUCTIVITY, temp); };
+
+        bool useEnthalpy() { return _useEnthalpy; };
+        Real getTemperature(const Real &enthalpy);
     };
 }
 

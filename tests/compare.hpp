@@ -2,17 +2,25 @@
 #include <iostream>
 #include <math.h>
 
+static int testCount = 0;
+static int failCount = 0;
+
 void COMPARE(bool compare, std::string message)
 {
+    testCount++;
     if (compare)
         std::cout << "Test passed: " + message << std::endl;
     else
+    {
         std::cout << "Test FAILED: " + message << std::endl;
+        failCount++;
+    }
 }
 
 template <typename T>
 void COMPARE(T val_1, T val_2, T eps, std::string message)
 {
+    testCount++;
     if (fabs(val_1 - val_2) <= fabs(eps))
         std::cout << "Test passed: " + message << std::endl;
     else
@@ -20,5 +28,14 @@ void COMPARE(T val_1, T val_2, T eps, std::string message)
         std::cout << "Test FAILED: " + message << std::endl;
         std::cout << "    Value 1: " << val_1 << std::endl;
         std::cout << "    Value 2: " << val_2 << std::endl;
+        failCount++;
     }
+}
+
+void COMPARE_summary()
+{
+    if (failCount == 0)
+        std::cout << "All " << testCount << " test passed!" << std::endl;
+    else
+        std::cout << failCount << "/" << testCount << " test Failed!" << std::endl;
 }

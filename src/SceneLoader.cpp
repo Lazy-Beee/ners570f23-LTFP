@@ -98,6 +98,7 @@ namespace LTFP
             readValue(config["type"], mpc.type);
             readValue(config["tabulate"], mpc.tabulate);
             readVector(config["tempRange"], mpc.tempRange);
+            readVector(config["tabulateStep"], mpc.tabulateStep);
             
             json polyConfig = config["polynomials"];
             for (size_t j = 0; j < polyConfig.size(); j++)
