@@ -34,7 +34,7 @@ namespace LTFP
         std::vector<std::vector<Real>> _tabulateStep;
         bool _useEnthalpy;
 
-        Real getProperty(PropertyType type, const Real &temp);
+        
 
     public:
         MaterialProperty();
@@ -45,13 +45,17 @@ namespace LTFP
         static MaterialProperty *getCurrent();
         void init();
 
-        Real getDensity(const Real &temp) { return getProperty(DENSITY, temp); };
-        Real getSpecificHeat(const Real &temp) { return getProperty(SPECIFIC_HEAT, temp); };
-        Real getEnthalpy(const Real &temp) { return getProperty(ENTHALPY, temp); };
-        Real getConductivity(const Real &temp) { return getProperty(CONDUCTIVITY, temp); };
+        template <PropertyType ptype>
+        Real getProperty(const Real &temp);
+
+        // Real getDensity(const Real &temp) { return getProperty(DENSITY, temp); };
+        // Real getSpecificHeat(const Real &temp) { return getProperty(SPECIFIC_HEAT, temp); };
+        // Real getEnthalpy(const Real &temp) { return getProperty(ENTHALPY, temp); };
+        // Real getConductivity(const Real &temp) { return getProperty(CONDUCTIVITY, temp); };
 
         bool useEnthalpy() { return _useEnthalpy; };
         Real getTemperature(const Real &enthalpy);
+        void updateTempQdot(Real &temp, const Real &qdot);
     };
 }
 

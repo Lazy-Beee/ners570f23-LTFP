@@ -159,24 +159,25 @@ namespace LTFP
     }
 
     /// @brief Compute material property from piecewise polynomial
-    /// @param type material property type
+    /// @param ptype material property type
     /// @param temp temperature of the material
     /// @return Material property at given temperature
     /// @note For temperature input out of range, the corresponding endpoint value is returned.
-    Real MaterialProperty::getProperty(PropertyType type, const Real &temp)
+    template <PropertyType ptype>
+    Real MaterialProperty::getProperty(const Real &temp)
     {
 #ifndef NDEBUG
-        if (!_propLoaded[type])
+        if (!_propLoaded[ptype])
         {
-            LOG_ERR << "Attempting to visit empty material property " << PropTypeName[type];
+            LOG_ERR << "Attempting to visit empty material property " << PropTypeName[ptype];
             exit(1);
         }
 #endif
 
-        if (_tabulate[type])
-            return lookupTable(temp, _propTable[type]);
+        if (_tabulate[ptype])
+            return lookupTable(temp, _propTable[ptype]);
         else
-            return computePiecewisePoly(temp, _propPoly[type]);
+            return computePiecewisePoly(temp, _propPoly[ptype]);
     }
 
     Real MaterialProperty::getTemperature(const Real &enthalpy)
@@ -191,4 +192,20 @@ namespace LTFP
 
         return lookupTable(enthalpy, _propTable[ENTHALPY], true);
     }
+
+    /// @brief Compute temperature change from qdot
+    /// @param temp temperature
+    /// @param qdot heat input / mass
+    void MaterialProperty::updateTempQdot(Real &temp, const Real &qdot)
+    {
+        if (_useEnthalpy)
+            temp = getTemperature(getProperty<ENTHALPY>(temp) + qdot);
+        else
+            temp += qdot / getProperty<SPECIFIC_HEAT>(temp);
+    }
+
+    template Real MaterialProperty::getProperty<DENSITY>(const Real &temp);
+    template Real MaterialProperty::getProperty<SPECIFIC_HEAT>(const Real &temp);
+    template Real MaterialProperty::getProperty<ENTHALPY>(const Real &temp);
+    template Real MaterialProperty::getProperty<CONDUCTIVITY>(const Real &temp);
 }
