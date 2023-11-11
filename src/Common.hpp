@@ -3,7 +3,15 @@
 
 #include <cfloat>
 #include <vector>
+
+#ifdef GREATLAKES
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wall"
+#include <Eigen/Dense>
+#pragma GCC diagnostic pop
+#else
 #include <eigen3/Eigen/Dense>
+#endif
 
 namespace LTFP
 {

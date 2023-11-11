@@ -73,10 +73,10 @@ namespace LTFP
         LOG_INFO << "LTPF is running in single precision mode";
 #endif
         LOG_INFO << "Available OpenMP threads: " << omp_get_max_threads();
-        LOG_DEBUG << "Project path:      " << _projectPath;
-        LOG_DEBUG << "Executable path:   " << _execPath;
-        LOG_DEBUG << "Scene file:        " << _scenePath;
-        LOG_DEBUG << "Output path:       " << _outputPath;
+        LOG_DEBUG << "Project path: " << _projectPath;
+        LOG_DEBUG << "Executable:   " << _execPath;
+        LOG_DEBUG << "Scene file:   " << _scenePath;
+        LOG_DEBUG << "Output path:  " << _outputPath;
 
         // Copy scene file to output directory
         try
