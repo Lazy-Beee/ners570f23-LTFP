@@ -26,8 +26,12 @@
     "Boundary":
     [
         {
+            "index": 0,
             "type": 0,
-            "location": 0
+            "location": 0,
+            "xTemp": [1, 1, 0],
+            "yTemp": [1, 0, 1],
+            "zTemp": [0, 1, 0]
         }
     ],
     "MatProp":

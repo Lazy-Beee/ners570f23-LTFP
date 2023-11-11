@@ -18,6 +18,21 @@ void COMPARE(bool compare, std::string message)
 }
 
 template <typename T>
+void COMPARE(T val_1, T val_2, std::string message)
+{
+    testCount++;
+    if (val_1 == val_2)
+        std::cout << "Test passed: " + message << std::endl;
+    else
+    {
+        std::cout << "Test FAILED: " + message;
+        std::cout << "\tvalue: " << val_1;
+        std::cout << " != " << val_2 << std::endl;
+        failCount++;
+    }
+}
+
+template <typename T>
 void COMPARE(T val_1, T val_2, T eps, std::string message)
 {
     testCount++;
@@ -25,9 +40,9 @@ void COMPARE(T val_1, T val_2, T eps, std::string message)
         std::cout << "Test passed: " + message << std::endl;
     else
     {
-        std::cout << "Test FAILED: " + message << std::endl;
-        std::cout << "    Value 1: " << val_1 << std::endl;
-        std::cout << "    Value 2: " << val_2 << std::endl;
+        std::cout << "Test FAILED: " + message;
+        std::cout << "\tvalue: " << val_1;
+        std::cout << " != " << val_2 << std::endl;
         failCount++;
     }
 }

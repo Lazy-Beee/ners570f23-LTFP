@@ -21,20 +21,20 @@ namespace LTFP
 		/// @brief Time advancement configurations
 		struct TimeConfig
 		{
-			Real minTimeStepSize = REAL_MIN; 
-			Real maxTimeStepSize = REAL_MAX; 
-			Real endTime = -1.0;			
-			int maxTimeSteps = -1;			
+			Real minTimeStepSize = REAL_MIN;
+			Real maxTimeStepSize = REAL_MAX;
+			Real endTime = -1.0;
+			int maxTimeSteps = -1;
 		};
 
 		/// @brief Mesh configurations
 		struct MeshConfig
 		{
-			Vector3r start = {0, 0, 0};		
-			Vector3r end = {1, 1, 1};		
-			int xCount = -1;				
-			int yCount = -1;				
-			int zCount = -1;			
+			Vector3r start = {0, 0, 0};
+			Vector3r end = {1, 1, 1};
+			int xCount = -1;
+			int yCount = -1;
+			int zCount = -1;
 			Real meshSize = -1.0;
 			Real incrementThickness = -1.0;
 			Real incrementPeriod = REAL_MAX;
@@ -51,7 +51,7 @@ namespace LTFP
 		/// @brief Base thermal boundary configurations
 		struct BoundaryConfig
 		{
-			int index = -1;	///< This value is set by the simulator, inputs will be ignored
+			int index = -1;
 			int type = -1;
 			int location = -1;
 		};
@@ -82,11 +82,13 @@ namespace LTFP
 		MeshConfig _meshConfig;
 		ExportConfig _exportConfig;
 		std::vector<MatPropConfig> _matPropConfig;
+		std::vector<BoundaryConfig> _boundaryConfig;
 
 		void readTimeConfig();
 		void readMeshConfig();
 		void readExportConfig();
 		void readMatProp();
+		void readBoundary();
 
 		template <typename T>
 		bool readValue(const json &jsonData, T &val)
@@ -134,6 +136,7 @@ namespace LTFP
 		inline MeshConfig getMeshConfig() const { return _meshConfig; };
 		inline ExportConfig getExportConfig() const { return _exportConfig; };
 		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
+		inline std::vector<BoundaryConfig> getBoundaryConfig() const { return _boundaryConfig; };
 	};
 }
 

@@ -10,7 +10,7 @@ namespace LTFP
     TimeManager::TimeManager()
     {
         _currentTime = 0;
-        _timeStepCount = 1;
+        _timeStepCount = 0;
     }
 
     TimeManager::~TimeManager()
@@ -37,9 +37,9 @@ namespace LTFP
         _endTime = timeConfig.endTime;
         _maxTimeSteps = timeConfig.maxTimeSteps;
 
-        if (_minTimeStepSize < _maxTimeStepSize)
+        if (_minTimeStepSize > _maxTimeStepSize)
         {
-            LOG_ERR << "Maximum time step size is smaller than Minimum time step size, abort simulation";
+            LOG_ERR << "Maximum time step size " << _maxTimeStepSize << " is smaller than Minimum time step size " << _minTimeStepSize << ", abort simulation";
             exit(1);
         }
 

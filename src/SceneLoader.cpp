@@ -2,6 +2,7 @@
 #include <fstream>
 #include <filesystem>
 #include "Simulator.hpp"
+#include "ThermalBoundary/Boundary.hpp"
 #include "utilities/Logger.hpp"
 
 using namespace std;
@@ -79,7 +80,7 @@ namespace LTFP
             LOG_WARN << "Failed to load ExportConfig from scene file";
     }
 
-/// @brief Read MatProp section of scene file
+    /// @brief Read MatProp section of scene file
     void SceneLoader::readMatProp()
     {
         json configs;
@@ -99,7 +100,7 @@ namespace LTFP
             readValue(config["tabulate"], mpc.tabulate);
             readVector(config["tempRange"], mpc.tempRange);
             readVector(config["tabulateStep"], mpc.tabulateStep);
-            
+
             json polyConfig = config["polynomials"];
             for (size_t j = 0; j < polyConfig.size(); j++)
             {
@@ -109,6 +110,46 @@ namespace LTFP
             }
 
             _matPropConfig.push_back(mpc);
+        }
+    }
+
+    /// @brief Read Boundary section of scene file
+    void SceneLoader::readBoundary()
+    {
+        json configs;
+        _boundaryConfig = {};
+
+        if (_jsonData.find("Boundary") != _jsonData.end())
+            configs = _jsonData["Boundary"];
+        else
+            LOG_WARN << "Failed to load BoundaryConfig from scene file";
+
+        for (size_t i = 0; i < configs.size(); i++)
+        {
+            json config = configs[i];
+
+            int bType = -1;
+            readValue(config["index"], bType);
+
+            if (bType == DIRICHLET)
+            {
+                BoundaryConfigDirichlet bc = BoundaryConfigDirichlet{};
+                readValue(config["index"], bc.index);
+                readValue(config["type"], bc.type);
+                readValue(config["location"], bc.location);
+                readVector(config["xTemp"], bc.xTemp);
+                readVector(config["yTemp"], bc.yTemp);
+                readVector(config["zTemp"], bc.zTemp);
+                _boundaryConfig.push_back(bc);
+            }
+            else
+            {
+                BoundaryConfig bc = BoundaryConfig{};
+                readValue(config["index"], bc.index);
+                readValue(config["type"], bc.type);
+                readValue(config["location"], bc.location);
+                _boundaryConfig.push_back(bc);
+            }
         }
     }
 
@@ -142,5 +183,6 @@ namespace LTFP
         readMeshConfig();
         readExportConfig();
         readMatProp();
+        readBoundary();
     }
 }

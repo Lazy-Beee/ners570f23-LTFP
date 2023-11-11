@@ -4,6 +4,7 @@
 #include <vector>
 #include "src/Common.hpp"
 #include "ThermalBoundary.hpp"
+#include "ThermalBoundaryDirichlet.hpp"
 
 namespace LTFP
 {

@@ -63,7 +63,11 @@ namespace LTFP
 
         // Start logger
         filesystem::path logFilePath = logPath / "log.txt";
+#ifndef NDEBUG
         Utilities::logger.addSink(unique_ptr<Utilities::ConsoleSink>(new Utilities::ConsoleSink(Utilities::LogLevel::DEBUG)));
+#else
+        Utilities::logger.addSink(unique_ptr<Utilities::ConsoleSink>(new Utilities::ConsoleSink(Utilities::LogLevel::INFO)));
+#endif
         Utilities::logger.addSink(unique_ptr<Utilities::FileSink>(new Utilities::FileSink(Utilities::LogLevel::DEBUG, logFilePath)));
 
         LOG_INFO << "Laser additive manufacturing Thermal Field Prediction (LTFP) " << _version;

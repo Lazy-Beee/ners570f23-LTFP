@@ -2,6 +2,8 @@
 #include "src/SceneLoader.hpp"
 #include "utilities/Logger.hpp"
 
+using namespace std;
+
 namespace LTFP
 {
     BoundaryManager *BoundaryManager::current = nullptr;
@@ -9,8 +11,6 @@ namespace LTFP
     BoundaryManager::BoundaryManager()
     {
         _boundaries.resize(6);
-        for (auto& bs : _boundaries)
-            bs.clear();
     }
 
     BoundaryManager::~BoundaryManager()
@@ -29,30 +29,27 @@ namespace LTFP
     /// @brief Load configuration from SceneLoader
     void BoundaryManager::init()
     {
-        // SceneLoader::TimeConfig timeConfig = SceneLoader::getCurrent()->getTimeConfig();
+        vector<Config> boundaryConfig = SceneLoader::getCurrent()->getBoundaryConfig();
 
-        // _minTimeStepSize = timeConfig.minTimeStepSize;
-        // _maxTimeStepSize = timeConfig.maxTimeStepSize;
-        // _timeStepSize = _minTimeStepSize;
-        // _endTime = timeConfig.endTime;
-        // _maxTimeSteps = timeConfig.maxTimeSteps;
+        for (Config bc : boundaryConfig)
+        {
+            if (bc.location < 0 || bc.location > 5)
+            {
+                LOG_WARN << "Unidentified boundary location " << bc.location << " with boundary index " << bc.index;
+                continue;
+            }
 
-        // if (_minTimeStepSize < _maxTimeStepSize)
-        // {
-        //     LOG_ERR << "Maximum time step size is smaller than Minimum time step size, abort simulation";
-        //     exit(1);
-        // }
-
-        // if (_endTime < 0.0 && _maxTimeSteps < 0)
-        // {
-        //     LOG_ERR << "Terminate condition undefined, abort simulation";
-        //     exit(1);
-        // }
-        // else if (_endTime < 0.0)
-        //     _endTime = REAL_MAX;
-        // else if (_maxTimeSteps < 0)
-        //     _maxTimeSteps = INT_MAX;
+            if (bc.type == DIRICHLET)
+            {
+                ConfigDirichlet *bcd = static_cast<ConfigDirichlet *>(&bc);
+                ThermalBoundaryDirichlet tbd = ThermalBoundaryDirichlet(*bcd);
+                _boundaries[bcd->location].push_back(tbd);
+            }
+            else
+            {
+                LOG_WARN << "Unidentified boundary configuration with index " << bc.index << ", type " << bc.type << ", and location " << bc.location;
+            }
+        }
     }
 
-    
 }

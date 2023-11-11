@@ -39,8 +39,7 @@ namespace LTFP
         "[Y+]",
         "[Y-]",
         "[Z+]",
-        "[Z-]",
-    };
+        "[Z-]"};
 
     /// @brief Base class of thermal boundaries.
     class ThermalBoundary

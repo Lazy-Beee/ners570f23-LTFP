@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Accommodate the greatlakes environment
-option(GREATLAKES_ENVIRONMENT "OFF") 
+option(GREATLAKES_ENVIRONMENT "Accomodate the greatlakes environment") 
 if(GREATLAKES_ENVIRONMENT STREQUAL "ON")
   set(CMAKE_CXX_COMPILER /sw/pkgs/arc/gcc/11.2.0/bin/g++)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGREATLAKES")
@@ -32,15 +32,9 @@ if(GREATLAKES_ENVIRONMENT STREQUAL "OFF")
   find_package(Eigen3 3.4.0 REQUIRED)
 endif()
 
-if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
-endif()
-
-set(CMAKE_CXX_FLAGS_DEBUG "-g")
-set(CMAKE_CXX_FLAGS_RELEASE "-O3 -DNDEBUG")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
-option(USE_DOUBLE_PRECISION "OFF")
+option(USE_DOUBLE_PRECISION "Use double precision for float")
 if(USE_DOUBLE_PRECISION STREQUAL "ON")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_DOUBLE")
 endif()
@@ -50,8 +44,6 @@ if(GREATLAKES_ENVIRONMENT STREQUAL "OFF")
   include(gnu_warning_flags)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 endif()
-
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs")
 
 include(add_simulator)
 include(add_test)
