@@ -12,6 +12,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Accommodate the greatlakes environment
 option(GREATLAKES_ENVIRONMENT "OFF") 
 if(GREATLAKES_ENVIRONMENT STREQUAL "ON")
+  set(CMAKE_CXX_COMPILER /sw/pkgs/arc/gcc/11.2.0/bin/g++)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DGREATLAKES")
 endif()
 
@@ -50,7 +51,7 @@ if(GREATLAKES_ENVIRONMENT STREQUAL "OFF")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GNU_WARNING_FLAGS}")
 endif()
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++")
+# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -lstdc++fs")
 
 include(add_simulator)
 include(add_test)
