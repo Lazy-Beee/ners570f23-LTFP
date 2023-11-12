@@ -59,9 +59,9 @@ namespace LTFP
 		/// @brief Dirichlet thermal boundary configurations
 		struct BoundaryConfigDirichlet : public BoundaryConfig
 		{
-			std::vector<Real> xTemp = {};
-			std::vector<Real> yTemp = {};
-			std::vector<Real> zTemp = {};
+			std::vector<Real> xTempPoly = {};
+			std::vector<Real> yTempPoly = {};
+			std::vector<Real> zTempPoly = {};
 		};
 
 		/// @brief Material Property configurations
@@ -82,7 +82,7 @@ namespace LTFP
 		MeshConfig _meshConfig;
 		ExportConfig _exportConfig;
 		std::vector<MatPropConfig> _matPropConfig;
-		std::vector<BoundaryConfig> _boundaryConfig;
+		std::vector<BoundaryConfig *> _boundaryConfig;
 
 		void readTimeConfig();
 		void readMeshConfig();
@@ -136,7 +136,7 @@ namespace LTFP
 		inline MeshConfig getMeshConfig() const { return _meshConfig; };
 		inline ExportConfig getExportConfig() const { return _exportConfig; };
 		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
-		inline std::vector<BoundaryConfig> getBoundaryConfig() const { return _boundaryConfig; };
+		inline std::vector<BoundaryConfig *> getBoundaryConfig() const { return _boundaryConfig; };
 	};
 }
 

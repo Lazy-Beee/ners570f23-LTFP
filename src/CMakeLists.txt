@@ -10,7 +10,6 @@ add_library(ltfp
     TimeManager.hpp
     TimeManager.cpp
 
-    ThermalBoundary/Boundary.hpp
     ThermalBoundary/BoundaryManager.hpp
     ThermalBoundary/BoundaryManager.cpp
     ThermalBoundary/ThermalBoundary.hpp

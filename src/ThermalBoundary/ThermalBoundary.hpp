@@ -50,11 +50,12 @@ namespace LTFP
         const BoundaryLocation _location;
 
     public:
-        ThermalBoundary(Config config);
-        virtual ~ThermalBoundary() = 0;
+        ThermalBoundary(Config *config);
+        ~ThermalBoundary(){};
 
-        virtual Real getFlux(const Vector3r &pos, const Real &temp);
-        virtual Real getTemp(const Vector3r &pos);
+        inline int getIndex() const { return _index; };
+        inline BoundaryType getType() const { return _type; };
+        inline BoundaryLocation getLocation() const { return _location; };
     };
 }
 

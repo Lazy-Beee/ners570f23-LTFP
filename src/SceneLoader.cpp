@@ -2,7 +2,7 @@
 #include <fstream>
 #include <filesystem>
 #include "Simulator.hpp"
-#include "ThermalBoundary/Boundary.hpp"
+#include "ThermalBoundary/BoundaryManager.hpp"
 #include "utilities/Logger.hpp"
 
 using namespace std;
@@ -19,6 +19,9 @@ namespace LTFP
     SceneLoader::~SceneLoader()
     {
         current = nullptr;
+
+        for (BoundaryConfig *bc : _boundaryConfig)
+            delete bc;
     }
 
     SceneLoader *SceneLoader::getCurrent()
@@ -129,25 +132,25 @@ namespace LTFP
             json config = configs[i];
 
             int bType = -1;
-            readValue(config["index"], bType);
+            readValue(config["type"], bType);
 
             if (bType == DIRICHLET)
             {
-                BoundaryConfigDirichlet bc = BoundaryConfigDirichlet{};
-                readValue(config["index"], bc.index);
-                readValue(config["type"], bc.type);
-                readValue(config["location"], bc.location);
-                readVector(config["xTemp"], bc.xTemp);
-                readVector(config["yTemp"], bc.yTemp);
-                readVector(config["zTemp"], bc.zTemp);
+                BoundaryConfigDirichlet *bc = new BoundaryConfigDirichlet{};
+                readValue(config["index"], bc->index);
+                readValue(config["type"], bc->type);
+                readValue(config["location"], bc->location);
+                readVector(config["xTempPoly"], bc->xTempPoly);
+                readVector(config["yTempPoly"], bc->yTempPoly);
+                readVector(config["zTempPoly"], bc->zTempPoly);
                 _boundaryConfig.push_back(bc);
             }
             else
             {
-                BoundaryConfig bc = BoundaryConfig{};
-                readValue(config["index"], bc.index);
-                readValue(config["type"], bc.type);
-                readValue(config["location"], bc.location);
+                BoundaryConfig *bc = new BoundaryConfig{};
+                readValue(config["index"], bc->index);
+                readValue(config["type"], bc->type);
+                readValue(config["location"], bc->location);
                 _boundaryConfig.push_back(bc);
             }
         }

@@ -17,7 +17,7 @@ namespace LTFP
         std::vector<std::vector<Real>> _tempPolyCoeff;
 
     public:
-        ThermalBoundaryDirichlet(ConfigDirichlet config);
+        ThermalBoundaryDirichlet(ConfigDirichlet *config);
         ~ThermalBoundaryDirichlet() {};
         
         Real getTemp(const Vector3r &pos);

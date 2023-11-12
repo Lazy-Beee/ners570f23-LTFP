@@ -14,7 +14,9 @@ namespace LTFP
 	{
 	private:
 		static BoundaryManager *current;
-		std::vector<std::vector<ThermalBoundary>> _boundaries;
+		/// @brief Boundary objects
+		/// @note First-level: location x+ / x- / y+ / y- / z+ / z-
+		std::vector<std::vector<ThermalBoundary *>> _boundaries;
 
 	public:
 		BoundaryManager();
@@ -24,7 +26,11 @@ namespace LTFP
 
 		static BoundaryManager *getCurrent();
 		void init();
-		
+
+#ifndef NDEBUG
+		/// @warning for debug only
+		ThermalBoundary *getThermalBoundary(BoundaryLocation location, size_t index) const { return _boundaries[static_cast<size_t>(location)][index]; };
+#endif
 	};
 }
 
