@@ -4,7 +4,6 @@
 #include <vector>
 #include "src/Common.hpp"
 #include "ThermalBoundary.hpp"
-#include "ThermalBoundaryDirichlet.hpp"
 
 namespace LTFP
 {
@@ -14,9 +13,11 @@ namespace LTFP
 	{
 	private:
 		static BoundaryManager *current;
+		const size_t _numLoc = 6;
 		/// @brief Boundary objects
 		/// @note First-level: location x+ / x- / y+ / y- / z+ / z-
 		std::vector<std::vector<ThermalBoundary *>> _boundaries;
+		std::vector<bool> _tempBC;
 
 	public:
 		BoundaryManager();
@@ -26,6 +27,10 @@ namespace LTFP
 
 		static BoundaryManager *getCurrent();
 		void init();
+
+		Real getTempBC(BoundaryLocation loc, const Vector3r &pos, const Real &temp);
+		Real getFluxBC(BoundaryLocation loc, const Vector3r &pos, const Real &temp);
+		inline bool isTempBC(BoundaryLocation i) const { return _tempBC[i]; };
 
 #ifndef NDEBUG
 		/// @warning for debug only

@@ -56,12 +56,34 @@ namespace LTFP
 			int location = -1;
 		};
 
+		/// @brief Neumann thermal boundary configurations
+		struct BoundaryConfigNeumann : public BoundaryConfig
+		{
+			std::vector<Real> xFluxPoly = {};
+			std::vector<Real> yFluxPoly = {};
+			std::vector<Real> zFluxPoly = {};
+		};
+
 		/// @brief Dirichlet thermal boundary configurations
 		struct BoundaryConfigDirichlet : public BoundaryConfig
 		{
 			std::vector<Real> xTempPoly = {};
 			std::vector<Real> yTempPoly = {};
 			std::vector<Real> zTempPoly = {};
+		};
+
+		/// @brief Convection thermal boundary configurations
+		struct BoundaryConfigConvection : public BoundaryConfig
+		{
+			Real ambientTemp = 300.0f;
+			Real convectionCoeff = -1.0f;
+		};
+
+		/// @brief Radiation thermal boundary configurations
+		struct BoundaryConfigRadiation : public BoundaryConfig
+		{
+			Real ambientTemp = -1.0f;
+			Real emissivityCoeff = -1.0f;
 		};
 
 		/// @brief Material Property configurations

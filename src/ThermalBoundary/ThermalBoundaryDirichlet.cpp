@@ -14,7 +14,7 @@ namespace LTFP
         if ((_location != XPOSITIVE) && (_location != XNEGATIVE))
         {
             if (config->xTempPoly.size() == 0)
-                LOG_WARN << "X polynomial of boundary " << _index << " is empty";
+                LOG_WARN << "X polynomial of [Dirichlet] boundary " << _index << " is empty";
             else
                 _tempPolyCoeff[0] = config->xTempPoly;
         }
@@ -22,14 +22,14 @@ namespace LTFP
         if ((_location != YPOSITIVE) && (_location != YNEGATIVE))
         {
             if (config->yTempPoly.size() == 0)
-                LOG_WARN << "Y polynomial of boundary " << _index << " is empty";
+                LOG_WARN << "Y polynomial of [Dirichlet] boundary " << _index << " is empty";
             else
                 _tempPolyCoeff[1] = config->yTempPoly;
         }
         if ((_location != ZPOSITIVE) && (_location != ZNEGATIVE))
         {
             if (config->zTempPoly.size() == 0)
-                LOG_WARN << "Z polynomial of boundary " << _index << " is empty";
+                LOG_WARN << "Z polynomial of [Dirichlet] boundary " << _index << " is empty";
             else
                 _tempPolyCoeff[2] = config->zTempPoly;
         }

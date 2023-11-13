@@ -134,7 +134,18 @@ namespace LTFP
             int bType = -1;
             readValue(config["type"], bType);
 
-            if (bType == DIRICHLET)
+            if (bType == NEUMANN)
+            {
+                BoundaryConfigNeumann *bc = new BoundaryConfigNeumann{};
+                readValue(config["index"], bc->index);
+                readValue(config["type"], bc->type);
+                readValue(config["location"], bc->location);
+                readVector(config["xFluxPoly"], bc->xFluxPoly);
+                readVector(config["yFluxPoly"], bc->yFluxPoly);
+                readVector(config["zFluxPoly"], bc->zFluxPoly);
+                _boundaryConfig.push_back(bc);
+            }
+            else if (bType == DIRICHLET)
             {
                 BoundaryConfigDirichlet *bc = new BoundaryConfigDirichlet{};
                 readValue(config["index"], bc->index);
@@ -145,7 +156,27 @@ namespace LTFP
                 readVector(config["zTempPoly"], bc->zTempPoly);
                 _boundaryConfig.push_back(bc);
             }
-            else
+            else if (bType == CONVECTION)
+            {
+                BoundaryConfigConvection *bc = new BoundaryConfigConvection{};
+                readValue(config["index"], bc->index);
+                readValue(config["type"], bc->type);
+                readValue(config["location"], bc->location);
+                readValue(config["ambientTemp"], bc->ambientTemp);
+                readValue(config["convectionCoeff"], bc->convectionCoeff);
+                _boundaryConfig.push_back(bc);
+            }
+            else if (bType == RADIATION)
+            {
+                BoundaryConfigRadiation *bc = new BoundaryConfigRadiation{};
+                readValue(config["index"], bc->index);
+                readValue(config["type"], bc->type);
+                readValue(config["location"], bc->location);
+                readValue(config["ambientTemp"], bc->ambientTemp);
+                readValue(config["emissivityCoeff"], bc->emissivityCoeff);
+                _boundaryConfig.push_back(bc);
+            }
+            else // Mirror BC is also in this branch
             {
                 BoundaryConfig *bc = new BoundaryConfig{};
                 readValue(config["index"], bc->index);

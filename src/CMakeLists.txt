@@ -16,6 +16,14 @@ add_library(ltfp
     ThermalBoundary/ThermalBoundary.cpp
     ThermalBoundary/ThermalBoundaryDirichlet.hpp
     ThermalBoundary/ThermalBoundaryDirichlet.cpp
+    ThermalBoundary/ThermalBoundaryNeumann.hpp
+    ThermalBoundary/ThermalBoundaryNeumann.cpp
+    ThermalBoundary/ThermalBoundaryConvection.hpp
+    ThermalBoundary/ThermalBoundaryConvection.cpp
+    ThermalBoundary/ThermalBoundaryRadiation.hpp
+    ThermalBoundary/ThermalBoundaryRadiation.cpp
+    ThermalBoundary/ThermalBoundaryMirror.hpp
+    ThermalBoundary/ThermalBoundaryMirror.cpp
 )
 
 add_dependencies(ltfp

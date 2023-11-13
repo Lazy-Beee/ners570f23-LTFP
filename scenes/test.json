@@ -27,11 +27,45 @@
     [
         {
             "index": 0,
-            "type": 1,
+            "type": 0,
             "location": 0,
-            "xTempPoly": [1, 1, 0],
+            "xFluxPoly": [1, 1, 0],
+            "yFluxPoly": [1, 0, 1],
+            "zFluxPoly": [0, 1, 0]
+        },
+        {
+            "index": 1,
+            "type": 1,
+            "location": 3,
+            "xTempPoly": [10, 1, 0],
             "yTempPoly": [1, 0, 1],
-            "zTempPoly": [0, 1, 0]
+            "zTempPoly": [0, 10, 0]
+        },
+        {
+            "index": 2,
+            "type": 2,
+            "location": 0,
+            "ambientTemp": 300.0,
+            "convectionCoeff": 15.0
+        },
+        {
+            "index": 21,
+            "type": 2,
+            "location": 0,
+            "ambientTemp": 300.0,
+            "convectionCoeff": 25.0
+        },
+        {
+            "index": 3,
+            "type": 3,
+            "location": 5,
+            "ambientTemp": 300.0,
+            "emissivityCoeff": 10.0
+        },
+        {
+            "index": 4,
+            "type": 4,
+            "location": 4
         }
     ],
     "MatProp":

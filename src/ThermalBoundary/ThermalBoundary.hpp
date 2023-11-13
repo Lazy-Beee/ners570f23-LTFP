@@ -14,12 +14,14 @@ namespace LTFP
     {
         NEUMANN = 0,
         DIRICHLET = 1,
-        RADIATION = 2,
-        MIRROR = 3
+        CONVECTION = 2,
+        RADIATION = 3,
+        MIRROR = 4
     };
     static std::vector<std::string> BoundaryTypeName = {
         "[Neumann]",
         "[Dirichlet]",
+        "[Convection]",
         "[Radiation]",
         "[Mirror]"};
 
