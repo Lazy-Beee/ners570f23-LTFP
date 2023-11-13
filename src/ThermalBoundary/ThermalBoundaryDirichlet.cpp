@@ -35,11 +35,7 @@ namespace LTFP
         }
     }
 
-    /// @brief Get boundary temeprature
-    /// @param pos Center position of the gost cell
-    /// @return Ghost cell temperature
-    /// @note The position of boundary-neighboring cell also works
-    Real ThermalBoundaryDirichlet::getTemp(const Vector3r &pos)
+    Real ThermalBoundaryDirichlet::getTemp(const Vector3r &pos, [[maybe_unused]] const Real &temp)
     {
         return computePoly3r(pos, _tempPolyCoeff).sum();
     }

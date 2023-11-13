@@ -20,7 +20,7 @@ namespace LTFP
         ThermalBoundaryDirichlet(ConfigDirichlet *config);
         ~ThermalBoundaryDirichlet() {};
         
-        Real getTemp(const Vector3r &pos);
+        Real getTemp(const Vector3r &pos, const Real &temp);
     };
 }
 

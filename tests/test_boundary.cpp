@@ -20,9 +20,10 @@ int main()
     COMPARE(tb1->getIndex() == 0, "Index 1");
     COMPARE(tb1->getLocation() == XPOSITIVE, "location 1");
     COMPARE(tb1->getType() == DIRICHLET, "Type 1");
-    ThermalBoundaryDirichlet *tbd = static_cast<ThermalBoundaryDirichlet *>(tb1);
     Vector3r pos = {1.0f, 2.0f, 3.0f};
-    COMPARE<Real>(tbd->getTemp(pos), 8.0f, 1e-3f, "Dirichlet getTemp");
+    Real temp = 10.0f;
+    COMPARE<Real>(tb1->getTemp(pos, temp), 8.0f, 1e-3f, "Dirichlet getTemp");
+    COMPARE<Real>(tb1->getFlux(pos, temp), 0.0f, 1e-3f, "Dirichlet getFlux");
 
     COMPARE_summary();
 }
