@@ -20,6 +20,6 @@ namespace LTFP
 
     Real ThermalBoundaryConvection::getFlux([[maybe_unused]] const Vector3r &pos, const Real &temp)
     {
-        return (temp - _ambientTemp) * _convectionCoeff;
+        return (_ambientTemp - temp) * _convectionCoeff;
     }
 }

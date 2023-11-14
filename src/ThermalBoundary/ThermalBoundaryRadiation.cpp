@@ -24,6 +24,6 @@ namespace LTFP
 
     Real ThermalBoundaryRadiation::getFlux([[maybe_unused]] const Vector3r &pos, const Real &temp)
     {
-        return (pow(temp, 4) - _ambientTemp4) * _coeff;
+        return (_ambientTemp4 - pow(temp, 4)) * _coeff;
     }
 }

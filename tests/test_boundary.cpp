@@ -44,7 +44,7 @@ int main()
     Vector3r pos3 = {1.0f, 2.0f, 3.0f};
     Real temp3 = 310.0f;
     COMPARE<Real>(tb3->getTemp(pos3, temp3), 0.0f, 1e-3f, "getTemp 3");
-    COMPARE<Real>(tb3->getFlux(pos3, temp3), 150.0f, 1e-3f, "getFlux 3");
+    COMPARE<Real>(tb3->getFlux(pos3, temp3), -150.0f, 1e-3f, "getFlux 3");
 
     // Radiation
     ThermalBoundary *tb4 = bm->getThermalBoundary(ZNEGATIVE, 0);
@@ -54,7 +54,7 @@ int main()
     Vector3r pos4 = {1.0f, 2.0f, 3.0f};
     Real temp4 = 310.0f;
     COMPARE<Real>(tb4->getTemp(pos4, temp4), 0.0f, 1e-3f, "getTemp 4");
-    COMPARE<Real>(tb4->getFlux(pos4, temp4), 643.664f, 1e-3f, "getFlux 4");
+    COMPARE<Real>(tb4->getFlux(pos4, temp4), -643.664f, 1e-3f, "getFlux 4");
 
     // Mirror
     ThermalBoundary *tb5 = bm->getThermalBoundary(ZPOSITIVE, 0);
@@ -74,12 +74,12 @@ int main()
     COMPARE(bm->isTempBC(ZPOSITIVE), true, "isTempBC 5");
     COMPARE(bm->isTempBC(ZNEGATIVE), false, "isTempBC 6");
 
-    COMPARE(bm->getFluxBC(XPOSITIVE, {1.0f,2.0f,3.0f}, 310.0f), 408.0f, 1e-3f, "getBC 1");
+    COMPARE(bm->getFluxBC(XPOSITIVE, {1.0f,2.0f,3.0f}, 310.0f), -392.0f, 1e-3f, "getBC 1");
     COMPARE(bm->getFluxBC(XNEGATIVE, {1.0f,2.0f,3.0f}, 310.0f), 0.0f, 1e-3f, "getBC 2");
     COMPARE(bm->getFluxBC(YPOSITIVE, {1.0f,2.0f,3.0f}, 310.0f), 0.0f, 1e-3f, "getBC 3");
     COMPARE(bm->getTempBC(YNEGATIVE, {1.0f,2.0f,3.0f}, 10.0f), 41.0f, 1e-3f, "getBC 4");
     COMPARE(bm->getTempBC(ZPOSITIVE, {1.0f,2.0f,3.0f}, 310.0f), 310.0f, 1e-3f, "getBC 5");
-    COMPARE(bm->getFluxBC(ZNEGATIVE, {1.0f,2.0f,3.0f}, 310.0f), 643.664f, 1e-3f, "getBC 6");
+    COMPARE(bm->getFluxBC(ZNEGATIVE, {1.0f,2.0f,3.0f}, 310.0f), -643.664f, 1e-3f, "getBC 6");
     
     COMPARE_summary();
 }
