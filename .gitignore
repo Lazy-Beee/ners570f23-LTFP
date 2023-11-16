@@ -4,6 +4,7 @@ bin/*
 output/*
 doc/html/*
 doc/latex/*
+*.png
 
 # Prerequisites
 *.d

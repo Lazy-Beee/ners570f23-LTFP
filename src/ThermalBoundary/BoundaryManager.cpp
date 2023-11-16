@@ -45,7 +45,7 @@ namespace LTFP
 
         for (Config *bc : boundaryConfig)
         {
-            if (bc->location < 0 || bc->location > (_numLoc - 1))
+            if (bc->location < 0 || bc->location > static_cast<int>(_numLoc - 1))
             {
                 LOG_WARN << "Unidentified boundary location " << bc->location << " with boundary index " << bc->index;
                 continue;
@@ -77,7 +77,7 @@ namespace LTFP
             }
             else if (bc->type == MIRROR)
             {
-                ConfigMirror *bcd = static_cast<ConfigMirror *>(bc);
+                ConfigMirror *bcd = bc;
                 ThermalBoundaryMirror *tbd = new ThermalBoundaryMirror(bcd);
                 _boundaries[bcd->location].push_back(tbd);
             }

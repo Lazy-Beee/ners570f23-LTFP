@@ -61,8 +61,7 @@ namespace LTFP
             readValue(config["yCount"], _meshConfig.yCount);
             readValue(config["zCount"], _meshConfig.zCount);
             readValue(config["meshSize"], _meshConfig.meshSize);
-            readValue(config["incrementThickness"], _meshConfig.incrementThickness);
-            readValue(config["incrementPeriod"], _meshConfig.incrementPeriod);
+            readValue(config["layerFile"], _meshConfig.layerFile);
         }
         else
             LOG_WARN << "Failed to load MeshConfig from scene file";
@@ -187,6 +186,33 @@ namespace LTFP
         }
     }
 
+    /// @brief Read Laser section of scene file
+    void SceneLoader::readLaserConfig()
+    {
+        if (_jsonData.find("Laser") != _jsonData.end())
+        {
+            json configs = _jsonData["Laser"];
+
+            for (size_t i = 0; i < configs.size(); i++)
+            {
+                json config = configs[i];
+                LaserConfig lc = LaserConfig{};
+
+                readValue(config["index"], lc.index);
+                readValue(config["type"], lc.type);
+                readValue(config["power"], lc.power);
+                readValue(config["absorptivity"], lc.absorptivity);
+                readValue(config["laserPath"], lc.laserPath);
+                readValue(config["radius"], lc.radius);
+                readValue(config["depth"], lc.depth);
+
+                _laserConfig.push_back(lc);
+            }
+        }
+        else
+            LOG_WARN << "Failed to load LaserConfig from scene file";
+    }
+    
     /// @brief Read scene file and save the configurations using scene path in Simulator
     void SceneLoader::readScene()
     {
@@ -218,5 +244,6 @@ namespace LTFP
         readExportConfig();
         readMatProp();
         readBoundary();
+        readLaserConfig();
     }
 }

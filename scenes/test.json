@@ -14,8 +14,7 @@
         "yCount": 10,
         "zCount": 20,
         "meshSize": 0.1,
-        "incrementThickness": 0.1,
-        "incrementPeriod": 0.5
+        "layerFile": "path/test_layer.json"
     },
     "Export":
     {
@@ -101,6 +100,25 @@
             "polynomials": [
                 [1, 1, 1, 1, 3]
             ]
+        }
+    ],
+    "Laser":
+    [
+        {
+            "index": 0,
+			"type": 0,
+			"power": 10.0,
+			"absorptivity": 0.5,
+			"laserPath": "path/test_path.json",
+			"radius": 0.12
+        },
+        {
+            "index": 1,
+			"type": 1,
+			"power": 0.1,
+			"absorptivity": 0.2,
+			"laserPath": "path/test_path.json",
+			"radius": 0.2
         }
     ]
 }

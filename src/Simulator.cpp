@@ -1,8 +1,12 @@
 #include "Simulator.hpp"
 #include <iostream>
 #include <omp.h>
+#include "Common.hpp"
 #include "SceneLoader.hpp"
 #include "TimeManager.hpp"
+#include "MaterialProperty.hpp"
+#include "LaserSource.hpp"
+#include "ThermalBoundary/BoundaryManager.hpp"
 #include "utilities/Counting.hpp"
 #include "utilities/Logger.hpp"
 #include "utilities/Timing.hpp"
@@ -98,14 +102,16 @@ namespace LTFP
     void Simulator::initialize()
     {
         SceneLoader *sl = SceneLoader::getCurrent();
-        TimeManager *tm = TimeManager::getCurrent();
 
         sl->readScene();
 
         if (sl->getExportConfig().printPeriod > 0)
             _printPeriod = sl->getExportConfig().printPeriod;
 
-        tm->init();
+        TimeManager::getCurrent()->init();
+        MaterialProperty::getCurrent()->init();
+        BoundaryManager::getCurrent()->init();
+        LaserSource::getCurrent()->init();
     }
 
     /// @brief Advance one time step
@@ -120,6 +126,10 @@ namespace LTFP
             LOG_INFO << "Step: " << tm->getTimeStepCount() << " \tStep size: " << tm->getTimeStepSize() * 1000 << " ms";
             nextPrint += _printPeriod;
         }
+
+        START_TIMING("LaserSourcePrecompute");
+        LaserSource::getCurrent()->precomputePowerDistribution();
+        STOP_TIMING_AVG;
     }
 
     /// @brief Wrap up simulation
@@ -141,6 +151,9 @@ namespace LTFP
         // Create modules
         SceneLoader *sceneLoader = SceneLoader::getCurrent();
         TimeManager *timeManager = TimeManager::getCurrent();
+        MaterialProperty *materialProperty = MaterialProperty::getCurrent();
+        LaserSource *laserSource = LaserSource::getCurrent();
+        BoundaryManager *boundaryManager = BoundaryManager::getCurrent();
 
         // Setup simulation with scene file path
         if (argc == 1)
@@ -164,5 +177,8 @@ namespace LTFP
         // Destroy modules
         delete sceneLoader;
         delete timeManager;
+        delete materialProperty;
+        delete laserSource;
+        delete boundaryManager;
     }
 }

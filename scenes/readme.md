@@ -15,8 +15,7 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **yCount**(int): Number of mesh in Y direction
 - **zCount**(int): Number of mesh in Z direction
 - **meshSize**(float): mesh size of cubic mesh, priority is lower than xCount+yCount+zCount
-- **incrementThickness**(float): thickness of each domain increment
-- **incrementPeriod**(float): time period between domain increments
+- **layerFile**(string): path to layer json file under scene dir
 
 ### Export
 - **enableVtkExport**(bool): enable `.vtk` export of mesh data

@@ -9,6 +9,8 @@ add_library(ltfp
     Simulator.cpp
     TimeManager.hpp
     TimeManager.cpp
+    LaserSource.hpp
+    LaserSource.cpp
 
     ThermalBoundary/BoundaryManager.hpp
     ThermalBoundary/BoundaryManager.cpp

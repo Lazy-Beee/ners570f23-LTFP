@@ -36,8 +36,7 @@ namespace LTFP
 			int yCount = -1;
 			int zCount = -1;
 			Real meshSize = -1.0;
-			Real incrementThickness = -1.0;
-			Real incrementPeriod = REAL_MAX;
+			std::string layerFile = "";
 		};
 
 		/// @brief Exportation configurations
@@ -96,24 +95,20 @@ namespace LTFP
 			std::vector<Real> tabulateStep = {};
 		};
 
-	private:
-		static SceneLoader *current;
-		json _jsonData;
-		bool _fatalError; ///< Mark whether the scene file is missing essential info
-		TimeConfig _timeConfig;
-		MeshConfig _meshConfig;
-		ExportConfig _exportConfig;
-		std::vector<MatPropConfig> _matPropConfig;
-		std::vector<BoundaryConfig *> _boundaryConfig;
-
-		void readTimeConfig();
-		void readMeshConfig();
-		void readExportConfig();
-		void readMatProp();
-		void readBoundary();
+		/// @brief Laser Property configurations
+		struct LaserConfig
+		{
+			int index = -1;
+			int type = -1;
+			Real power = -1.0f;
+			Real absorptivity = -1.0f;
+			std::string laserPath = "";
+			Real radius = -1.0f;
+			Real depth = -1.0f;
+		};
 
 		template <typename T>
-		bool readValue(const json &jsonData, T &val)
+		static bool readValue(const json &jsonData, T &val)
 		{
 			if (jsonData.is_null())
 				return false;
@@ -123,7 +118,7 @@ namespace LTFP
 		}
 
 		template <typename T>
-		bool readVector(const json &jsonData, std::vector<T> &vec)
+		static bool readVector(const json &jsonData, std::vector<T> &vec)
 		{
 			if (jsonData.is_null())
 				return false;
@@ -133,7 +128,7 @@ namespace LTFP
 		}
 
 		template <typename T, int size>
-		bool readVector(const json &jsonData, Eigen::Matrix<T, size, 1, Eigen::DontAlign> &vec)
+		static bool readVector(const json &jsonData, Eigen::Matrix<T, size, 1, Eigen::DontAlign> &vec)
 		{
 			if (jsonData.is_null())
 				return false;
@@ -143,6 +138,24 @@ namespace LTFP
 				vec[i] = values[i];
 			return true;
 		}
+
+	private:
+		static SceneLoader *current;
+		json _jsonData;
+		bool _fatalError; ///< Mark whether the scene file is missing essential info
+		TimeConfig _timeConfig;
+		MeshConfig _meshConfig;
+		ExportConfig _exportConfig;
+		std::vector<MatPropConfig> _matPropConfig;
+		std::vector<BoundaryConfig *> _boundaryConfig;
+		std::vector<LaserConfig> _laserConfig;
+
+		void readTimeConfig();
+		void readMeshConfig();
+		void readExportConfig();
+		void readMatProp();
+		void readBoundary();
+		void readLaserConfig();
 
 	public:
 		SceneLoader();
@@ -159,6 +172,7 @@ namespace LTFP
 		inline ExportConfig getExportConfig() const { return _exportConfig; };
 		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
 		inline std::vector<BoundaryConfig *> getBoundaryConfig() const { return _boundaryConfig; };
+		inline std::vector<LaserConfig> getLaserConfig() const { return _laserConfig; };
 	};
 }
 
