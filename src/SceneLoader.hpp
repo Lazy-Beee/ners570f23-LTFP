@@ -40,12 +40,19 @@ namespace LTFP
 			std::string layerFile = "";
 		};
 
+		/// @brief Exporter configurations
+		struct ExporterConfig
+		{
+			int type = -1;
+			int period = -1.0f;
+			std::vector<std::string> parameters = {};
+		};
+
 		/// @brief Exportation configurations
 		struct ExportConfig
 		{
-			bool enableVtkExport = false;
-			int printPeriod = INT_MAX;
-			Real exportPeriod = REAL_MAX;
+			int consolePeriod = INT_MAX;
+			std::vector<ExporterConfig> exporters = {};
 		};
 
 		/// @brief Base thermal boundary configurations

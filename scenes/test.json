@@ -19,9 +19,20 @@
     },
     "Export":
     {
-        "enableVtkExport": true,
-        "printPeriod": 100,
-        "exportPeriod": 20.0
+        "consolePeriod": 100,
+        "exporters":
+        [
+            {
+                "type": 0,
+                "period": 10,
+                "parameters": ["temperature"]
+            },
+            {
+                "type": 1,
+                "period": 10,
+                "parameters": ["temperature"]
+            }
+        ]
     },
     "Boundary":
     [

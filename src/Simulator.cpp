@@ -105,8 +105,8 @@ namespace LTFP
 
         sl->readScene();
 
-        if (sl->getExportConfig().printPeriod > 0)
-            _printPeriod = sl->getExportConfig().printPeriod;
+        if (sl->getExportConfig().consolePeriod > 0)
+            _printPeriod = sl->getExportConfig().consolePeriod;
 
         TimeManager::getCurrent()->init();
         MaterialProperty::getCurrent()->init();
