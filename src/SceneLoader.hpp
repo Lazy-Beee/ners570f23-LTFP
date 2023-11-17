@@ -36,6 +36,7 @@ namespace LTFP
 			int yCount = -1;
 			int zCount = -1;
 			Real meshSize = -1.0;
+			Real initialTemp = -1.0;
 			std::string layerFile = "";
 		};
 

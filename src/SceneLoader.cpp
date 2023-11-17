@@ -61,6 +61,7 @@ namespace LTFP
             readValue(config["yCount"], _meshConfig.yCount);
             readValue(config["zCount"], _meshConfig.zCount);
             readValue(config["meshSize"], _meshConfig.meshSize);
+            readValue(config["initialTemp"], _meshConfig.initialTemp);
             readValue(config["layerFile"], _meshConfig.layerFile);
         }
         else

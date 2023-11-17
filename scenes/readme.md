@@ -15,6 +15,7 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **yCount**(int): Number of mesh in Y direction
 - **zCount**(int): Number of mesh in Z direction
 - **meshSize**(float): mesh size of cubic mesh, priority is lower than xCount+yCount+zCount
+- **initialTemp"(float): initial temperature of domain
 - **layerFile**(string): path to layer json file under scene dir
 
 ### Export

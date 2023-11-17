@@ -130,6 +130,12 @@ namespace LTFP
         START_TIMING("LaserSourcePrecompute");
         LaserSource::getCurrent()->precomputePowerDistribution();
         STOP_TIMING_AVG;
+
+        // TODO: domain increment
+
+        // TODO: Solve Thermal equation
+
+        // TODO: Export data
     }
 
     /// @brief Wrap up simulation

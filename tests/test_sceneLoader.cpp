@@ -20,5 +20,7 @@ int main()
     COMPARE(sl->getTimeConfig().maxTimeStepSize, 0.2f, 1e-3f, "max time step size");
     COMPARE(sl->getTimeConfig().minTimeStepSize, 0.001f, 1e-6f, "min time step size");
 
+    COMPARE(sl->getMeshConfig().initialTemp, 300.0f, 1e-3f, "initial temperature");
+
     COMPARE_summary();
 }
