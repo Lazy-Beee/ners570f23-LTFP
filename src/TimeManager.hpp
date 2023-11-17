@@ -31,6 +31,7 @@ namespace LTFP
 		Real setTimeStepSize(Real dt);
 
 		inline const Real &getTime() const { return _currentTime; };
+		inline void setTime(Real time) { _currentTime = time; };
 		inline const Real &getTimeStepSize() const { return _timeStepSize; };
 		inline const int &getTimeStepCount() const { return _timeStepCount; };
 	};

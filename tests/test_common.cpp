@@ -23,10 +23,10 @@ int main()
     poly.second.push_back({2.0f, 0.0f});
     poly.second.push_back({1.0f, 100.0f});
 
-    COMPARE<Real>(computePiecewisePoly(-1.0f, poly), 0.0f, 1e-3f, "piecewise polynomial 1");
-    COMPARE<Real>(computePiecewisePoly(15.0f, poly), computePoly(15.0f, poly.second[0]), 1e-3f, "piecewise polynomial 2");
-    COMPARE<Real>(computePiecewisePoly(115.0f, poly), computePoly(115.0f, poly.second[1]), 1e-3f, "piecewise polynomial 3");
-    COMPARE<Real>(computePiecewisePoly(215.0f, poly), 300.0f, 1e-3f, "piecewise polynomial 4");
+    COMPARE(computePiecewisePoly(-1.0f, poly), 0.0f, 1e-3f, "piecewise polynomial 1");
+    COMPARE(computePiecewisePoly(15.0f, poly), computePoly(15.0f, poly.second[0]), 1e-3f, "piecewise polynomial 2");
+    COMPARE(computePiecewisePoly(115.0f, poly), computePoly(115.0f, poly.second[1]), 1e-3f, "piecewise polynomial 3");
+    COMPARE(computePiecewisePoly(215.0f, poly), 300.0f, 1e-3f, "piecewise polynomial 4");
 
     Table table = tabulatePiecewisePoly(poly, {9.9f, 20.0f});
 
@@ -34,15 +34,15 @@ int main()
     // for (size_t i; i < table.first.size(); i++)
     //     cout << i << " \t" << table.first[i] << " \t" << table.second[i] << endl;
 
-    COMPARE<Real>(lookupTable(-1.0f, table), 0.0f, 1e-3f, "table lookup 1");
-    COMPARE<Real>(lookupTable(15.0f, table), computePoly(15.0f, poly.second[0]), 1e-3f, "table lookup 2");
-    COMPARE<Real>(lookupTable(115.0f, table), computePoly(115.0f, poly.second[1]), 1e-3f, "table lookup 3");
-    COMPARE<Real>(lookupTable(215.0f, table), 300.0f, 1e-3f, "table lookup 4");
+    COMPARE(lookupTable(-1.0f, table), 0.0f, 1e-3f, "table lookup 1");
+    COMPARE(lookupTable(15.0f, table), computePoly(15.0f, poly.second[0]), 1e-3f, "table lookup 2");
+    COMPARE(lookupTable(115.0f, table), computePoly(115.0f, poly.second[1]), 1e-3f, "table lookup 3");
+    COMPARE(lookupTable(215.0f, table), 300.0f, 1e-3f, "table lookup 4");
 
-    COMPARE<Real>(lookupTable(-1.0f, table, true), 0.0f, 1e-3f, "inverse table lookup 1");
-    COMPARE<Real>(lookupTable(30.0f, table, true), 15.0f, 1e-3f, "inverse table lookup 2");
-    COMPARE<Real>(lookupTable(215.0f, table, true), 115.0f, 1e-3f, "inverse table lookup 3");
-    COMPARE<Real>(lookupTable(315.0f, table, true), 200.0f, 1e-3f, "inverse table lookup 4");
+    COMPARE(lookupTable(-1.0f, table, true), 0.0f, 1e-3f, "inverse table lookup 1");
+    COMPARE(lookupTable(30.0f, table, true), 15.0f, 1e-3f, "inverse table lookup 2");
+    COMPARE(lookupTable(215.0f, table, true), 115.0f, 1e-3f, "inverse table lookup 3");
+    COMPARE(lookupTable(315.0f, table, true), 200.0f, 1e-3f, "inverse table lookup 4");
 
     COMPARE_summary();
 }

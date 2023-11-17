@@ -47,8 +47,31 @@ The `.json` scene file configs the simulation in default mode. The default value
     - 4: Z positive
     - 5: Z negative
 - **index**(int): integer value to help distinguish different boundary objects
-  
+- #### Neumann Boundary
+  - **xFluxPoly**(float vector): polynomial of boundary flux depending on X position, ignored for boundary located in X direction
+  - **yFluxPoly**(float vector): polynomial of boundary flux depending on Y position, ignored for boundary located in Y direction
+  - **zFluxPoly**(float vector): polynomial of boundary flux depending on Z position, ignored for boundary located in Z direction
 - #### Dirichlet Boundary
-  - **xTemp**(float vector): polynomial of boundary temperature depending on X position, ignored for boundary located in X direction
-  - **yTemp**(float vector): polynomial of boundary temperature depending on Y position, ignored for boundary located in Y direction
-  - **zTemp**(float vector): polynomial of boundary temperature depending on Z position, ignored for boundary located in Z direction
+  - **xTempPoly**(float vector): polynomial of boundary temperature depending on X position, ignored for boundary located in X direction
+  - **yTempPoly**(float vector): polynomial of boundary temperature depending on Y position, ignored for boundary located in Y direction
+  - **zTempPoly**(float vector): polynomial of boundary temperature depending on Z position, ignored for boundary located in Z direction
+- #### Convection Boundary
+  - **ambientTemp**(float): ambient temperature
+  - **convectionCoeff**(float): convection coefficient
+- #### Radiation Boundary
+  - **ambientTemp**(float): ambient temperature
+  - **emissivityCoeff**(float): emissivity coefficient
+- #### Mirror Boundary
+  - No additional parameters
+
+### Laser
+- **index**(int): integer value to help distinguish different laser objects
+- **type**(int): type of laser source
+  - 0: 2D gaussian
+  - 1: 2D top-head
+  - 3: 3D gaussian (not implemented yet)
+- **power**(float): power of laser source
+- **absorptivity**(float): absorptivity of laser by the material
+- **laserPath**(string): path to laser path json file under scene dir
+- **radius**(float): radius of laser spot
+- **depth**(float): depth of 3D gaussian profile
