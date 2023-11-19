@@ -19,9 +19,15 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **layerFile**(string): path to layer json file under scene dir
 
 ### Export
-- **enableVtkExport**(bool): enable `.vtk` export of mesh data
-- **printPeriod**(int): step period between printing info to log 
+- **consolePeriod**(int): step period between printing info to console and log 
+- **type**(int): type of exporter
+  - 0: vtk mesh export
+  - 1: csv mesh export
 - **exportPeriod**(float): time period between data export
+- **parameters**(string vector): parameter to include in output file
+  - "temperature": temperature
+  - "coolingRate": cooling rate
+  - "tempGrad" : temperature gradient
 
 ### Material Property
 - **type**(int): type of material property
