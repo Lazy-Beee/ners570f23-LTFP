@@ -47,7 +47,12 @@ namespace LTFP
 
 		inline const Vector3r &getCenterPos(const int &i, const int &j, const int &k) const { return _centerPos[i][j][k]; };
 		inline void setTemp(const int &i, const int &j, const int &k, const Real &value) { _temperature[i][j][k] = value; };
-		
+		inline const size_t &getSizeX() const { return _xSize; };
+		inline const size_t &getSizeY() const { return _ySize; };
+		inline const size_t &getSizeZ() const { return _zSize; };
+		inline const Real &getIntervalX() const { return _xInterval; };
+		inline const Real &getIntervalY() const { return _yInterval; };
+		inline const Real &getIntervalZ() const { return _zInterval; };
 	};
 }
 
