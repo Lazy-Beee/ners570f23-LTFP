@@ -61,6 +61,7 @@ namespace LTFP
             readValue(config["yCount"], _meshConfig.yCount);
             readValue(config["zCount"], _meshConfig.zCount);
             readValue(config["meshSize"], _meshConfig.meshSize);
+            readValue(config["initialTemp"], _meshConfig.initialTemp);
             readValue(config["layerFile"], _meshConfig.layerFile);
         }
         else
@@ -74,9 +75,17 @@ namespace LTFP
         {
             json config = _jsonData["Export"];
             _exportConfig = ExportConfig{};
-            readValue(config["enableVtkExport"], _exportConfig.enableVtkExport);
-            readValue(config["printPeriod"], _exportConfig.printPeriod);
-            readValue(config["exportPeriod"], _exportConfig.exportPeriod);
+            readValue(config["consolePeriod"], _exportConfig.consolePeriod);
+
+            json expoConfig = config["exporters"];
+            for (size_t i = 0; i < expoConfig.size(); i++)
+            {
+                ExporterConfig exporter = ExporterConfig{};
+                readValue(expoConfig["type"], exporter.type);
+                readValue(expoConfig["type"], exporter.period);
+                readVector(expoConfig["parameters"], exporter.parameters);
+                _exportConfig.exporters.push_back(exporter);
+            }
         }
         else
             LOG_WARN << "Failed to load ExportConfig from scene file";

@@ -168,8 +168,18 @@ namespace LTFP
             // Get current position
             laser.currentPos = (currentTime - currentPath.t0) / (currentPath.t1 - currentPath.t0) * (currentPath.pos1 - currentPath.pos0) + currentPath.pos0;
 
-            // Precompute power distribution
-            // TODO
+            // TODO: Precompute power distribution
+            vector<vector<vector<Real>>> cellPower;
+            // initialize cellPower
+            vector<Real> totalPower_omp;
+            totalPower_omp.resize(omp_get_num_threads(), 0.0f);
+            int numCell = 100;
+#pragma omp parallel for schedule(dynamic)
+            for (int cellId = 0; cellId < numCell; cellId++)
+            {
+                // Real cp = getPowerDensity(_lasers[laserId], [position]) * [area];
+                // totalPower[omp_get_thread_num()] += cp;
+            }
         }
     }
 

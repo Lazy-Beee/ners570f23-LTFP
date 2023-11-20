@@ -105,8 +105,8 @@ namespace LTFP
 
         sl->readScene();
 
-        if (sl->getExportConfig().printPeriod > 0)
-            _printPeriod = sl->getExportConfig().printPeriod;
+        if (sl->getExportConfig().consolePeriod > 0)
+            _printPeriod = sl->getExportConfig().consolePeriod;
 
         TimeManager::getCurrent()->init();
         MaterialProperty::getCurrent()->init();
@@ -130,6 +130,12 @@ namespace LTFP
         START_TIMING("LaserSourcePrecompute");
         LaserSource::getCurrent()->precomputePowerDistribution();
         STOP_TIMING_AVG;
+
+        // TODO: domain increment
+
+        // TODO: Solve Thermal equation
+
+        // TODO: Export data
     }
 
     /// @brief Wrap up simulation

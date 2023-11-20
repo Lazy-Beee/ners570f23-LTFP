@@ -1,0 +1,73 @@
+{
+    "Time":
+    {
+        "minTimeStepSize": 1e-6,
+        "maxTimeStepSize": 1.0,
+        "endTime": 200.0,
+        "maxTimeSteps": -1
+    },
+	"Mesh": 
+	{
+        "start": [0.0,0.0,0.0],
+        "end": [10.0,0.1,0.1],
+        "xCount": -1,
+        "yCount": -1,
+        "zCount": -1,
+        "meshSize": 0.01,
+        "initialTemp": 300.0
+    },
+    "Export":
+    {
+        "consolePeriod": 100,
+        "exporters":
+        [
+            {
+                "type": 0,
+                "period": 1,
+                "parameters": ["temperature"]
+            },
+            {
+                "type": 1,
+                "period": 1,
+                "parameters": ["temperature"]
+            }
+        ]
+    },
+    "Boundary":
+    [
+        {
+            "index": 0,
+            "type": 1,
+            "location": 0,
+            "xFluxPoly": [310],
+            "yFluxPoly": [0],
+            "zFluxPoly": [0]
+        }
+    ],
+    "MatProp":
+    [
+        {
+            "type": 0,
+            "tabulate": true,
+            "tempRange": [-100.0, 500.0],
+            "polynomials": [[6900]]
+        },
+        {
+            "type": 1,
+            "tabulate": true
+        },
+        {
+            "type": 2,
+            "tabulate": true,
+            "tempRange": [-100.0, 500.0],
+            "polynomials": [[837,0]],
+            "tabulateStep": [100]
+        },
+        {
+            "type": 3,
+            "tabulate": false,
+            "tempRange": [-100.0, 500],
+            "polynomials": [[209.2]]
+        }
+    ]
+}

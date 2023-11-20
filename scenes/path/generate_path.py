@@ -1,6 +1,3 @@
-from operator import le
-from pdb import post_mortem
-from matplotlib import projections
 import numpy as np
 import matplotlib.pyplot as plt
 import json

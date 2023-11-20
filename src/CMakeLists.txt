@@ -14,20 +14,29 @@ add_library(ltfp
     MeshData.hpp
     MeshData.cpp
 
-    ThermalBoundary/BoundaryManager.hpp
-    ThermalBoundary/BoundaryManager.cpp
-    ThermalBoundary/ThermalBoundary.hpp
-    ThermalBoundary/ThermalBoundary.cpp
-    ThermalBoundary/ThermalBoundaryDirichlet.hpp
-    ThermalBoundary/ThermalBoundaryDirichlet.cpp
-    ThermalBoundary/ThermalBoundaryNeumann.hpp
-    ThermalBoundary/ThermalBoundaryNeumann.cpp
-    ThermalBoundary/ThermalBoundaryConvection.hpp
-    ThermalBoundary/ThermalBoundaryConvection.cpp
-    ThermalBoundary/ThermalBoundaryRadiation.hpp
-    ThermalBoundary/ThermalBoundaryRadiation.cpp
-    ThermalBoundary/ThermalBoundaryMirror.hpp
-    ThermalBoundary/ThermalBoundaryMirror.cpp
+  ThermalBoundary/BoundaryManager.hpp
+  ThermalBoundary/BoundaryManager.cpp
+  ThermalBoundary/ThermalBoundary.hpp
+  ThermalBoundary/ThermalBoundary.cpp
+  ThermalBoundary/ThermalBoundaryDirichlet.hpp
+  ThermalBoundary/ThermalBoundaryDirichlet.cpp
+  ThermalBoundary/ThermalBoundaryNeumann.hpp
+  ThermalBoundary/ThermalBoundaryNeumann.cpp
+  ThermalBoundary/ThermalBoundaryConvection.hpp
+  ThermalBoundary/ThermalBoundaryConvection.cpp
+  ThermalBoundary/ThermalBoundaryRadiation.hpp
+  ThermalBoundary/ThermalBoundaryRadiation.cpp
+  ThermalBoundary/ThermalBoundaryMirror.hpp
+  ThermalBoundary/ThermalBoundaryMirror.cpp
+
+  Exporter/ExportManager.hpp
+  Exporter/ExportManager.cpp
+  Exporter/Exporter.cpp
+  Exporter/Exporter.cpp
+  Exporter/ExporterVtkMesh.cpp
+  Exporter/ExporterVtkMesh.cpp
+  Exporter/ExporterCsvMesh.cpp
+  Exporter/ExporterCsvMesh.cpp
 )
 
 add_dependencies(ltfp
