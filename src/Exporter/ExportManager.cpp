@@ -3,6 +3,8 @@
 #include "src/TimeManager.hpp"
 #include "utilities/Logger.hpp"
 
+using namespace std;
+
 namespace LTFP
 {
     ExportManager *ExportManager::current = nullptr;

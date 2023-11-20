@@ -77,8 +77,7 @@ namespace LTFP
             _exportConfig = ExportConfig{};
             readValue(config["consolePeriod"], _exportConfig.consolePeriod);
 
-            json expoConfig = config["exporters"];
-            for (size_t i = 0; i < expoConfig.size(); i++)
+            for (json expoConfig : config["exporters"])
             {
                 ExporterConfig exporter = ExporterConfig{};
                 readValue(expoConfig["type"], exporter.type);

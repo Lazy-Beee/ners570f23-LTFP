@@ -20,12 +20,14 @@ namespace LTFP
     typedef double Real;
 #define REAL_MAX DBL_MAX
 #define REAL_MIN DBL_MIN
+#define realStr "double"
 
 #else
 
     typedef float Real;
 #define REAL_MAX FLT_MAX
 #define REAL_MIN FLT_MIN
+#define realStr "float"
 
 #endif
 

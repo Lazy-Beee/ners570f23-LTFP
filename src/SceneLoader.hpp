@@ -44,7 +44,7 @@ namespace LTFP
 		struct ExporterConfig
 		{
 			int type = -1;
-			int period = -1.0f;
+			Real period = -1.0f;
 			std::vector<std::string> parameters = {};
 			int outPrecision = 6;
 		};

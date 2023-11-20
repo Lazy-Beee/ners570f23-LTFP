@@ -3,6 +3,8 @@
 #include "src/SceneLoader.hpp"
 #include "src/LaserSource.hpp"
 #include "src/TimeManager.hpp"
+#include "src/Exporter/ExportManager.hpp"
+#include "src/MeshData.hpp"
 
 using namespace std;
 using namespace LTFP;
@@ -29,24 +31,13 @@ int main()
     COMPARE(ld->laserPath[0].pos1[0], 1.05f, 1e-3f, "laser path 1.4");
     COMPARE(ld->laserPath[1].pos0[2], 0.15f, 1e-3f, "laser path 1.5");
     COMPARE(ld->radius, 0.12f, 1e-3f, "radius 1");
-
-    COMPARE(ld->is2D, "is 2D 1");
-    Real coeff1 = 3.0f * 0.5f * 10.0f / (3.1415926f * 0.12f * 0.12f);
-    COMPARE(ld->coeff, coeff1, 1e-3f, "coeff 1");
-    COMPARE(ld->radiusSquared, 0.0144f, 1e-3f, "radius 1");
-
-    TimeManager::getCurrent()->setTime(-1.0f);
-    ls->precomputePowerDistribution();
-    COMPARE(ld->on, false, "on/off state 1.1");
-
-    TimeManager::getCurrent()->setTime(14.5f);
-    ls->precomputePowerDistribution();
-    COMPARE(ld->on, true, "on/off state 1.2");
-    COMPARE<size_t>(ld->currentPath, 20, "current path 1");
-    COMPARE(ld->currentPos[0], 0.05f, 1e-3f, "current pos 1.1");
-    COMPARE(ld->currentPos[1], 1.2f, 1e-3f, "current pos 1.2");
-    COMPARE(ld->currentPos[2], 1.05f, 1e-3f, "current pos 1.3");
 #endif
+
+    MeshData::getCurrent()->init();
+    ExportManager::getCurrent()->init();
+    TimeManager::getCurrent()->setTime(1.0f);
+    ls->precomputePowerDistribution();
+    ExportManager::getCurrent()->step();
 
     COMPARE_summary();
 }

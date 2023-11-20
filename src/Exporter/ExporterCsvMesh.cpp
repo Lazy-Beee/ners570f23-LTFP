@@ -27,45 +27,67 @@ namespace LTFP
 
     void ExporterCsvMesh::exportData()
     {
-        Real time = TimeManager::getCurrent()->getTime();
-        Real stepCount = TimeManager::getCurrent()->getTimeStepCount();
+        TimeManager *tm = TimeManager::getCurrent();
+        MeshData *mesh = MeshData::getCurrent();
+        LaserSource *laser = LaserSource::getCurrent();
+
+        Real time = tm->getTime();
+        int stepCount = tm->getTimeStepCount();
         filesystem::path outfilePath = _exportPath;
         outfilePath /= "mesh_export_" + to_string(_exportCount) + "_" + to_string(stepCount) + "_" + to_string(time) + ".csv";
 
-        ofstream csvFile(outfilePath);
-        if (!csvFile.is_open())
+        ofstream outfile(outfilePath);
+        if (!outfile.is_open())
         {
             LOG_ERR << "Cannot open csv output file: " << outfilePath;
             exit(1);
         }
 
         // Write header
-        csvFile << "Index X,Index Y,Index Z,Pos X,Pos Y,Pos Z";
+        outfile << "Index X,Index Y,Index Z,Pos X,Pos Y,Pos Z";
         for (string param : _parameters)
         {
             if (param == "temperature")
-                csvFile << ",Temperature";
+                outfile << ",Temperature";
             else if (param == "coolingRate")
-                csvFile << ",Cooling Rate";
+                outfile << ",Cooling Rate";
             else if (param == "tempGrad")
-                csvFile << ",Temperature Gradient X,Temperature Gradient Y,Temperature Gradient Z";
-            else
-                LOG_WARN << "Unidentified output parameter [" << param << "]";
+                outfile << ",Temperature Gradient X,Temperature Gradient Y,Temperature Gradient Z";
+            else if (param == "laserPower")
+                outfile << ",Laser Power";
         }
-        csvFile << endl;
+        outfile << "\n";
 
         // Write data
-        MeshData *mesh = MeshData::getCurrent();
-        csvFile << std::setprecision(_outPrecision);
+        outfile << std::setprecision(_outPrecision);
         for (size_t i = 0; i < mesh->getSizeX(); i++)
         {
             for (size_t j = 0; j < mesh->getSizeY(); j++)
             {
                 for (size_t k = 0; k < mesh->getSizeZ(); k++)
                 {
-                    
+                    outfile << i << "," << j << "," << k;
+                    Vector3r pos = mesh->getCenterPos(i, j, k);
+                    outfile << "," << pos[0] << "," << pos[1] << "," << pos[2];
+                    for (string param : _parameters)
+                    {
+                        if (param == "temperature")
+                            outfile << "," << mesh->getTemperature(i, j, k);
+                        else if (param == "coolingRate")
+                            outfile << "," << mesh->getCoolingRate(i, j, k);
+                        else if (param == "tempGrad")
+                        {
+                            Vector3r tempGrad = mesh->getTemperatureGrad(i, j, k);
+                            outfile << "," << tempGrad[0] << "," << tempGrad[1] << "," << tempGrad[2];
+                        }
+                        else if (param == "laserPower")
+                            outfile << "," << laser->getLaserPower(i, j, k);
+                    }
+                    outfile << "\n";
                 }
             }
         }
+
+        outfile.close();
     }
 }

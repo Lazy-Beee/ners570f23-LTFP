@@ -28,7 +28,8 @@ The `.json` scene file configs the simulation in default mode. The default value
   - **parameters**(string vector): parameter to include in output file
     - "temperature": temperature
     - "coolingRate": cooling rate
-    - "tempGrad" : temperature gradient
+    - "tempGrad": temperature gradient
+    - "laserPower": laser power of cell
   - **outPrecision**: precision of exporter output
 
 ### Material Property

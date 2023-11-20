@@ -10,9 +10,9 @@
 	{
         "start": [0.0,0.0,0.0],
         "end": [1.1,1.0,2.1],
-        "xCount": 5,
+        "xCount": 11,
         "yCount": 10,
-        "zCount": 20,
+        "zCount": 21,
         "meshSize": 0.1,
         "initialTemp": 300.0,
         "layerFile": "path/test_layer.json"
@@ -25,7 +25,7 @@
             {
                 "type": 0,
                 "period": 10,
-                "parameters": ["temperature"]
+                "parameters": ["temperature", "laserPower"]
             },
             {
                 "type": 1,
@@ -123,14 +123,6 @@
 			"absorptivity": 0.5,
 			"laserPath": "path/test_path.json",
 			"radius": 0.12
-        },
-        {
-            "index": 1,
-			"type": 1,
-			"power": 0.1,
-			"absorptivity": 0.2,
-			"laserPath": "path/test_path.json",
-			"radius": 0.2
         }
     ]
 }

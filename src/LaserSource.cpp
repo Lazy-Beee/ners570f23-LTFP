@@ -140,7 +140,12 @@ namespace LTFP
         MeshData *mesh = MeshData::getCurrent();
         Real currentTime = TimeManager::getCurrent()->getTime();
 
-        _laserPower.resize(mesh->getSizeX(), vector<vector<Real>>(mesh->getSizeY(), vector<Real>(mesh->getSizeZ(), 0.0f)));
+        resizeMeshReal(_laserPower, mesh->getSizeX(), mesh->getSizeY(), mesh->getSizeZ());
+#pragma omp parallel for collapse(3) schedule(static)
+        for (size_t i = 0; i < mesh->getSizeX(); i++)
+            for (size_t j = 0; j < mesh->getSizeY(); j++)
+                for (size_t k = 0; k < mesh->getSizeZ(); k++)
+                    _laserPower[i][j][k] = 0.0f;
 
         for (size_t laserId = 0; laserId < _lasers.size(); laserId++)
         {
@@ -176,6 +181,7 @@ namespace LTFP
 
             // Compute power distribution
             vector<vector<vector<Real>>> cellPower;
+            resizeMeshReal(cellPower, mesh->getSizeX(), mesh->getSizeY(), mesh->getSizeZ());
             Real totalPower = 0.0f;
 
             if (laser.is2D)

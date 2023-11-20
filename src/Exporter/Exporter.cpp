@@ -2,6 +2,8 @@
 #include "src/TimeManager.hpp"
 #include "utilities/Logger.hpp"
 
+using namespace std;
+
 namespace LTFP
 {
     Exporter::Exporter(int type) : _type(static_cast<ExporterType>(type))
@@ -41,6 +43,11 @@ namespace LTFP
         if (_parameters.size() == 0)
         {
             LOG_WARN << "Empty parameter set for Exporter " << ExporterTypeName[_type];
+        }
+        for (string param : _parameters)
+        {
+            if (param != "temperature" && param != "coolingRate" && param != "tempGrad" && param != "laserPower")
+                LOG_WARN << "Unidentified output parameter [" << param << "]";
         }
     }
 }
