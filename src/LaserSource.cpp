@@ -3,6 +3,7 @@
 #include "Simulator.hpp"
 #include "SceneLoader.hpp"
 #include "TimeManager.hpp"
+#include "MeshData.hpp"
 #include "utilities/Logger.hpp"
 #include "utilities/Counting.hpp"
 #include "utilities/json.hpp"
@@ -87,6 +88,8 @@ namespace LTFP
             else
             {
                 // TODO: add 3D gaussian equation
+                LOG_WARN << "3D Gaussian Laser is not yet supported";
+                exit(1);
             }
 
             // Add laser object to list
@@ -134,7 +137,10 @@ namespace LTFP
     /// @brief Determine laser state and precompute power distribution
     void LaserSource::precomputePowerDistribution()
     {
+        MeshData *mesh = MeshData::getCurrent();
         Real currentTime = TimeManager::getCurrent()->getTime();
+
+        _laserPower.resize(mesh->getSizeX(), vector<vector<Real>>(mesh->getSizeY(), vector<Real>(mesh->getSizeZ(), 0.0f)));
 
         for (size_t laserId = 0; laserId < _lasers.size(); laserId++)
         {
@@ -168,18 +174,41 @@ namespace LTFP
             // Get current position
             laser.currentPos = (currentTime - currentPath.t0) / (currentPath.t1 - currentPath.t0) * (currentPath.pos1 - currentPath.pos0) + currentPath.pos0;
 
-            // TODO: Precompute power distribution
+            // Compute power distribution
             vector<vector<vector<Real>>> cellPower;
-            // initialize cellPower
-            vector<Real> totalPower_omp;
-            totalPower_omp.resize(omp_get_num_threads(), 0.0f);
-            int numCell = 100;
-#pragma omp parallel for schedule(dynamic)
-            for (int cellId = 0; cellId < numCell; cellId++)
+            Real totalPower = 0.0f;
+
+            if (laser.is2D)
             {
-                // Real cp = getPowerDensity(_lasers[laserId], [position]) * [area];
-                // totalPower[omp_get_thread_num()] += cp;
+                size_t j = mesh->getSizeY() - 1;
+                Real area = mesh->getIntervalX() * mesh->getIntervalZ();
+
+#pragma omp parallel for reduction(+ : totalPower) schedule(dynamic)
+                for (size_t i = 0; i < mesh->getSizeX(); i++)
+                {
+                    for (size_t k = 0; k < mesh->getSizeZ(); k++)
+                    {
+                        Real p = getPowerDensity(laser, mesh->getCenterPos(i, j, k)) * area;
+                        cellPower[i][j][k] = p;
+                        totalPower += p;
+                    }
+                }
             }
+            else
+            {
+                // TODO: compute power distribution for 3D laser source
+            }
+
+            Real correctionFactor = laser.power * laser.absorptivity / totalPower;
+
+            if (correctionFactor > 1.1 || correctionFactor < 0.9)
+                LOG_WARN << "Correction factor of laser " << laser.index << " is out of range [0.9, 1.1] at simulation time " << currentTime;
+
+#pragma omp parallel for schedule(dynamic)
+            for (size_t i = 0; i < mesh->getSizeX(); i++)
+                for (size_t j = 0; j < mesh->getSizeY(); j++)
+                    for (size_t k = 0; k < mesh->getSizeZ(); k++)
+                        _laserPower[i][j][k] += cellPower[i][j][k] * correctionFactor;
         }
     }
 
@@ -202,8 +231,6 @@ namespace LTFP
         else if (laser.type == GAUSSIAN_3D)
         {
             // TODO: add 3D gaussian equation
-            LOG_WARN << "3D Gaussian Laser is not yet supported";
-            exit(1);
             return 0.0f;
         }
         else

@@ -1,4 +1,5 @@
 #include "Exporter.hpp"
+#include "src/TimeManager.hpp"
 #include "utilities/Logger.hpp"
 
 namespace LTFP
@@ -9,6 +10,19 @@ namespace LTFP
         _exportPeriod = REAL_MAX;
         _exportCount = 0;
         _parameters = {};
+        _nextExportTime = 0.0f;
+    }
+
+    /// @brief Determine whether it's time to export
+    bool Exporter::timeToExport()
+    {
+        if (TimeManager::getCurrent()->getTime() >= _nextExportTime)
+        {
+            _nextExportTime += _exportPeriod;
+            return true;
+        }
+        else
+            return false;
     }
 
     /// @brief load configuration from scene
