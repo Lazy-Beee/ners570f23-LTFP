@@ -1,5 +1,6 @@
 #include "ExportManager.hpp"
 #include "src/SceneLoader.hpp"
+#include "src/TimeManager.hpp"
 #include "utilities/Logger.hpp"
 
 namespace LTFP
@@ -8,11 +9,15 @@ namespace LTFP
 
     ExportManager::ExportManager()
     {
+        _exporters = {};
     }
 
     ExportManager::~ExportManager()
     {
         current = nullptr;
+
+        for (Exporter *exporter : _exporters)
+            delete exporter;
     }
 
     ExportManager *ExportManager::getCurrent()
@@ -28,13 +33,32 @@ namespace LTFP
     {
         SceneLoader::ExportConfig exportConfig = SceneLoader::getCurrent()->getExportConfig();
 
-        // TODO: create exporters
+        for (SceneLoader::ExporterConfig config : exportConfig.exporters)
+        {
+            if (config.type == VTK_MESH)
+            {
+                ExporterVtkMesh *exporter = new ExporterVtkMesh(config.type);
+                exporter->init(config);
+                _exporters.push_back(exporter);
+            }
+            else if (config.type == CSV_MESH)
+            {
+                ExporterCsvMesh *exporter = new ExporterCsvMesh(config.type);
+                exporter->init(config);
+                _exporters.push_back(exporter);
+            }
+            else
+            {
+                LOG_WARN << "Unidentified boundary type " << config.type;
+            }
+        }
     }
 
     /// @brief Check export period and export
     void ExportManager::step()
     {
-        // TODO: check time and call export
-        
+        for (Exporter *exporter : _exporters)
+            if (exporter->timeToExport())
+                exporter->exportData();
     }
 }

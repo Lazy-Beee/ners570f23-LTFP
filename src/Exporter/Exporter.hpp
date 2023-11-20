@@ -3,6 +3,7 @@
 
 #include "src/Common.hpp"
 #include <string>
+#include <filesystem>
 #include "src/SceneLoader.hpp"
 
 namespace LTFP
@@ -24,12 +25,15 @@ namespace LTFP
 		Real _exportPeriod;
 		std::vector<std::string> _parameters;
 		int _exportCount;
+		Real _nextExportTime;
+		std::filesystem::path _exportPath;
 
 	public:
 		Exporter(int type);
 		virtual ~Exporter(){};
 
 		virtual void init(SceneLoader::ExporterConfig config);
+		bool timeToExport();
 		/// @brief Export data to file
 		virtual void exportData() = 0;
 	};

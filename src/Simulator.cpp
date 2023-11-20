@@ -7,6 +7,7 @@
 #include "MaterialProperty.hpp"
 #include "LaserSource.hpp"
 #include "ThermalBoundary/BoundaryManager.hpp"
+#include "Exporter/ExportManager.hpp"
 #include "utilities/Counting.hpp"
 #include "utilities/Logger.hpp"
 #include "utilities/Timing.hpp"
@@ -112,6 +113,7 @@ namespace LTFP
         MaterialProperty::getCurrent()->init();
         BoundaryManager::getCurrent()->init();
         LaserSource::getCurrent()->init();
+        ExportManager::getCurrent()->init();
     }
 
     /// @brief Advance one time step
@@ -135,7 +137,7 @@ namespace LTFP
 
         // TODO: Solve Thermal equation
 
-        // TODO: Export data
+        ExportManager::getCurrent()->step();
     }
 
     /// @brief Wrap up simulation
@@ -160,6 +162,7 @@ namespace LTFP
         MaterialProperty *materialProperty = MaterialProperty::getCurrent();
         LaserSource *laserSource = LaserSource::getCurrent();
         BoundaryManager *boundaryManager = BoundaryManager::getCurrent();
+        ExportManager *exportManager = ExportManager::getCurrent();
 
         // Setup simulation with scene file path
         if (argc == 1)
@@ -186,5 +189,6 @@ namespace LTFP
         delete materialProperty;
         delete laserSource;
         delete boundaryManager;
+        delete exportManager;
     }
 }

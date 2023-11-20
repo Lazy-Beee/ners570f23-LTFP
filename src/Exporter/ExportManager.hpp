@@ -2,6 +2,9 @@
 #define __ExportManager__
 
 #include "src/Common.hpp"
+#include "Exporter.hpp"
+#include "ExporterVtkMesh.hpp"
+#include "ExporterCsvMesh.hpp"
 
 namespace LTFP
 {
@@ -11,7 +14,7 @@ namespace LTFP
 	{
 	private:
 		static ExportManager *current;
-		
+		std::vector<Exporter *> _exporters;
 
 	public:
 		ExportManager();
