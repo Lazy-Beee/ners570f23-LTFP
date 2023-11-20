@@ -53,7 +53,7 @@ namespace LTFP
         }
         else if (_xInterval > 0.0)
         {
-            _xSize = int((_domainEnd[0] - _domainStart[0]) / meshConfig.meshSize) + 1;
+            _xSize = static_cast<size_t>((_domainEnd[0] - _domainStart[0]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -68,7 +68,7 @@ namespace LTFP
         }
         else if (_yInterval > 0.0)
         {
-            _ySize = int((_domainEnd[1] - _domainStart[1]) / meshConfig.meshSize) + 1;
+            _ySize = static_cast<size_t>((_domainEnd[1] - _domainStart[1]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -83,7 +83,7 @@ namespace LTFP
         }
         else if (_zInterval > 0.0)
         {
-            _zSize = int((_domainEnd[2] - _domainStart[2]) / meshConfig.meshSize) + 1;
+            _zSize = static_cast<size_t>((_domainEnd[2] - _domainStart[2]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -95,33 +95,9 @@ namespace LTFP
         _xInterval = (_domainEnd[0] - _domainStart[0]) / _xSize;
         _yInterval = (_domainEnd[1] - _domainStart[1]) / _ySize;
         _zInterval = (_domainEnd[2] - _domainStart[2]) / _zSize;
-        _centerPos.resize(_xSize);
-        for (auto &xVec : _centerPos)
-        {
-            xVec.resize(_ySize);
-            for (auto &yVec : xVec)
-            {
-                yVec.resize(_zSize);
-            }
-        }
-        _temperature.resize(_xSize);
-        for (auto &xVec : _temperature)
-        {
-            xVec.resize(_ySize);
-            for (auto &yVec : xVec)
-            {
-                yVec.resize(_zSize);
-            }
-        }
-        _temperatureOld.resize(_xSize);
-        for (auto &xVec : _temperatureOld)
-        {
-            xVec.resize(_ySize);
-            for (auto &yVec : xVec)
-            {
-                yVec.resize(_zSize);
-            }
-        }
+        LTFP::resizeMeshVector3r(_centerPos, _xSize, _ySize, _zSize);
+        LTFP::resizeMeshReal(_temperature, _xSize, _ySize, _zSize);
+        LTFP::resizeMeshReal(_temperatureOld, _xSize, _ySize, _zSize);
 
         for (size_t i = 0; i < _xSize; i++)
         {
@@ -149,12 +125,12 @@ namespace LTFP
             if (increaseCount == 0)
             {
                 y_increment1 = 0;
-                y_increment2 = int(_incrementThickness[increaseCount] / _yInterval) + 1;
+                y_increment2 = static_cast<size_t>(_incrementThickness[increaseCount] / _yInterval) + 1;
             }
             else
             {
-                y_increment1 = int(_incrementThickness[increaseCount - 1] / _yInterval) + 1;
-                y_increment2 = int(_incrementThickness[increaseCount] / _yInterval) + 1;
+                y_increment1 = static_cast<size_t>(_incrementThickness[increaseCount - 1] / _yInterval) + 1;
+                y_increment2 = static_cast<size_t>(_incrementThickness[increaseCount] / _yInterval) + 1;
             }
             size_t ySizeOld = _ySize;
             _ySize += (y_increment2 - y_increment1);
@@ -162,33 +138,9 @@ namespace LTFP
             MeshVector centerPosTemp = _centerPos;
             MeshReal _temperatureTemp = _temperature;
             MeshReal _temperatureOldTemp = _temperatureOld;
-            _centerPos.resize(_xSize);
-            for (auto &xVec : _centerPos)
-            {
-                xVec.resize(_ySize);
-                for (auto &yVec : xVec)
-                {
-                    yVec.resize(_zSize);
-                }
-            }
-            _temperature.resize(_xSize);
-            for (auto &xVec : _temperature)
-            {
-                xVec.resize(_ySize);
-                for (auto &yVec : xVec)
-                {
-                    yVec.resize(_zSize);
-                }
-            }
-            _temperatureOld.resize(_xSize);
-            for (auto &xVec : _temperatureOld)
-            {
-                xVec.resize(_ySize);
-                for (auto &yVec : xVec)
-                {
-                    yVec.resize(_zSize);
-                }
-            }
+            LTFP::resizeMeshVector3r(_centerPos, _xSize, _ySize, _zSize);
+            LTFP::resizeMeshReal(_temperature, _xSize, _ySize, _zSize);
+            LTFP::resizeMeshReal(_temperatureOld, _xSize, _ySize, _zSize);
 
             for (size_t i = 0; i < _xSize; i++)
             {
@@ -199,20 +151,90 @@ namespace LTFP
                         _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                                _domainStart[1] + (j + 0.5f) * _yInterval,
                                                _domainStart[2] + (k + 0.5f) * _zInterval};
-                        if (j < ySizeOld)
+                        if (j < ySizeOld) // Assign previous value for the existing layers
                         {
                             _temperature[i][j][k] = _temperatureTemp[i][j][k];
                             _temperatureOld[i][j][k] = _temperatureOldTemp[i][j][k];
                         }
-                        else
+                        else // The same as the top value for the new layers
                         {
-                            _temperature[i][j][k] = _temperatureTemp[i][ySizeOld-1][k];
-                            _temperatureOld[i][j][k] = _temperatureTemp[i][ySizeOld-1][k];
+                            _temperature[i][j][k] = _temperatureTemp[i][ySizeOld - 1][k];
+                            _temperatureOld[i][j][k] = _temperatureTemp[i][ySizeOld - 1][k];
                         }
                     }
                 }
             }
             increaseCount++;
+        }
+    }
+
+    // FIXME Should be moved to the thermal solver part
+    void MeshData::calCoolingRate()
+    {
+        LTFP::resizeMeshReal(_coolingRate, _xSize, _ySize, _zSize);
+        Real timestep = TimeManager::getCurrent()->getTimeStepSize();
+        for (size_t i = 0; i < _xSize; i++)
+        {
+            for (size_t j = 0; j < _ySize; j++)
+            {
+                for (size_t k = 0; k < _zSize; k++)
+                {
+                    _coolingRate[i][j][k] = (_temperature[i][j][k] - _temperatureOld[i][j][k]) / timestep;
+                }
+            }
+        }
+    }
+
+    // FIXME Should be moved to the thermal solver part
+    void MeshData::calTemperatureGrad()
+    {
+        LTFP::resizeMeshVector3r(_temperatureGrad, _xSize, _ySize, _zSize);
+        Real TempGradX, TempGradY, TempGradZ;
+        for (size_t i = 0; i < _xSize; i++)
+        {
+            for (size_t j = 0; j < _ySize; j++)
+            {
+                for (size_t k = 0; k < _zSize; k++)
+                {
+                    if (i == 0) // Boundary (left x)
+                    {
+                        TempGradX = (_temperature[i + 1][j][k] - _temperature[i][j][k]) / _xInterval;
+                    }
+                    else if (i == _xSize - 1) // Boundary (right x)
+                    {
+                        TempGradX = (_temperature[i][j][k] - _temperature[i - 1][j][k]) / _xInterval;
+                    }
+                    else // Center x
+                    {
+                        TempGradX = (_temperature[i + 1][j][k] - _temperature[i - 1][j][k]) / _xInterval * 0.5;
+                    }
+                    if (j == 0) // Boundary (bottom y)
+                    {
+                        TempGradY = (_temperature[i][j + 1][k] - _temperature[i][j][k]) / _yInterval;
+                    }
+                    else if (j == _ySize - 1) // Boundary (top y)
+                    {
+                        TempGradY = (_temperature[i][j][k] - _temperature[i][j - 1][k]) / _yInterval;
+                    }
+                    else // Center y
+                    {
+                        TempGradY = (_temperature[i][j + 1][k] - _temperature[i][j - 1][k]) / _yInterval * 0.5;
+                    }
+                    if (k == 0) // Boundary (left z)
+                    {
+                        TempGradZ = (_temperature[i][j][k + 1] - _temperature[i][j][k]) / _zInterval;
+                    }
+                    else if (k == _zSize - 1) // Boundary (right z)
+                    {
+                        TempGradZ = (_temperature[i][j][k] - _temperature[i][j][k - 1]) / _zInterval;
+                    }
+                    else // Center z
+                    {
+                        TempGradZ = (_temperature[i][j][k + 1] - _temperature[i][j][k - 1]) / _zInterval * 0.5;
+                    }
+                    _temperatureGrad[i][j][k] = {TempGradX, TempGradY, TempGradZ};
+                }
+            }
         }
     }
 

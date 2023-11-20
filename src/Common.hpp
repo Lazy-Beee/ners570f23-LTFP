@@ -46,6 +46,10 @@ namespace LTFP
     void tabulatePoly(Vector2r range, std::vector<Real> coeff, Real stepSize, Table &table);
     Table tabulatePiecewisePoly(PiecewisePoly poly, std::vector<Real> stepSize);
     Real lookupTable(const Real &x, const Table &table, bool inverse = false);
+    void resizeMeshReal(std::vector<std::vector<std::vector<Real>>> &meshin,
+                        const size_t xSize, const size_t ySize, const size_t zSize);
+    void resizeMeshVector3r(std::vector<std::vector<std::vector<Vector3r>>> &meshin,
+                            const size_t xSize, const size_t ySize, const size_t zSize);
 }
 
 #endif

@@ -169,4 +169,35 @@ namespace LTFP
 
         return (y2 - y1) * (x - x1) / (x2 - x1) + y1;
     }
+
+    /// @brief To resize the meshReal with xSize, ySize, and zSize (Nx, Ny, Nz)
+    void resizeMeshReal(std::vector<std::vector<std::vector<Real>>> &meshin,
+                        const size_t xSize, const size_t ySize, const size_t zSize)
+    {
+        meshin.resize(xSize);
+        for (auto &xVec : meshin)
+        {
+            xVec.resize(ySize);
+            for (auto &yVec : xVec)
+            {
+                yVec.resize(zSize);
+            }
+        }
+    }
+
+    /// @brief To resize the meshVector3r with xSize, ySize, and zSize (Nx, Ny, Nz)
+    void resizeMeshVector3r(std::vector<std::vector<std::vector<Vector3r>>> &meshin,
+                            const size_t xSize, const size_t ySize, const size_t zSize)
+    {
+        meshin.resize(xSize);
+        for (auto &xVec : meshin)
+        {
+            xVec.resize(ySize);
+            for (auto &yVec : xVec)
+            {
+                yVec.resize(zSize);
+            }
+        }
+    }
+
 }
