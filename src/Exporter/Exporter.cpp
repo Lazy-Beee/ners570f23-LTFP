@@ -11,6 +11,7 @@ namespace LTFP
         _exportCount = 0;
         _parameters = {};
         _nextExportTime = 0.0f;
+        _outPrecision = 6;
     }
 
     /// @brief Determine whether it's time to export
@@ -30,6 +31,7 @@ namespace LTFP
     {
         _exportPeriod = config.period;
         _parameters = config.parameters;
+        _outPrecision = config.outPrecision;
 
         if (_exportPeriod < 0)
         {

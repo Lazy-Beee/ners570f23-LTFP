@@ -6,6 +6,7 @@
 #include "TimeManager.hpp"
 #include "MaterialProperty.hpp"
 #include "LaserSource.hpp"
+#include "MeshData.hpp"
 #include "ThermalBoundary/BoundaryManager.hpp"
 #include "Exporter/ExportManager.hpp"
 #include "utilities/Counting.hpp"
@@ -112,6 +113,7 @@ namespace LTFP
         TimeManager::getCurrent()->init();
         MaterialProperty::getCurrent()->init();
         BoundaryManager::getCurrent()->init();
+        MeshData::getCurrent()->init();
         LaserSource::getCurrent()->init();
         ExportManager::getCurrent()->init();
     }
@@ -129,15 +131,19 @@ namespace LTFP
             nextPrint += _printPeriod;
         }
 
+        START_TIMING("DomainIncrement");
+        MeshData::getCurrent()->stepIncrement();
+        STOP_TIMING_AVG;
+
         START_TIMING("LaserSourcePrecompute");
         LaserSource::getCurrent()->precomputePowerDistribution();
         STOP_TIMING_AVG;
 
-        // TODO: domain increment
-
         // TODO: Solve Thermal equation
 
+        START_TIMING("Export");
         ExportManager::getCurrent()->step();
+        STOP_TIMING_AVG;
     }
 
     /// @brief Wrap up simulation
@@ -163,6 +169,7 @@ namespace LTFP
         LaserSource *laserSource = LaserSource::getCurrent();
         BoundaryManager *boundaryManager = BoundaryManager::getCurrent();
         ExportManager *exportManager = ExportManager::getCurrent();
+        MeshData *meshData = MeshData::getCurrent();
 
         // Setup simulation with scene file path
         if (argc == 1)
@@ -179,7 +186,11 @@ namespace LTFP
         initialize();
 
         while (timeManager->advance())
+        {
+            START_TIMING("TimeStep");
             step();
+            STOP_TIMING_AVG;
+        }
 
         finalize();
 
@@ -190,5 +201,6 @@ namespace LTFP
         delete laserSource;
         delete boundaryManager;
         delete exportManager;
+        delete meshData;
     }
 }

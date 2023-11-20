@@ -183,7 +183,7 @@ namespace LTFP
                 size_t j = mesh->getSizeY() - 1;
                 Real area = mesh->getIntervalX() * mesh->getIntervalZ();
 
-#pragma omp parallel for reduction(+ : totalPower) schedule(dynamic)
+#pragma omp parallel for reduction(+ : totalPower) collapse(2) schedule(static)
                 for (size_t i = 0; i < mesh->getSizeX(); i++)
                 {
                     for (size_t k = 0; k < mesh->getSizeZ(); k++)
@@ -204,7 +204,7 @@ namespace LTFP
             if (correctionFactor > 1.1 || correctionFactor < 0.9)
                 LOG_WARN << "Correction factor of laser " << laser.index << " is out of range [0.9, 1.1] at simulation time " << currentTime;
 
-#pragma omp parallel for schedule(dynamic)
+#pragma omp parallel for collapse(3) schedule(static)
             for (size_t i = 0; i < mesh->getSizeX(); i++)
                 for (size_t j = 0; j < mesh->getSizeY(); j++)
                     for (size_t k = 0; k < mesh->getSizeZ(); k++)

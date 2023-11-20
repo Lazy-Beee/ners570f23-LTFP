@@ -27,6 +27,7 @@ namespace LTFP
 		int _exportCount;
 		Real _nextExportTime;
 		std::filesystem::path _exportPath;
+		int _outPrecision;
 
 	public:
 		Exporter(int type);

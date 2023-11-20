@@ -82,7 +82,8 @@ namespace LTFP
             {
                 ExporterConfig exporter = ExporterConfig{};
                 readValue(expoConfig["type"], exporter.type);
-                readValue(expoConfig["type"], exporter.period);
+                readValue(expoConfig["period"], exporter.period);
+                readValue(expoConfig["outPrecision"], exporter.outPrecision);
                 readVector(expoConfig["parameters"], exporter.parameters);
                 _exportConfig.exporters.push_back(exporter);
             }

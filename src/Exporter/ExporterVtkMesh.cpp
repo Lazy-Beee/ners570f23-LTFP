@@ -2,6 +2,8 @@
 #include <filesystem>
 #include "src/Simulator.hpp"
 #include "src/TimeManager.hpp"
+#include "src/LaserSource.hpp"
+#include "src/MeshData.hpp"
 #include "utilities/Logger.hpp"
 
 using namespace std;
