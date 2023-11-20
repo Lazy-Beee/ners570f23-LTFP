@@ -11,6 +11,8 @@ add_library(ltfp
     TimeManager.cpp
     LaserSource.hpp
     LaserSource.cpp
+    MeshData.hpp
+    MeshData.cpp
 
     ThermalBoundary/BoundaryManager.hpp
     ThermalBoundary/BoundaryManager.cpp
