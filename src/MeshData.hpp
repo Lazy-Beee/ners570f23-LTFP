@@ -30,6 +30,8 @@ namespace LTFP
 		MeshVector _centerPos;
 		MeshReal _temperature;
 		MeshReal _temperatureOld;
+		MeshReal _coolingRate;
+		MeshVector _temperatureGrad;
 		std::vector<Real> _incrementTime;
 		std::vector<Real> _incrementThickness;
 		
@@ -53,6 +55,11 @@ namespace LTFP
 		inline const Real &getIntervalX() const { return _xInterval; };
 		inline const Real &getIntervalY() const { return _yInterval; };
 		inline const Real &getIntervalZ() const { return _zInterval; };
+		// inline const Real &getCoolingRate(const int &i, const int &j, const int &k) const { return _coolingRate[i][j][k]; };
+		// inline void setCoolingRate(const int &i, const int &j, const int &k, const Real &value) { _coolingRate[i][j][k] = value; };
+		// inline const Vector3r &getTemperatureGrad(const int &i, const int &j, const int &k) const { return _temperatureGrad[i][j][k]; };
+		// inline void setTemperatureGrad(const int &i, const int &j, const int &k, const Real &value) const { _temperatureGrad[i][j][k] = value; };
+
 	};
 }
 

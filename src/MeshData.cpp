@@ -53,7 +53,7 @@ namespace LTFP
         }
         else if (_xInterval > 0.0)
         {
-            _xSize = int((_domainEnd[0] - _domainStart[0])/meshConfig.meshSize) + 1;
+            _xSize = int((_domainEnd[0] - _domainStart[0]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -68,7 +68,7 @@ namespace LTFP
         }
         else if (_yInterval > 0.0)
         {
-            _ySize = int((_domainEnd[1] - _domainStart[1])/meshConfig.meshSize) + 1;
+            _ySize = int((_domainEnd[1] - _domainStart[1]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -83,7 +83,7 @@ namespace LTFP
         }
         else if (_zInterval > 0.0)
         {
-            _zSize = int((_domainEnd[2] - _domainStart[2])/meshConfig.meshSize) + 1;
+            _zSize = int((_domainEnd[2] - _domainStart[2]) / meshConfig.meshSize) + 1;
         }
         else
         {
@@ -97,6 +97,24 @@ namespace LTFP
         _zInterval = (_domainEnd[2] - _domainStart[2]) / _zSize;
         _centerPos.resize(_xSize);
         for (auto &xVec : _centerPos)
+        {
+            xVec.resize(_ySize);
+            for (auto &yVec : xVec)
+            {
+                yVec.resize(_zSize);
+            }
+        }
+        _temperature.resize(_xSize);
+        for (auto &xVec : _temperature)
+        {
+            xVec.resize(_ySize);
+            for (auto &yVec : xVec)
+            {
+                yVec.resize(_zSize);
+            }
+        }
+        _temperatureOld.resize(_xSize);
+        for (auto &xVec : _temperatureOld)
         {
             xVec.resize(_ySize);
             for (auto &yVec : xVec)
@@ -125,12 +143,45 @@ namespace LTFP
     {
         Real time = TimeManager::getCurrent()->getTime();
         static size_t increaseCount = 0;
+        size_t y_increment1, y_increment2;
         if (time >= _incrementTime[increaseCount])
         {
-            _ySize++;
+            if (increaseCount == 0)
+            {
+                y_increment1 = 0;
+                y_increment2 = int(_incrementThickness[increaseCount] / _yInterval) + 1;
+            }
+            else
+            {
+                y_increment1 = int(_incrementThickness[increaseCount - 1] / _yInterval) + 1;
+                y_increment2 = int(_incrementThickness[increaseCount] / _yInterval) + 1;
+            }
+            size_t ySizeOld = _ySize;
+            _ySize += (y_increment2 - y_increment1);
+
             MeshVector centerPosTemp = _centerPos;
+            MeshReal _temperatureTemp = _temperature;
+            MeshReal _temperatureOldTemp = _temperatureOld;
             _centerPos.resize(_xSize);
             for (auto &xVec : _centerPos)
+            {
+                xVec.resize(_ySize);
+                for (auto &yVec : xVec)
+                {
+                    yVec.resize(_zSize);
+                }
+            }
+            _temperature.resize(_xSize);
+            for (auto &xVec : _temperature)
+            {
+                xVec.resize(_ySize);
+                for (auto &yVec : xVec)
+                {
+                    yVec.resize(_zSize);
+                }
+            }
+            _temperatureOld.resize(_xSize);
+            for (auto &xVec : _temperatureOld)
             {
                 xVec.resize(_ySize);
                 for (auto &yVec : xVec)
@@ -148,9 +199,16 @@ namespace LTFP
                         _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                                _domainStart[1] + (j + 0.5f) * _yInterval,
                                                _domainStart[2] + (k + 0.5f) * _zInterval};
-                        // FIXME
-                        // _temperature[i][j][k] = meshConfig.initialTemp;
-                        // _temperatureOld[i][j][k] = meshConfig.initialTemp;
+                        if (j < ySizeOld)
+                        {
+                            _temperature[i][j][k] = _temperatureTemp[i][j][k];
+                            _temperatureOld[i][j][k] = _temperatureOldTemp[i][j][k];
+                        }
+                        else
+                        {
+                            _temperature[i][j][k] = _temperatureTemp[i][ySizeOld-1][k];
+                            _temperatureOld[i][j][k] = _temperatureTemp[i][ySizeOld-1][k];
+                        }
                     }
                 }
             }
