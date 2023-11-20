@@ -53,7 +53,7 @@ namespace LTFP
         }
         else if (_xInterval > 0.0)
         {
-            _xSize = int(_domainEnd[0] - _domainStart[0]) + 1;
+            _xSize = int((_domainEnd[0] - _domainStart[0])/meshConfig.meshSize) + 1;
         }
         else
         {
@@ -68,7 +68,7 @@ namespace LTFP
         }
         else if (_yInterval > 0.0)
         {
-            _ySize = int(_domainEnd[1] - _domainStart[1]) + 1;
+            _ySize = int((_domainEnd[1] - _domainStart[1])/meshConfig.meshSize) + 1;
         }
         else
         {
@@ -83,7 +83,7 @@ namespace LTFP
         }
         else if (_zInterval > 0.0)
         {
-            _zSize = int(_domainEnd[2] - _domainStart[2]) + 1;
+            _zSize = int((_domainEnd[2] - _domainStart[2])/meshConfig.meshSize) + 1;
         }
         else
         {
@@ -114,9 +114,8 @@ namespace LTFP
                     _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                            _domainStart[1] + (j + 0.5f) * _yInterval,
                                            _domainStart[2] + (k + 0.5f) * _zInterval};
-                    // TODO
-                    // _temperature[i][j][k] = ;
-                    // _temperatureOld[i][j][k] = ;
+                    _temperature[i][j][k] = meshConfig.initialTemp;
+                    _temperatureOld[i][j][k] = meshConfig.initialTemp;
                 }
             }
         }
@@ -149,9 +148,9 @@ namespace LTFP
                         _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                                _domainStart[1] + (j + 0.5f) * _yInterval,
                                                _domainStart[2] + (k + 0.5f) * _zInterval};
-                        // TODO
-                        // _temperature[i][j][k] = ;
-                        // _temperatureOld[i][j][k] = ;
+                        // FIXME
+                        // _temperature[i][j][k] = meshConfig.initialTemp;
+                        // _temperatureOld[i][j][k] = meshConfig.initialTemp;
                     }
                 }
             }
