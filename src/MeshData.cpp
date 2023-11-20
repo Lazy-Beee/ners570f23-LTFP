@@ -105,11 +105,11 @@ namespace LTFP
             }
         }
 
-        for (int i = 0; i < _xSize; i++)
+        for (size_t i = 0; i < _xSize; i++)
         {
-            for (int j = 0; j < _ySize; j++)
+            for (size_t j = 0; j < _ySize; j++)
             {
-                for (int k = 0; k < _zSize; k++)
+                for (size_t k = 0; k < _zSize; k++)
                 {
                     _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                            _domainStart[1] + (j + 0.5f) * _yInterval,
@@ -139,11 +139,11 @@ namespace LTFP
                 }
             }
 
-            for (int i = 0; i < _xSize; i++)
+            for (size_t i = 0; i < _xSize; i++)
             {
-                for (int j = 0; j < _ySize; j++)
+                for (size_t j = 0; j < _ySize; j++)
                 {
-                    for (int k = 0; k < _zSize; k++)
+                    for (size_t k = 0; k < _zSize; k++)
                     {
                         _centerPos[i][j][k] = {_domainStart[0] + (i + 0.5f) * _xInterval,
                                                _domainStart[1] + (j + 0.5f) * _yInterval,
