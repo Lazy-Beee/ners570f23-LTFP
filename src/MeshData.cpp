@@ -98,6 +98,8 @@ namespace LTFP
         LTFP::resizeMeshVector3r(_centerPos, _xSize, _ySize, _zSize);
         LTFP::resizeMeshReal(_temperature, _xSize, _ySize, _zSize);
         LTFP::resizeMeshReal(_temperatureOld, _xSize, _ySize, _zSize);
+        LTFP::resizeMeshReal(_coolingRate, _xSize, _ySize, _zSize);
+        LTFP::resizeMeshVector3r(_temperatureGrad, _xSize, _ySize, _zSize);
 
         for (size_t i = 0; i < _xSize; i++)
         {
