@@ -222,6 +222,29 @@ namespace LTFP
             LOG_WARN << "Failed to load LaserConfig from scene file";
     }
     
+    /// @brief Read Solver section of scene file
+    void SceneLoader::readSolverConfig()
+    {
+        if (_jsonData.find("Solver") != _jsonData.end())
+        {
+            json configs = _jsonData["Solver"];
+
+            for (size_t i = 0; i < configs.size(); i++)
+            {
+                json config = configs[i];
+                SolverConfig lc = SolverConfig{};
+
+                readValue(config["index"], lc.index);
+                readValue(config["type"], lc.type);
+
+                _solverConfig.push_back(lc);
+            }
+        }
+        else
+            LOG_WARN << "Failed to load SolverConfig from scene file";
+    }
+    
+    
     /// @brief Read scene file and save the configurations using scene path in Simulator
     void SceneLoader::readScene()
     {

@@ -124,5 +124,12 @@
 			"laserPath": "path/test_path.json",
 			"radius": 0.12
         }
+    ],
+    "Solver":
+    [
+        {
+            "index": 0,
+            "type": 0
+        }
     ]
 }

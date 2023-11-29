@@ -29,6 +29,11 @@ add_library(ltfp
   ThermalBoundary/ThermalBoundaryMirror.hpp
   ThermalBoundary/ThermalBoundaryMirror.cpp
 
+  Solver/Solver.hpp
+  Solver/Solver.cpp
+  # Solver/SolverForwardEuler.hpp
+  # Solver/SolverForwardEuler.cpp
+
   Exporter/ExportManager.hpp
   Exporter/ExportManager.cpp
   Exporter/Exporter.cpp

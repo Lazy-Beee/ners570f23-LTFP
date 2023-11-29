@@ -116,6 +116,13 @@ namespace LTFP
 			Real depth = -1.0f;
 		};
 
+		/// @brief Base solver configurations
+		struct SolverConfig
+		{
+			int index = -1;
+			int type = -1;
+		};
+
 		template <typename T>
 		static bool readValue(const json &jsonData, T &val)
 		{
@@ -158,6 +165,7 @@ namespace LTFP
 		std::vector<MatPropConfig> _matPropConfig;
 		std::vector<BoundaryConfig *> _boundaryConfig;
 		std::vector<LaserConfig> _laserConfig;
+		std::vector<SolverConfig> _solverConfig;
 
 		void readTimeConfig();
 		void readMeshConfig();
@@ -165,6 +173,7 @@ namespace LTFP
 		void readMatProp();
 		void readBoundary();
 		void readLaserConfig();
+		void readSolverConfig();
 
 	public:
 		SceneLoader();
@@ -182,6 +191,7 @@ namespace LTFP
 		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
 		inline std::vector<BoundaryConfig *> getBoundaryConfig() const { return _boundaryConfig; };
 		inline std::vector<LaserConfig> getLaserConfig() const { return _laserConfig; };
+		inline std::vector<SolverConfig> getSolverConfig() const { return _solverConfig; };
 	};
 }
 
