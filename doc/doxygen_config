@@ -23,4 +23,10 @@ RECURSIVE              = YES
 # TEMPLATE_RELATIONS     = YES
 # DOT_GRAPH_MAX_NODES    = 100
 # MAX_DOT_GRAPH_DEPTH    = 0
-# DOT_TRANSPARENT        = YES
+
+# BUILTIN_STL_SUPPORT    = YES
+# HIDE_UNDOC_RELATIONS   = NO
+# HAVE_DOT               = YES
+# UML_LOOK               = YES
+# CALL_GRAPH             = YES
+# CALLER_GRAPH           = YES
