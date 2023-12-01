@@ -37,6 +37,9 @@ namespace LTFP
     using Vector2i = Eigen::Matrix<int, 2, 1, Eigen::DontAlign>;
     using Vector3i = Eigen::Matrix<int, 3, 1, Eigen::DontAlign>;
 
+	using MeshReal = std::vector<std::vector<std::vector<Real>>>;
+	using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
+
     /// @brief Piecewise polynomial, pair(x range, polynomial)
     using PiecewisePoly = std::pair<std::vector<Real>, std::vector<std::vector<Real>>>;
     /// @brief Table, pair(x values, y values)

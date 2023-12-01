@@ -34,6 +34,8 @@ namespace LTFP
 
         inline int getIndex() const { return _index; };
         inline SolverType getType() const { return _type; };
+
+        void SolverFE1();
     };
 	
 	

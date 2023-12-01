@@ -9,9 +9,9 @@
 
 namespace LTFP
 {	
-	// TODO: move the using to common, and replace the nested vectors
-	using MeshReal = std::vector<std::vector<std::vector<Real>>>;
-	using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
+	// // TODO: move the using to common, and replace the nested vectors
+	// using MeshReal = std::vector<std::vector<std::vector<Real>>>;
+	// using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
 
 	/// @brief Class managing mesh and data.
 	/// @note This class is a singleton.

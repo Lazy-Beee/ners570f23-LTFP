@@ -140,6 +140,9 @@ namespace LTFP
         STOP_TIMING_AVG;
 
         // TODO: Solve Thermal equation
+        START_TIMING("SolveThermalEquation");
+        // LaserSource::getCurrent()->precomputePowerDistribution();
+        STOP_TIMING_AVG;
 
         START_TIMING("Export");
         ExportManager::getCurrent()->step();

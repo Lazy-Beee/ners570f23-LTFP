@@ -55,7 +55,7 @@ namespace LTFP
 
         bool useEnthalpy() { return _useEnthalpy; };
         Real getTemperature(const Real &enthalpy);
-        void updateTempQdot(Real &temp, const Real &qdot);
+        void updateTempDu(Real &temp, const Real &du);
     };
 }
 

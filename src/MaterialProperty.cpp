@@ -193,15 +193,15 @@ namespace LTFP
         return lookupTable(enthalpy, _propTable[ENTHALPY], true);
     }
 
-    /// @brief Compute temperature change from qdot
+    /// @brief Compute new temperature from enthalpy change
     /// @param temp temperature
-    /// @param qdot heat input / mass
-    void MaterialProperty::updateTempQdot(Real &temp, const Real &qdot)
+    /// @param du enthalpy change
+    void MaterialProperty::updateTempDu(Real &temp, const Real &du)
     {
         if (_useEnthalpy)
-            temp = getTemperature(getProperty<ENTHALPY>(temp) + qdot);
+            temp = getTemperature(getProperty<ENTHALPY>(temp) + du);
         else
-            temp += qdot / getProperty<SPECIFIC_HEAT>(temp);
+            temp += du / getProperty<SPECIFIC_HEAT>(temp);
     }
 
     template Real MaterialProperty::getProperty<DENSITY>(const Real &temp);
