@@ -21,6 +21,7 @@ using namespace std;
 
 namespace LTFP
 {
+    // TODO: remove singleton pattern from Simulator class to reduce dependency of modules
     Simulator *Simulator::current = nullptr;
 
     Simulator::Simulator()
