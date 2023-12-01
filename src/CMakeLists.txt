@@ -1,18 +1,18 @@
 add_library(ltfp
-    Common.hpp
-    Common.cpp
-    MaterialProperty.hpp
-    MaterialProperty.cpp
-    SceneLoader.hpp
-    SceneLoader.cpp
-    Simulator.hpp
-    Simulator.cpp
-    TimeManager.hpp
-    TimeManager.cpp
-    LaserSource.hpp
-    LaserSource.cpp
-    MeshData.hpp
-    MeshData.cpp
+  Common.hpp
+  Common.cpp
+  MaterialProperty.hpp
+  MaterialProperty.cpp
+  SceneLoader.hpp
+  SceneLoader.cpp
+  Simulator.hpp
+  Simulator.cpp
+  TimeManager.hpp
+  TimeManager.cpp
+  LaserSource.hpp
+  LaserSource.cpp
+  MeshData.hpp
+  MeshData.cpp
 
   ThermalBoundary/BoundaryManager.hpp
   ThermalBoundary/BoundaryManager.cpp
@@ -29,10 +29,10 @@ add_library(ltfp
   ThermalBoundary/ThermalBoundaryMirror.hpp
   ThermalBoundary/ThermalBoundaryMirror.cpp
 
-  Solver/Solver.hpp
-  Solver/Solver.cpp
-  # Solver/SolverForwardEuler.hpp
-  # Solver/SolverForwardEuler.cpp
+  ThermalSolver/ThermalSolver.hpp
+  ThermalSolver/ThermalSolver.cpp
+  ThermalSolver/ThermalSolverFTCS.hpp
+  ThermalSolver/ThermalSolverFTCS.cpp
 
   Exporter/ExportManager.hpp
   Exporter/ExportManager.cpp

@@ -8,6 +8,11 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **endTime**(float): time-based terminate condition of simulation
 - **maxTimeSteps**(int): step-based terminate condition of simulation
 
+### ThermalSolver
+- **type**(int): type of thermal solver
+  - 0: FTCS (forward in time, central in space)
+- **cflNUmber**(float): cfl factor, range (0,1]
+
 ### Mesh 
 - **start**(float vector3): minimum corner of the box domain
 - **end**(float vector3): maximum corner of the box domain
@@ -15,7 +20,7 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **yCount**(int): Number of mesh in Y direction
 - **zCount**(int): Number of mesh in Z direction
 - **meshSize**(float): mesh size of cubic mesh, priority is lower than xCount+yCount+zCount
-- **initialTemp"(float): initial temperature of domain
+- **initialTemp**(float): initial temperature of domain
 - **layerFile**(string): path to layer json file under scene dir
 
 ### Export
@@ -48,7 +53,9 @@ The `.json` scene file configs the simulation in default mode. The default value
 - **type**(int): type of thermal boundary
     - 0: Neumann boundary
     - 1: Dirichlet boundary
-    - 2: Radiation boundary
+    - 2: Convection boundary
+    - 3: Radiation boundary
+    - 4: Mirror boundary
 - **location**(int): location of thermal boundary
     - 0: X positive
     - 1: X negative

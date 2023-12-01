@@ -171,8 +171,7 @@ namespace LTFP
     }
 
     /// @brief To resize the meshReal with xSize, ySize, and zSize (Nx, Ny, Nz)
-    void resizeMeshReal(std::vector<std::vector<std::vector<Real>>> &meshin,
-                        const size_t xSize, const size_t ySize, const size_t zSize)
+    void resizeMeshReal(MeshReal &meshin, const size_t xSize, const size_t ySize, const size_t zSize)
     {
         meshin.resize(xSize);
         for (auto &xVec : meshin)
@@ -186,8 +185,7 @@ namespace LTFP
     }
 
     /// @brief To resize the meshVector3r with xSize, ySize, and zSize (Nx, Ny, Nz)
-    void resizeMeshVector3r(std::vector<std::vector<std::vector<Vector3r>>> &meshin,
-                            const size_t xSize, const size_t ySize, const size_t zSize)
+    void resizeMeshVector3r(MeshVector &meshin, const size_t xSize, const size_t ySize, const size_t zSize)
     {
         meshin.resize(xSize);
         for (auto &xVec : meshin)

@@ -37,8 +37,8 @@ namespace LTFP
     using Vector2i = Eigen::Matrix<int, 2, 1, Eigen::DontAlign>;
     using Vector3i = Eigen::Matrix<int, 3, 1, Eigen::DontAlign>;
 
-	using MeshReal = std::vector<std::vector<std::vector<Real>>>;
-	using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
+    using MeshReal = std::vector<std::vector<std::vector<Real>>>;
+    using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
 
     /// @brief Piecewise polynomial, pair(x range, polynomial)
     using PiecewisePoly = std::pair<std::vector<Real>, std::vector<std::vector<Real>>>;
@@ -51,10 +51,8 @@ namespace LTFP
     void tabulatePoly(Vector2r range, std::vector<Real> coeff, Real stepSize, Table &table);
     Table tabulatePiecewisePoly(PiecewisePoly poly, std::vector<Real> stepSize);
     Real lookupTable(const Real &x, const Table &table, bool inverse = false);
-    void resizeMeshReal(std::vector<std::vector<std::vector<Real>>> &meshin,
-                        const size_t xSize, const size_t ySize, const size_t zSize);
-    void resizeMeshVector3r(std::vector<std::vector<std::vector<Vector3r>>> &meshin,
-                            const size_t xSize, const size_t ySize, const size_t zSize);
+    void resizeMeshReal(MeshReal &meshin, const size_t xSize, const size_t ySize, const size_t zSize);
+    void resizeMeshVector3r(MeshVector &meshin, const size_t xSize, const size_t ySize, const size_t zSize);
 }
 
 #endif

@@ -9,10 +9,6 @@
 
 namespace LTFP
 {	
-	// // TODO: move the using to common, and replace the nested vectors
-	// using MeshReal = std::vector<std::vector<std::vector<Real>>>;
-	// using MeshVector = std::vector<std::vector<std::vector<Vector3r>>>;
-
 	/// @brief Class managing mesh and data.
 	/// @note This class is a singleton.
 	class MeshData
@@ -46,13 +42,13 @@ namespace LTFP
 		static MeshData *getCurrent();
 		void init();
 		void stepIncrement();
-		// FIXME Should be moved to the thermal solver part
-		void calCoolingRate();
-		void calTemperatureGrad();
+		void copyTempToOld();
 
 		inline const Vector3r &getCenterPos(const int &i, const int &j, const int &k) const { return _centerPos[i][j][k]; };
 		inline const Real &getTemperature(const int &i, const int &j, const int &k) const { return _temperature[i][j][k]; };
 		inline void setTemperature(const int &i, const int &j, const int &k, const Real &value) { _temperature[i][j][k] = value; };
+		inline const Real &getTemperatureOld(const int &i, const int &j, const int &k) const { return _temperatureOld[i][j][k]; };
+		inline void setTemperatureOld(const int &i, const int &j, const int &k, const Real &value) { _temperatureOld[i][j][k] = value; };
 		inline const size_t &getSizeX() const { return _xSize; };
 		inline const size_t &getSizeY() const { return _ySize; };
 		inline const size_t &getSizeZ() const { return _zSize; };

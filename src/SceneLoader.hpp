@@ -116,11 +116,11 @@ namespace LTFP
 			Real depth = -1.0f;
 		};
 
-		/// @brief Base solver configurations
-		struct SolverConfig
+		/// @brief Base thermal solver configurations
+		struct ThermalSolverConfig
 		{
-			int index = -1;
 			int type = -1;
+			Real cflNumber = 1.0;
 		};
 
 		template <typename T>
@@ -165,7 +165,7 @@ namespace LTFP
 		std::vector<MatPropConfig> _matPropConfig;
 		std::vector<BoundaryConfig *> _boundaryConfig;
 		std::vector<LaserConfig> _laserConfig;
-		std::vector<SolverConfig> _solverConfig;
+		ThermalSolverConfig _thermalSolverConfig;
 
 		void readTimeConfig();
 		void readMeshConfig();
@@ -173,7 +173,7 @@ namespace LTFP
 		void readMatProp();
 		void readBoundary();
 		void readLaserConfig();
-		void readSolverConfig();
+		void readThermalSolverConfig();
 
 	public:
 		SceneLoader();
@@ -191,7 +191,7 @@ namespace LTFP
 		inline std::vector<MatPropConfig> getMatPropConfig() const { return _matPropConfig; };
 		inline std::vector<BoundaryConfig *> getBoundaryConfig() const { return _boundaryConfig; };
 		inline std::vector<LaserConfig> getLaserConfig() const { return _laserConfig; };
-		inline std::vector<SolverConfig> getSolverConfig() const { return _solverConfig; };
+		inline ThermalSolverConfig getThermalSolverConfig() const { return _thermalSolverConfig; };
 	};
 }
 

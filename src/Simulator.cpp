@@ -35,6 +35,7 @@ namespace LTFP
 
     Simulator::~Simulator()
     {
+        delete _thermalSolver;
         current = nullptr;
     }
 
@@ -107,6 +108,7 @@ namespace LTFP
         SceneLoader *sl = SceneLoader::getCurrent();
 
         sl->readScene();
+        _thermalSolver = createThermalSolver(sl->getThermalSolverConfig());
 
         if (sl->getExportConfig().consolePeriod > 0)
             _printPeriod = sl->getExportConfig().consolePeriod;
@@ -140,12 +142,14 @@ namespace LTFP
         LaserSource::getCurrent()->precomputePowerDistribution();
         STOP_TIMING_AVG;
 
-        // TODO: Solve Thermal equation
         START_TIMING("SolveThermalEquation");
-        // LaserSource::getCurrent()->precomputePowerDistribution();
+        _thermalSolver->updateTemperature();
         STOP_TIMING_AVG;
 
+        // Here we only compute cooling rate and temperature gradient before export
         START_TIMING("Export");
+        _thermalSolver->computeCoolingRate();
+        _thermalSolver->computeTemperatureGrad();
         ExportManager::getCurrent()->step();
         STOP_TIMING_AVG;
     }

@@ -193,6 +193,13 @@ namespace LTFP
         return lookupTable(enthalpy, _propTable[ENTHALPY], true);
     }
 
+    /// @brief Get diffusion coefficient k/(rho*cp)
+    Real MaterialProperty::getDiffusionCoefficient(const Real &temp)
+    {
+        // TODO: the diffusion coefficient can be tabulated
+        return getProperty<CONDUCTIVITY>(temp) / (getProperty<DENSITY>(temp) * getProperty<SPECIFIC_HEAT>(temp));
+    }
+
     /// @brief Compute new temperature from enthalpy change
     /// @param temp temperature
     /// @param du enthalpy change

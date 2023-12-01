@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <filesystem>
+#include "ThermalSolver/ThermalSolver.hpp"
 
 namespace LTFP
 {
@@ -21,6 +22,7 @@ namespace LTFP
 		std::filesystem::path _scenePath;
 		std::filesystem::path _outputPath;
 		int _printPeriod;
+		ThermalSolver *_thermalSolver;
 
 	public:
 		Simulator();

@@ -143,6 +143,8 @@ namespace LTFP
             LTFP::resizeMeshVector3r(_centerPos, _xSize, _ySize, _zSize);
             LTFP::resizeMeshReal(_temperature, _xSize, _ySize, _zSize);
             LTFP::resizeMeshReal(_temperatureOld, _xSize, _ySize, _zSize);
+            LTFP::resizeMeshVector3r(_temperatureGrad, _xSize, _ySize, _zSize);
+            LTFP::resizeMeshReal(_coolingRate, _xSize, _ySize, _zSize);
 
             for (size_t i = 0; i < _xSize; i++)
             {
@@ -167,76 +169,6 @@ namespace LTFP
                 }
             }
             increaseCount++;
-        }
-    }
-
-    // FIXME Should be moved to the thermal solver part
-    void MeshData::calCoolingRate()
-    {
-        LTFP::resizeMeshReal(_coolingRate, _xSize, _ySize, _zSize);
-        Real timestep = TimeManager::getCurrent()->getTimeStepSize();
-        for (size_t i = 0; i < _xSize; i++)
-        {
-            for (size_t j = 0; j < _ySize; j++)
-            {
-                for (size_t k = 0; k < _zSize; k++)
-                {
-                    _coolingRate[i][j][k] = (_temperature[i][j][k] - _temperatureOld[i][j][k]) / timestep;
-                }
-            }
-        }
-    }
-
-    // FIXME Should be moved to the thermal solver part
-    void MeshData::calTemperatureGrad()
-    {
-        LTFP::resizeMeshVector3r(_temperatureGrad, _xSize, _ySize, _zSize);
-        Real TempGradX, TempGradY, TempGradZ;
-        for (size_t i = 0; i < _xSize; i++)
-        {
-            for (size_t j = 0; j < _ySize; j++)
-            {
-                for (size_t k = 0; k < _zSize; k++)
-                {
-                    if (i == 0) // Boundary (left x)
-                    {
-                        TempGradX = (_temperature[i + 1][j][k] - _temperature[i][j][k]) / _xInterval;
-                    }
-                    else if (i == _xSize - 1) // Boundary (right x)
-                    {
-                        TempGradX = (_temperature[i][j][k] - _temperature[i - 1][j][k]) / _xInterval;
-                    }
-                    else // Center x
-                    {
-                        TempGradX = (_temperature[i + 1][j][k] - _temperature[i - 1][j][k]) / _xInterval * 0.5;
-                    }
-                    if (j == 0) // Boundary (bottom y)
-                    {
-                        TempGradY = (_temperature[i][j + 1][k] - _temperature[i][j][k]) / _yInterval;
-                    }
-                    else if (j == _ySize - 1) // Boundary (top y)
-                    {
-                        TempGradY = (_temperature[i][j][k] - _temperature[i][j - 1][k]) / _yInterval;
-                    }
-                    else // Center y
-                    {
-                        TempGradY = (_temperature[i][j + 1][k] - _temperature[i][j - 1][k]) / _yInterval * 0.5;
-                    }
-                    if (k == 0) // Boundary (left z)
-                    {
-                        TempGradZ = (_temperature[i][j][k + 1] - _temperature[i][j][k]) / _zInterval;
-                    }
-                    else if (k == _zSize - 1) // Boundary (right z)
-                    {
-                        TempGradZ = (_temperature[i][j][k] - _temperature[i][j][k - 1]) / _zInterval;
-                    }
-                    else // Center z
-                    {
-                        TempGradZ = (_temperature[i][j][k + 1] - _temperature[i][j][k - 1]) / _zInterval * 0.5;
-                    }
-                    _temperatureGrad[i][j][k] = {TempGradX, TempGradY, TempGradZ};
-                }
-            }
         }
     }
 
@@ -279,4 +211,9 @@ namespace LTFP
         }
     }
 
+    /// @brief Copy temperature matrix to temperatureOld matrix
+    void MeshData::copyTempToOld()
+    {
+        _temperatureOld = _temperature;
+    }
 }

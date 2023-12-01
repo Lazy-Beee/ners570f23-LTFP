@@ -44,15 +44,15 @@ int main()
     COMPARE(mp->getTemperature(1000.0f), 200.0f, 1e-3f, "temperature 5 (upper bound overflow)");
 
     Real temp = 0.0f;
-    mp->updateTempQdot(temp, -100.0f);
+    mp->updateTempDu(temp, -100.0f);
     COMPARE(temp, 0.0f, 1e-3f, "update temperature 1 (lower bound overflow)");
-    mp->updateTempQdot(temp, 4.04f - 2.0f);
+    mp->updateTempDu(temp, 4.04f - 2.0f);
     COMPARE(temp, 2.0f, 1e-3f, "update temperature 2");
-    mp->updateTempQdot(temp, 252.5f-4.04f);
+    mp->updateTempDu(temp, 252.5f-4.04f);
     COMPARE(temp, 100.0f, 1e-3f, "update temperature 3");
-    mp->updateTempQdot(temp, 346.687f - 252.5f);
+    mp->updateTempDu(temp, 346.687f - 252.5f);
     COMPARE(temp, 114.514f, 1e-3f, "update temperature 4");
-    mp->updateTempQdot(temp, 1000.0f - 2.0f);
+    mp->updateTempDu(temp, 1000.0f - 2.0f);
     COMPARE(temp, 200.0f, 1e-3f, "update temperature 5 (upper bound overflow)");
 
     COMPARE_summary();
