@@ -137,7 +137,7 @@ namespace LTFP
         static int nextPrint = 0;
         if (tm->getTimeStepCount() >= nextPrint)
         {
-            LOG_INFO << "Step: " << tm->getTimeStepCount() << "\tt = " << tm->getTime() << " \tdt = " << tm->getTimeStepSize() * 1000 << " ms";
+            LOG_INFO << fixed << setprecision(2) << "n = " << tm->getTimeStepCount() << "\tt = " << tm->getTime() << " sec \tdt = " << tm->getTimeStepSize() * 1000 << " ms";
             nextPrint += _printPeriod;
         }
     }

@@ -60,6 +60,7 @@ namespace LTFP
     /// @brief Check export period and export
     void ExportManager::step()
     {
+#pragma omp parallel for
         for (Exporter *exporter : _exporters)
             if (exporter->timeToExport())
                 exporter->exportData();

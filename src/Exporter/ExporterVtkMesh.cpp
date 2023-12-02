@@ -14,6 +14,7 @@ namespace LTFP
     ExporterVtkMesh::ExporterVtkMesh(int type) : Exporter(type)
     {
         _exportPath = ExportManager::getCurrent()->getExportPath() / "vtk_mesh";
+        filesystem::remove_all(_exportPath);
         try
         {
             filesystem::create_directories(_exportPath);
@@ -35,13 +36,11 @@ namespace LTFP
 
     void ExporterVtkMesh::exportVtkASCII()
     {
-        TimeManager *tm = TimeManager::getCurrent();
         MeshData *mesh = MeshData::getCurrent();
 
-        Real time = tm->getTime();
-        int stepCount = tm->getTimeStepCount();
         filesystem::path outfilePath = _exportPath;
-        outfilePath /= "mesh_export_" + to_string(_exportCount) + "_" + to_string(stepCount) + "_" + to_string(time) + ".vtk";
+        outfilePath /= "mesh_export_" + to_string(_exportCount) + ".vtk";
+        _exportCount++;
 
         ofstream outfile = ofstream(outfilePath, ios::binary);
         if (!outfile.is_open())
@@ -120,7 +119,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS Temperature float 1\n";
+        outfile << "SCALARS coolingRate float 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {

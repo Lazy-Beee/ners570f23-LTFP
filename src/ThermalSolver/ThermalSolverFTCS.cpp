@@ -44,7 +44,7 @@ namespace LTFP
         md->copyTempToOld();
 
         // Compute cell flux and update temperature
-// #pragma omp parallel for collapse(3) schedule(dynamic)
+#pragma omp parallel for collapse(3) schedule(dynamic)
         for (size_t i = 0; i < md->getSizeX(); i++)
         {
             for (size_t j = 0; j < md->getSizeY(); j++)

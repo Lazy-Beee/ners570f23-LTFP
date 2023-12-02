@@ -14,6 +14,7 @@ namespace LTFP
     ExporterCsvMesh::ExporterCsvMesh(int type) : Exporter(type)
     {
         _exportPath = ExportManager::getCurrent()->getExportPath() / "csv_mesh";
+        filesystem::remove_all(_exportPath);
         try
         {
             filesystem::create_directories(_exportPath);
@@ -28,14 +29,12 @@ namespace LTFP
 
     void ExporterCsvMesh::exportData()
     {
-        TimeManager *tm = TimeManager::getCurrent();
         MeshData *mesh = MeshData::getCurrent();
         LaserSource *laser = LaserSource::getCurrent();
 
-        Real time = tm->getTime();
-        int stepCount = tm->getTimeStepCount();
         filesystem::path outfilePath = _exportPath;
-        outfilePath /= "mesh_export_" + to_string(_exportCount) + "_" + to_string(stepCount) + "_" + to_string(time) + ".csv";
+        outfilePath /= "mesh_export_" + to_string(_exportCount) + ".csv";
+        _exportCount++;
 
         ofstream outfile(outfilePath);
         if (!outfile.is_open())
