@@ -34,7 +34,7 @@ endif()
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fopenmp")
 
-option(USE_DOUBLE_PRECISION "Use double precision for float")
+option(USE_DOUBLE_PRECISION "Use double precision for float" ON)
 if(USE_DOUBLE_PRECISION STREQUAL "ON")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_DOUBLE")
 endif()
