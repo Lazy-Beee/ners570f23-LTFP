@@ -157,6 +157,7 @@ namespace LTFP
 
 	private:
 		static SceneLoader *current;
+		std::filesystem::path _scenePath;
 		json _jsonData;
 		bool _fatalError; ///< Mark whether the scene file is missing essential info
 		TimeConfig _timeConfig;
@@ -182,7 +183,6 @@ namespace LTFP
 		~SceneLoader();
 
 		static SceneLoader *getCurrent();
-		void readScene();
 		void readScene(std::filesystem::path scenePath);
 
 		inline TimeConfig getTimeConfig() const { return _timeConfig; };
@@ -192,6 +192,7 @@ namespace LTFP
 		inline std::vector<BoundaryConfig *> getBoundaryConfig() const { return _boundaryConfig; };
 		inline std::vector<LaserConfig> getLaserConfig() const { return _laserConfig; };
 		inline ThermalSolverConfig getThermalSolverConfig() const { return _thermalSolverConfig; };
+		inline std::filesystem::path getScenePath() const { return _scenePath; };
 	};
 }
 

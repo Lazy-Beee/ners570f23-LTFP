@@ -177,7 +177,7 @@ namespace LTFP
     {
         if (file != "")
         {
-            std::filesystem::path filePath = Simulator::getCurrent()->getScenePath().parent_path() / file;
+            std::filesystem::path filePath = SceneLoader::getCurrent()->getScenePath().parent_path() / file;
             json config;
             std::ifstream input_file(filePath);
             if (!input_file.is_open())

@@ -13,6 +13,7 @@ namespace LTFP
 	class ExportManager
 	{
 	private:
+		std::filesystem::path _exportPath;
 		static ExportManager *current;
 		std::vector<Exporter *> _exporters;
 
@@ -23,8 +24,10 @@ namespace LTFP
 		~ExportManager();
 
 		static ExportManager *getCurrent();
-		void init();
+		void init(std::filesystem::path exportPath);
 		void step();
+
+		inline std::filesystem::path getExportPath() { return _exportPath; };
 	};
 }
 

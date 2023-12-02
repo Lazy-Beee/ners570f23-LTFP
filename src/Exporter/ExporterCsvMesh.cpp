@@ -1,5 +1,6 @@
 #include "ExporterCsvMesh.hpp"
 #include <filesystem>
+#include "ExportManager.hpp"
 #include "src/Simulator.hpp"
 #include "src/TimeManager.hpp"
 #include "src/LaserSource.hpp"
@@ -12,7 +13,7 @@ namespace LTFP
 {
     ExporterCsvMesh::ExporterCsvMesh(int type) : Exporter(type)
     {
-        _exportPath = Simulator::getCurrent()->getOutputPath() / "csv_mesh";
+        _exportPath = ExportManager::getCurrent()->getExportPath() / "csv_mesh";
         try
         {
             filesystem::create_directories(_exportPath);

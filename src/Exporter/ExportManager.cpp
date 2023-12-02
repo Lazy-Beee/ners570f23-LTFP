@@ -31,8 +31,9 @@ namespace LTFP
     }
 
     /// @brief Load configuration from SceneLoader
-    void ExportManager::init()
+    void ExportManager::init(filesystem::path exportPath)
     {
+        _exportPath = exportPath;
         SceneLoader::ExportConfig exportConfig = SceneLoader::getCurrent()->getExportConfig();
 
         for (SceneLoader::ExporterConfig config : exportConfig.exporters)

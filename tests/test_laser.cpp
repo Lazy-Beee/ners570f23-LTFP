@@ -11,12 +11,12 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
+    Simulator sim = Simulator();
     SceneLoader *sl = SceneLoader::getCurrent();
     LaserSource *ls = LaserSource::getCurrent();
 
-    sim->initUtilities("test.json");
-    sl->readScene();
+    sim.initUtilities("test.json");
+    sl->readScene(sim.getScenePath());
     ls->init();
 
 #ifndef NDEBUG
@@ -34,7 +34,7 @@ int main()
 #endif
 
     MeshData::getCurrent()->init();
-    ExportManager::getCurrent()->init();
+    ExportManager::getCurrent()->init(sim.getExportPath());
     TimeManager::getCurrent()->setTime(1.0f);
     ls->precomputePowerDistribution();
     ExportManager::getCurrent()->step();

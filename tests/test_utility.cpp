@@ -11,8 +11,8 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
-    sim->initUtilities("blank.json");
+    Simulator sim = Simulator();
+    sim.initUtilities("blank.json");
 
     for (int i = 0; i < 100; i++)
     {
@@ -23,5 +23,5 @@ int main()
         INCREASE_COUNTER("Test2", 0.1 * i);
     }
 
-    sim->finalize();
+    sim.finalize();
 }

@@ -9,11 +9,11 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
+    Simulator sim = Simulator();
     TimeManager *tm = TimeManager::getCurrent();
 
-    sim->initUtilities("test.json");
-    SceneLoader::getCurrent()->readScene();
+    sim.initUtilities("test.json");
+    SceneLoader::getCurrent()->readScene(sim.getScenePath());
     tm->init();
 
     Real maxDt = 0.2;
@@ -54,7 +54,7 @@ int main()
     COMPARE(tm->getTimeStepCount(), 1000, "Time step count 3");
     COMPARE(tm->getTime(), maxDt * n1 + dt2 * n2 + (maxSteps - n1 - n2) * minDt, 1e-3f, "Current time 3");
 
-    sim->finalize();
+    sim.finalize();
 
     COMPARE_summary();
 }

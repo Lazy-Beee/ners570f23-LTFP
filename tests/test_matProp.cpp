@@ -9,11 +9,11 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
+    Simulator sim = Simulator();
     MaterialProperty *mp = MaterialProperty::getCurrent();
 
-    sim->initUtilities("test.json");
-    SceneLoader::getCurrent()->readScene();
+    sim.initUtilities("test.json");
+    SceneLoader::getCurrent()->readScene(sim.getScenePath());
     mp->init();
 
     COMPARE(mp->getProperty<DENSITY>(-50.0f), 100.0f, 1e-3f, "density 1 (lower bound overflow)");

@@ -8,12 +8,12 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
-    sim->initUtilities("test.json");
+    Simulator sim = Simulator();
+    sim.initUtilities("test.json");
 
     SceneLoader *sl = SceneLoader::getCurrent();
 
-    sl->readScene();
+    sl->readScene(sim.getScenePath());
 
     COMPARE(sl->getTimeConfig().endTime, 120.0f, 1e-3f, "end time");
     COMPARE(sl->getTimeConfig().maxTimeSteps, 1000, "max time steps");

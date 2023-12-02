@@ -21,30 +21,18 @@ using namespace std;
 
 namespace LTFP
 {
-    // TODO: remove singleton pattern from Simulator class to reduce dependency of modules
-    Simulator *Simulator::current = nullptr;
-
     Simulator::Simulator()
     {
         _execPath = filesystem::canonical("/proc/self/exe");
         _projectPath = _execPath.parent_path().parent_path();
         _scenePath = _projectPath / "scenes" / "default.json";
-        _outputPath = _projectPath / "output" / "default";
+        _exportPath = _projectPath / "output" / "default";
         _printPeriod = INT_MAX;
     }
 
     Simulator::~Simulator()
     {
         delete _thermalSolver;
-        current = nullptr;
-    }
-
-    Simulator *Simulator::getCurrent()
-    {
-        if (current == nullptr)
-            current = new Simulator();
-
-        return current;
     }
 
     /// @brief Initialize file paths, logger, counter, and timer
@@ -54,10 +42,10 @@ namespace LTFP
         // Initialize file paths
         _scenePath = _projectPath / "scenes" / sceneFile;
         string caseName = sceneFile.substr(0, sceneFile.find_last_of("."));
-        _outputPath = _projectPath / "output" / caseName;
+        _exportPath = _projectPath / "output" / caseName;
 
         // Create output and log directory
-        filesystem::path logPath = _outputPath / "log";
+        filesystem::path logPath = _exportPath / "log";
         try
         {
             filesystem::create_directories(logPath);
@@ -88,7 +76,7 @@ namespace LTFP
         LOG_DEBUG << "Project path: " << _projectPath;
         LOG_DEBUG << "Executable:   " << _execPath;
         LOG_DEBUG << "Scene file:   " << _scenePath;
-        LOG_DEBUG << "Output path:  " << _outputPath;
+        LOG_DEBUG << "Output path:  " << _exportPath;
 
         // Copy scene file to output directory
         try
@@ -107,7 +95,7 @@ namespace LTFP
     {
         SceneLoader *sl = SceneLoader::getCurrent();
 
-        sl->readScene();
+        sl->readScene(_scenePath);
         _thermalSolver = createThermalSolver(sl->getThermalSolverConfig());
 
         if (sl->getExportConfig().consolePeriod > 0)
@@ -118,7 +106,7 @@ namespace LTFP
         BoundaryManager::getCurrent()->init();
         MeshData::getCurrent()->init();
         LaserSource::getCurrent()->init();
-        ExportManager::getCurrent()->init();
+        ExportManager::getCurrent()->init(_exportPath);
     }
 
     /// @brief Advance one time step

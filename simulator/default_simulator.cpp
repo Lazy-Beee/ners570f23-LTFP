@@ -3,13 +3,15 @@
 
 int main(int argc, char *argv[])
 {
+    LTFP::Simulator sim = LTFP::Simulator();
+    
     if (argc == 1)
     {
-        LTFP::Simulator::getCurrent()->runSimulation("1D_diffusion_test.json");
+        sim.runSimulation("1D_diffusion_test.json");
     }
     else if (argc == 2)
     {
-        LTFP::Simulator::getCurrent()->runSimulation(argv[1]);
+        sim.runSimulation(argv[1]);
     }
     else
     {

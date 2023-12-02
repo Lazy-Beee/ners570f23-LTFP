@@ -11,11 +11,12 @@ using namespace LTFP;
 
 int main()
 {
+    Simulator sim = Simulator();
     ExportManager *em = ExportManager::getCurrent();
-    Simulator::getCurrent() ->initUtilities("test.json");
-    SceneLoader::getCurrent()->readScene();
+    sim.initUtilities("test.json");
+    SceneLoader::getCurrent()->readScene(sim.getScenePath());
     MeshData::getCurrent()->init();
-    em->init();
+    em->init(sim.getExportPath());
     TimeManager::getCurrent()->setTime(11.0f);
     em->step();
 }

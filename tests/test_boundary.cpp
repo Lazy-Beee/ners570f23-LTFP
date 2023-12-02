@@ -7,12 +7,12 @@ using namespace LTFP;
 
 int main()
 {
-    Simulator *sim = Simulator::getCurrent();
+    Simulator sim = Simulator();
     SceneLoader *sl = SceneLoader::getCurrent();
     BoundaryManager *bm = BoundaryManager::getCurrent();
 
-    sim->initUtilities("test.json");
-    sl->readScene();
+    sim.initUtilities("test.json");
+    sl->readScene(sim.getScenePath());
     bm->init();
 
 #ifndef NDEBUG

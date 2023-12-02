@@ -100,7 +100,7 @@ namespace LTFP
     /// @brief Load path from file
     vector<LaserSource::LaserPath> LaserSource::readPathFile(string file)
     {
-        filesystem::path filePath = Simulator::getCurrent()->getScenePath().parent_path() / file;
+        filesystem::path filePath = SceneLoader::getCurrent()->getScenePath().parent_path() / file;
         json config;
         ifstream input_file(filePath);
         if (!input_file.is_open())

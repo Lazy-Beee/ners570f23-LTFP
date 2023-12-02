@@ -237,15 +237,10 @@ namespace LTFP
             LOG_WARN << "Failed to load ThermalSolverConfig from scene file";
     }
 
-    /// @brief Read scene file and save the configurations using scene path in Simulator
-    void SceneLoader::readScene()
-    {
-        readScene(Simulator::getCurrent()->getScenePath());
-    }
-
     /// @brief Read scene file and save the configurations
     void SceneLoader::readScene(filesystem::path scenePath)
     {
+        _scenePath = scenePath;
         ifstream input_file(scenePath);
         if (!input_file.is_open())
         {
