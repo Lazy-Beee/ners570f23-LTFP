@@ -96,11 +96,11 @@ namespace LTFP
         SceneLoader *sl = SceneLoader::getCurrent();
 
         sl->readScene(_scenePath);
-        _thermalSolver = createThermalSolver(sl->getThermalSolverConfig());
-
         if (sl->getExportConfig().consolePeriod > 0)
             _printPeriod = sl->getExportConfig().consolePeriod;
 
+        _thermalSolver = createThermalSolver(sl->getThermalSolverConfig());
+        _thermalSolver->init();
         TimeManager::getCurrent()->init();
         MaterialProperty::getCurrent()->init();
         BoundaryManager::getCurrent()->init();
@@ -113,14 +113,6 @@ namespace LTFP
     void Simulator::step()
     {
         TimeManager *tm = TimeManager::getCurrent();
-
-        // Print info to consol periodically
-        static int nextPrint = 0;
-        if (tm->getTimeStepCount() >= nextPrint)
-        {
-            LOG_INFO << "Step: " << tm->getTimeStepCount() << " \tStep size: " << tm->getTimeStepSize() * 1000 << " ms";
-            nextPrint += _printPeriod;
-        }
 
         START_TIMING("DomainIncrement");
         MeshData::getCurrent()->stepIncrement();
@@ -140,6 +132,14 @@ namespace LTFP
         _thermalSolver->computeTemperatureGrad();
         ExportManager::getCurrent()->step();
         STOP_TIMING_AVG;
+
+        // Print info to consol periodically
+        static int nextPrint = 0;
+        if (tm->getTimeStepCount() >= nextPrint)
+        {
+            LOG_INFO << "Step: " << tm->getTimeStepCount() << " \tStep size: " << tm->getTimeStepSize() * 1000 << " ms";
+            nextPrint += _printPeriod;
+        }
     }
 
     /// @brief Wrap up simulation

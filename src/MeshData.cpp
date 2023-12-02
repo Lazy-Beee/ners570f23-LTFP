@@ -11,6 +11,7 @@ namespace LTFP
 
     MeshData::MeshData()
     {
+        _incrementActive = false;
         _xSize = 10;
         _ySize = 10;
         _zSize = 10;
@@ -115,10 +116,23 @@ namespace LTFP
                 }
             }
         }
+
+        // Read layer file
+        if (meshConfig.layerFile == "")
+        {
+            _incrementActive = false;
+        }
+        else
+        {
+            readLayerFile(meshConfig.layerFile);
+        }
     }
 
     void MeshData::stepIncrement()
     {
+        if (!_incrementActive)
+            return;
+
         Real time = TimeManager::getCurrent()->getTime();
         static size_t increaseCount = 0;
         size_t y_increment1, y_increment2;
@@ -175,39 +189,36 @@ namespace LTFP
     /// @brief Load layer data from file
     void MeshData::readLayerFile(std::string file)
     {
-        if (file != "")
+        std::filesystem::path filePath = SceneLoader::getCurrent()->getScenePath().parent_path() / file;
+        json config;
+        std::ifstream input_file(filePath);
+        if (!input_file.is_open())
         {
-            std::filesystem::path filePath = SceneLoader::getCurrent()->getScenePath().parent_path() / file;
-            json config;
-            std::ifstream input_file(filePath);
-            if (!input_file.is_open())
-            {
-                LOG_ERR << "Cannot open path file: " << filePath;
-                exit(1);
-            }
-            try
-            {
-                config = json::parse(input_file);
-            }
-            catch (const std::exception &e)
-            {
-                LOG_ERR << "Cannot open path file";
-                LOG_ERR << e.what();
-                exit(1);
-            }
+            LOG_ERR << "Cannot open path file: " << filePath;
+            exit(1);
+        }
+        try
+        {
+            config = json::parse(input_file);
+        }
+        catch (const std::exception &e)
+        {
+            LOG_ERR << "Cannot open path file";
+            LOG_ERR << e.what();
+            exit(1);
+        }
 
-            json durationConfig = config["layer duration"];
-            json thicknessConfig = config["layer increment"];
+        json durationConfig = config["layer duration"];
+        json thicknessConfig = config["layer increment"];
 
-            for (size_t i = 1; i < durationConfig.size(); i++)
-            {
-                Real tempDy, tempT1, tempT2;
-                SceneLoader::readValue(thicknessConfig[i], tempDy);
-                _incrementThickness.push_back(tempDy);
-                SceneLoader::readValue(durationConfig[i - 1][1], tempT1);
-                SceneLoader::readValue(durationConfig[i][0], tempT2);
-                _incrementTime.push_back(0.5f * (tempT1 + tempT2));
-            }
+        for (size_t i = 1; i < durationConfig.size(); i++)
+        {
+            Real tempDy, tempT1, tempT2;
+            SceneLoader::readValue(thicknessConfig[i], tempDy);
+            _incrementThickness.push_back(tempDy);
+            SceneLoader::readValue(durationConfig[i - 1][1], tempT1);
+            SceneLoader::readValue(durationConfig[i][0], tempT2);
+            _incrementTime.push_back(0.5f * (tempT1 + tempT2));
         }
     }
 

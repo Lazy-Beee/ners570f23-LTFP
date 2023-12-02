@@ -36,7 +36,7 @@ namespace LTFP
     void MaterialProperty::init()
     {
         vector<SceneLoader::MatPropConfig> configs = SceneLoader::getCurrent()->getMatPropConfig();
-        cout << "00" << endl;
+
         // Load scene config
         for (SceneLoader::MatPropConfig config : configs)
         {

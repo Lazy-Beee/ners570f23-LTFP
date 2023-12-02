@@ -15,6 +15,8 @@ namespace LTFP
 	{
 	private:
 		static MeshData *current;
+		bool _incrementActive;
+
 		size_t _xSize;
 		size_t _ySize;
 		size_t _zSize;
