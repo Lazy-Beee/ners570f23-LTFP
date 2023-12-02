@@ -6,6 +6,8 @@
 #include "src/LaserSource.hpp"
 #include "src/ThermalBoundary/BoundaryManager.hpp"
 
+using namespace std;
+
 namespace LTFP
 {
     ThermalSolverFTCS::ThermalSolverFTCS(thermalConfig config) : ThermalSolver(config)
@@ -42,7 +44,7 @@ namespace LTFP
         md->copyTempToOld();
 
         // Compute cell flux and update temperature
-#pragma omp parallel for collapse(3) schedule(dynamic)
+// #pragma omp parallel for collapse(3) schedule(dynamic)
         for (size_t i = 0; i < md->getSizeX(); i++)
         {
             for (size_t j = 0; j < md->getSizeY(); j++)
@@ -62,6 +64,7 @@ namespace LTFP
         MeshData *md = MeshData::getCurrent();
         BoundaryManager *bm = BoundaryManager::getCurrent();
         MaterialProperty *mp = MaterialProperty::getCurrent();
+        LaserSource *ls = LaserSource::getCurrent();
 
         static const Real dx = md->getIntervalX();
         static const Real dy = md->getIntervalY();
@@ -105,7 +108,7 @@ namespace LTFP
         }
 
         // X Negative Neighbor
-        if (i == 1)
+        if (i == 0)
         {
             if (bm->isTempBC(XNEGATIVE))
             {
@@ -128,7 +131,7 @@ namespace LTFP
         }
 
         // Y Positive Neighbor
-        if (i == md->getSizeY() - 1)
+        if (j== md->getSizeY() - 1)
         {
             if (bm->isTempBC(YPOSITIVE))
             {
@@ -151,7 +154,7 @@ namespace LTFP
         }
 
         // Y Negative Neighbor
-        if (i == 1)
+        if (j == 0)
         {
             if (bm->isTempBC(YNEGATIVE))
             {
@@ -174,7 +177,7 @@ namespace LTFP
         }
 
         // Z Positive Neighbor
-        if (i == md->getSizeZ() - 1)
+        if (k == md->getSizeZ() - 1)
         {
             if (bm->isTempBC(ZPOSITIVE))
             {
@@ -197,7 +200,7 @@ namespace LTFP
         }
 
         // Z Negative Neighbor
-        if (i == 1)
+        if (k == 0)
         {
             if (bm->isTempBC(ZNEGATIVE))
             {
@@ -219,7 +222,10 @@ namespace LTFP
             flowRate += kAvg * (T_n - T_p) * AreaZ_dz;
         }
 
-        flowRate += LaserSource::getCurrent()->getLaserPower(i, j, k);
+        // Laser heat source
+        if (ls->laserActive())
+            flowRate += LaserSource::getCurrent()->getLaserPower(i, j, k);
+
         return flowRate / (rho_p * Volume);
     }
 

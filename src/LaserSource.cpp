@@ -17,6 +17,7 @@ namespace LTFP
 
     LaserSource::LaserSource()
     {
+        _laserActive = false;
     }
 
     LaserSource::~LaserSource()
@@ -94,6 +95,9 @@ namespace LTFP
 
             // Add laser object to list
             _lasers.push_back(data);
+
+            if (_lasers.size() == 0)
+                _laserActive = false;
         }
     }
 
@@ -137,6 +141,9 @@ namespace LTFP
     /// @brief Determine laser state and precompute power distribution
     void LaserSource::precomputePowerDistribution()
     {
+        if (!_laserActive)
+            return;
+
         MeshData *mesh = MeshData::getCurrent();
         Real currentTime = TimeManager::getCurrent()->getTime();
 

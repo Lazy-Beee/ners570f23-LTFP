@@ -55,6 +55,8 @@ namespace LTFP
 
 	private:
 		static LaserSource *current;
+		bool _laserActive;
+
 		std::vector<LaserData> _lasers;
 		std::vector<std::vector<std::vector<Real>>> _laserPower;
 
@@ -70,6 +72,7 @@ namespace LTFP
 		static LaserSource *getCurrent();
 		void init();
 		void precomputePowerDistribution();
+		const bool &laserActive() const { return _laserActive; };
 		Real getLaserPower(const unsigned int &i, const unsigned int &j, const unsigned int &k) const { return _laserPower[i][j][k]; };
 
 #ifndef NDEBUG
