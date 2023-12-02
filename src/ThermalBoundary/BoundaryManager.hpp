@@ -15,7 +15,7 @@ namespace LTFP
 		static BoundaryManager *current;
 		const size_t _numLoc = 6;
 		/// @brief Boundary objects
-		/// @note First-level: location x+ / x- / y+ / y- / z+ / z-
+		/// @note First-level: location x- / x+ / y- / y+ / z- / z+
 		std::vector<std::vector<ThermalBoundary *>> _boundaries;
 		std::vector<bool> _tempBC;
 

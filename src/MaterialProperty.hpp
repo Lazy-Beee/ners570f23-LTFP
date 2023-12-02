@@ -47,7 +47,7 @@ namespace LTFP
 
         template <PropertyType ptype>
         Real getProperty(const Real &temp);
-        Real getDiffusionCoefficient(const Real &temp);
+        Real getKappa(const Real &temp);
 
         // Real getDensity(const Real &temp) { return getProperty(DENSITY, temp); };
         // Real getSpecificHeat(const Real &temp) { return getProperty(SPECIFIC_HEAT, temp); };

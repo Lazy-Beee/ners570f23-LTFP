@@ -28,20 +28,20 @@ namespace LTFP
     /// @brief Thermal boundary location
     enum BoundaryLocation
     {
-        XPOSITIVE = 0,
-        XNEGATIVE = 1,
-        YPOSITIVE = 2,
-        YNEGATIVE = 3,
-        ZPOSITIVE = 4,
-        ZNEGATIVE = 5
+        XNEGATIVE = 0,
+        XPOSITIVE = 1,
+        YNEGATIVE = 2,
+        YPOSITIVE = 3,
+        ZNEGATIVE = 4,
+        ZPOSITIVE = 5
     };
     static std::vector<std::string> BoundaryLocationName = {
-        "[X+]",
         "[X-]",
-        "[Y+]",
+        "[X+]",
         "[Y-]",
-        "[Z+]",
-        "[Z-]"};
+        "[Y+]",
+        "[Z-]",
+        "[Z+]"};
 
     /// @brief Base class of thermal boundaries.
     class ThermalBoundary

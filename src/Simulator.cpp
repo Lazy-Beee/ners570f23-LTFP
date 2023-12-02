@@ -164,11 +164,9 @@ namespace LTFP
         Utilities::Counting::printCounterSums();
     }
 
-    /// @brief Run the simulation from beginning to end
-    /// @param argc Number of command line inputs
-    /// @param argv Command line inputs
-    /// @note Only path the scene filename from command line. The scene file should be placed in ./scenes folder.
-    void Simulator::runSimulation(int argc, char *argv[])
+    /// @brief Run the simulation with given scene file
+    /// @param sceneFile name of the scene file in ./scenes folder
+    void Simulator::runSimulation(string sceneFile)
     {
         // Create modules
         SceneLoader *sceneLoader = SceneLoader::getCurrent();
@@ -180,15 +178,7 @@ namespace LTFP
         MeshData *meshData = MeshData::getCurrent();
 
         // Setup simulation with scene file path
-        if (argc == 1)
-            initUtilities("default.json");
-        else if (argc == 2)
-            initUtilities(argv[1]);
-        else
-        {
-            cout << "Invalid number of command line inputs" << endl;
-            exit(1);
-        }
+        initUtilities(sceneFile);
 
         // Run simulator
         initialize();

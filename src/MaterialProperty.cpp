@@ -72,7 +72,7 @@ namespace LTFP
             // Allow specific heat to be loaded in tabulate switch mode
             if (config.type == SPECIFIC_HEAT && tr.size() == 0 && ps.size() == 0 && ts.size() == 0)
             {
-                LOG_INFO << "Property " << PropTypeName[config.type] << "loaded in tabulate switch mode";
+                LOG_INFO << "Property " << PropTypeName[config.type] << " loaded in tabulate switch mode";
                 _propLoaded[config.type] = false;
                 continue;
             }
@@ -194,7 +194,7 @@ namespace LTFP
     }
 
     /// @brief Get diffusion coefficient k/(rho*cp)
-    Real MaterialProperty::getDiffusionCoefficient(const Real &temp)
+    Real MaterialProperty::getKappa(const Real &temp)
     {
         // TODO: the diffusion coefficient can be tabulated
         return getProperty<CONDUCTIVITY>(temp) / (getProperty<DENSITY>(temp) * getProperty<SPECIFIC_HEAT>(temp));

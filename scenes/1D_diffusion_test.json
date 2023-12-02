@@ -6,14 +6,18 @@
         "endTime": 200.0,
         "maxTimeSteps": -1
     },
+    "ThermalSolver":
+    {
+        "type": 0,
+        "cflNumber": 1.0
+    },
 	"Mesh": 
 	{
         "start": [0.0,0.0,0.0],
         "end": [10.0,0.1,0.1],
-        "xCount": -1,
-        "yCount": -1,
-        "zCount": -1,
-        "meshSize": 0.01,
+        "xCount": 1000,
+        "yCount": 1,
+        "zCount": 1,
         "initialTemp": 300.0
     },
     "Export":
@@ -39,9 +43,9 @@
             "index": 0,
             "type": 1,
             "location": 0,
-            "xFluxPoly": [310],
-            "yFluxPoly": [0],
-            "zFluxPoly": [0]
+            "xTempPoly": [0],
+            "yTempPoly": [310],
+            "zTempPoly": [0]
         }
     ],
     "MatProp":

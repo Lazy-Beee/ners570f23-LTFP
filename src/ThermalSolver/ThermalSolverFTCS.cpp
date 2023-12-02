@@ -29,7 +29,7 @@ namespace LTFP
                 for (size_t k = 0; k < md->getSizeZ(); k++)
                 {
                     const Real &T = md->getTemperature(i, j, k);
-                    const Real &kappa = mp->getDiffusionCoefficient(T);
+                    const Real &kappa = mp->getKappa(T);
                     if (kappa < minKappa)
                         minKappa = kappa;
                 }
@@ -74,10 +74,10 @@ namespace LTFP
         static const Real AreaZ_dz = dx * dy / dz;
         static const Real Volume = dx * dy * dz;
 
-        const Vector3r pos = md->getCenterPos(i, j, k);
-        const Real T = md->getTemperatureOld(i, j, k);
-        const Real k = mp->getProperty<CONDUCTIVITY>(T);
-        const Real rho = mp->getProperty<DENSITY>(T);
+        const Vector3r pos_p = md->getCenterPos(i, j, k);
+        const Real T_p = md->getTemperatureOld(i, j, k);
+        const Real k_p = mp->getProperty<CONDUCTIVITY>(T_p);
+        const Real rho_p = mp->getProperty<DENSITY>(T_p);
 
         Real flowRate = 0.0;
 
@@ -86,22 +86,22 @@ namespace LTFP
         {
             if (bm->isTempBC(XPOSITIVE))
             {
-                const Real &Tn = bm->getTempBC(XPOSITIVE, pos, T);
-                const Real &kn = mp->getProperty<CONDUCTIVITY>(Tn);
-                Real kAvg = 2 * k * kn / (k + kn);
-                flowRate += kAvg * (Tn - T) * AreaX_dx;
+                const Real &T_n = bm->getTempBC(XPOSITIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaX_dx;
             }
             else
             {
-                flowRate += bm->getFluxBC(XPOSITIVE, pos, T) * AreaX;
+                flowRate += bm->getFluxBC(XPOSITIVE, pos_p, T_p) * AreaX;
             }
         }
         else
         {
-            const Real &Tn = md->getTemperatureOld(i + 1, j, k);
-            const Real &kn = mp->getProperty<CONDUCTIVITY>(Tn);
-            Real kAvg = 2 * k * kn / (k + kn);
-            flowRate += kAvg * (Tn - T) * AreaX_dx;
+            const Real &T_n = md->getTemperatureOld(i + 1, j, k);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaX_dx;
         }
 
         // X Negative Neighbor
@@ -109,26 +109,118 @@ namespace LTFP
         {
             if (bm->isTempBC(XNEGATIVE))
             {
-                const Real &Tn = bm->getTempBC(XNEGATIVE, pos, T);
-                const Real &kn = mp->getProperty<CONDUCTIVITY>(Tn);
-                Real kAvg = 2 * k * kn / (k + kn);
-                flowRate += kAvg * (Tn - T) * AreaX_dx;
+                const Real &T_n = bm->getTempBC(XNEGATIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaX_dx;
             }
             else
             {
-                flowRate += bm->getFluxBC(XNEGATIVE, pos, T) * AreaX;
+                flowRate += bm->getFluxBC(XNEGATIVE, pos_p, T_p) * AreaX;
             }
         }
         else
         {
-            const Real &Tn = md->getTemperatureOld(i - 1, j, k);
-            const Real &kn = mp->getProperty<CONDUCTIVITY>(Tn);
-            Real kAvg = 2 * k * kn / (k + kn);
-            flowRate += kAvg * (Tn - T) * AreaX_dx;
+            const Real &T_n = md->getTemperatureOld(i - 1, j, k);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaX_dx;
+        }
+
+        // Y Positive Neighbor
+        if (i == md->getSizeY() - 1)
+        {
+            if (bm->isTempBC(YPOSITIVE))
+            {
+                const Real &T_n = bm->getTempBC(YPOSITIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaY_dy;
+            }
+            else
+            {
+                flowRate += bm->getFluxBC(YPOSITIVE, pos_p, T_p) * AreaY;
+            }
+        }
+        else
+        {
+            const Real &T_n = md->getTemperatureOld(i, j + 1, k);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaY_dy;
+        }
+
+        // Y Negative Neighbor
+        if (i == 1)
+        {
+            if (bm->isTempBC(YNEGATIVE))
+            {
+                const Real &T_n = bm->getTempBC(YNEGATIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaY_dy;
+            }
+            else
+            {
+                flowRate += bm->getFluxBC(YNEGATIVE, pos_p, T_p) * AreaY;
+            }
+        }
+        else
+        {
+            const Real &T_n = md->getTemperatureOld(i, j - 1, k);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaY_dy;
+        }
+
+        // Z Positive Neighbor
+        if (i == md->getSizeZ() - 1)
+        {
+            if (bm->isTempBC(ZPOSITIVE))
+            {
+                const Real &T_n = bm->getTempBC(ZPOSITIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaZ_dz;
+            }
+            else
+            {
+                flowRate += bm->getFluxBC(ZPOSITIVE, pos_p, T_p) * AreaZ;
+            }
+        }
+        else
+        {
+            const Real &T_n = md->getTemperatureOld(i, j, k + 1);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaZ_dz;
+        }
+
+        // Z Negative Neighbor
+        if (i == 1)
+        {
+            if (bm->isTempBC(ZNEGATIVE))
+            {
+                const Real &T_n = bm->getTempBC(ZNEGATIVE, pos_p, T_p);
+                const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+                Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+                flowRate += kAvg * (T_n - T_p) * AreaZ_dz;
+            }
+            else
+            {
+                flowRate += bm->getFluxBC(ZNEGATIVE, pos_p, T_p) * AreaZ;
+            }
+        }
+        else
+        {
+            const Real &T_n = md->getTemperatureOld(i, j, k - 1);
+            const Real &k_n = mp->getProperty<CONDUCTIVITY>(T_n);
+            Real kAvg = 2 * k_p * k_n / (k_p + k_n);
+            flowRate += kAvg * (T_n - T_p) * AreaZ_dz;
         }
 
         flowRate += LaserSource::getCurrent()->getLaserPower(i, j, k);
-        return flowRate / (rho * Volume);
+        return flowRate / (rho_p * Volume);
     }
 
     /// @brief update temperature of a single cell

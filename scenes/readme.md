@@ -57,12 +57,12 @@ The `.json` scene file configs the simulation in default mode. The default value
     - 3: Radiation boundary
     - 4: Mirror boundary
 - **location**(int): location of thermal boundary
-    - 0: X positive
-    - 1: X negative
-    - 2: Y positive
-    - 3: Y negative
-    - 4: Z positive
-    - 5: Z negative
+    - 0: X negative
+    - 1: X positive
+    - 2: Y negative
+    - 3: Y positive
+    - 4: Z negative
+    - 5: Z positive
 - **index**(int): integer value to help distinguish different boundary objects
 - #### Neumann Boundary
   - **xFluxPoly**(float vector): polynomial of boundary flux depending on X position, ignored for boundary located in X direction

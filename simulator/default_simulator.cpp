@@ -1,17 +1,19 @@
 #include <iostream>
-#include <string>
-#include "src/Common.hpp"
 #include "src/Simulator.hpp"
-#include "utilities/Counting.hpp"
-#include "utilities/Logger.hpp"
-#include "utilities/Timing.hpp"
 
 int main(int argc, char *argv[])
 {
-    if (argc > 2)
+    if (argc == 1)
+    {
+        LTFP::Simulator::getCurrent()->runSimulation("1D_diffusion_test.json");
+    }
+    else if (argc == 2)
+    {
+        LTFP::Simulator::getCurrent()->runSimulation(argv[1]);
+    }
+    else
+    {
         std::cerr << "Invalid number of command line inputs" << std::endl;
-
-    LTFP::Simulator::getCurrent()->runSimulation(argc, argv);
-
-    return 0;
+        return 1;
+    }
 }

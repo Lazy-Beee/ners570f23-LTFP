@@ -35,7 +35,7 @@ namespace LTFP
 		void initialize();
 		void step();
 		void finalize();
-		void runSimulation(int argc, char *argv[]);
+		void runSimulation(std::string sceneFile);
 
 		inline std::filesystem::path getOutputPath() const { return _outputPath; };
 		inline std::filesystem::path getScenePath() const { return _scenePath; };
