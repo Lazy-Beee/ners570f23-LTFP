@@ -18,6 +18,7 @@ namespace LTFP
 		void coolingRateASCII(std::ofstream &outfile);
 		void tempGradASCII(std::ofstream &outfile);
 		void laserPowerASCII(std::ofstream &outfile);
+		void enthalpyASCII(std::ofstream &outfile);
 
 	public:
 		ExporterVtkMesh(int type);

@@ -65,4 +65,12 @@ namespace LTFP
             if (exporter->timeToExport())
                 exporter->exportData();
     }
+
+    /// @brief Export regardless of period
+    void ExportManager::forceExport()
+    {
+#pragma omp parallel for
+        for (Exporter *exporter : _exporters)
+            exporter->exportData();
+    }
 }

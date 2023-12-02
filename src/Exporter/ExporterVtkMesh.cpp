@@ -5,6 +5,7 @@
 #include "src/TimeManager.hpp"
 #include "src/LaserSource.hpp"
 #include "src/MeshData.hpp"
+#include "src/MaterialProperty.hpp"
 #include "utilities/Logger.hpp"
 
 using namespace std;
@@ -79,6 +80,8 @@ namespace LTFP
         {
             if (param == "temperature")
                 temperatureASCII(outfile);
+            else if (param == "enthalpy")
+                enthalpyASCII(outfile);
             else if (param == "coolingRate")
                 coolingRateASCII(outfile);
             else if (param == "tempGrad")
@@ -192,7 +195,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS Temperature float 1\n";
+        outfile << "SCALARS LaserPower float 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {
@@ -201,6 +204,26 @@ namespace LTFP
                 for (size_t i = 0; i < mesh->getSizeX(); i++)
                 {
                     outfile << LaserSource::getCurrent()->getLaserPower(i, j, k) << " ";
+                }
+                outfile << "\n";
+            }
+        }
+        outfile << "\n";
+    }
+
+    void ExporterVtkMesh::enthalpyASCII(ofstream &outfile)
+    {
+        MeshData *mesh = MeshData::getCurrent();
+
+        outfile << "SCALARS Enthalpy float 1\n";
+        outfile << "LOOKUP_TABLE default\n";
+        for (size_t k = 0; k < mesh->getSizeZ(); k++)
+        {
+            for (size_t j = 0; j < mesh->getSizeY(); j++)
+            {
+                for (size_t i = 0; i < mesh->getSizeX(); i++)
+                {
+                    outfile << MaterialProperty::getCurrent()->getProperty<ENTHALPY>(mesh->getTemperature(i, j, k)) << " ";
                 }
                 outfile << "\n";
             }

@@ -35,6 +35,7 @@ The `.json` scene file configs the simulation in default mode. The default value
     - "coolingRate": cooling rate
     - "tempGrad": temperature gradient
     - "laserPower": laser power of cell
+    - "enthalpy": enthalpy of cell
   - **outPrecision**: precision of exporter output
 
 ### Material Property

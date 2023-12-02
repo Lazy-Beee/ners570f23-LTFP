@@ -26,6 +26,7 @@ namespace LTFP
 		static ExportManager *getCurrent();
 		void init(std::filesystem::path exportPath);
 		void step();
+		void forceExport();
 
 		inline std::filesystem::path getExportPath() { return _exportPath; };
 	};

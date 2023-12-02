@@ -5,6 +5,7 @@
 #include "src/TimeManager.hpp"
 #include "src/LaserSource.hpp"
 #include "src/MeshData.hpp"
+#include "src/MaterialProperty.hpp"
 #include "utilities/Logger.hpp"
 
 using namespace std;
@@ -49,6 +50,8 @@ namespace LTFP
         {
             if (param == "temperature")
                 outfile << ",Temperature";
+            else if (param == "enthalpy")
+                outfile << ",Enthalpy";
             else if (param == "coolingRate")
                 outfile << ",Cooling Rate";
             else if (param == "tempGrad")
@@ -73,6 +76,8 @@ namespace LTFP
                     {
                         if (param == "temperature")
                             outfile << "," << mesh->getTemperature(i, j, k);
+                        else if (param == "enthalpy")
+                            outfile << "," << MaterialProperty::getCurrent()->getProperty<ENTHALPY>(mesh->getTemperature(i, j, k));
                         else if (param == "coolingRate")
                             outfile << "," << mesh->getCoolingRate(i, j, k);
                         else if (param == "tempGrad")
