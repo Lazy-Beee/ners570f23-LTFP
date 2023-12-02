@@ -179,7 +179,7 @@ namespace LTFP
             xVec.resize(ySize);
             for (auto &yVec : xVec)
             {
-                yVec.resize(zSize);
+                yVec.resize(zSize, 0.0f);
             }
         }
     }
@@ -193,7 +193,7 @@ namespace LTFP
             xVec.resize(ySize);
             for (auto &yVec : xVec)
             {
-                yVec.resize(zSize);
+                yVec.resize(zSize, {0.0f, 0.0f, 0.0f});
             }
         }
     }

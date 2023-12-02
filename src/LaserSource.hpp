@@ -58,7 +58,7 @@ namespace LTFP
 		bool _laserActive;
 
 		std::vector<LaserData> _lasers;
-		std::vector<std::vector<std::vector<Real>>> _laserPower;
+		MeshReal _laserPower;
 
 		std::vector<LaserPath> readPathFile(std::string file);
 		Real getPowerDensity(const LaserData &laser, const Vector3r &pos);
