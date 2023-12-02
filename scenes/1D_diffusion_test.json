@@ -3,7 +3,7 @@
     {
         "minTimeStepSize": 1e-6,
         "maxTimeStepSize": 1.0,
-        "endTime": 500.0,
+        "endTime": 1000.0,
         "maxTimeSteps": -1
     },
     "ThermalSolver":
@@ -14,15 +14,15 @@
 	"Mesh": 
 	{
         "start": [0.0,0.0,0.0],
-        "end": [5.0,0.5,0.5],
-        "xCount": 1000,
+        "end": [1.0,0.2,0.2],
+        "xCount": 200,
         "yCount": 5,
         "zCount": 5,
-        "initialTemp": 300.0
+        "initialTemp": 0.0
     },
     "Export":
     {
-        "consolePeriod": 100,
+        "consolePeriod": 1000,
         "exporters":
         [
             {
@@ -44,7 +44,15 @@
             "type": 1,
             "location": 0,
             "xTempPoly": [0],
-            "yTempPoly": [310],
+            "yTempPoly": [100],
+            "zTempPoly": [0]
+        },
+        {
+            "index": 0,
+            "type": 1,
+            "location": 1,
+            "xTempPoly": [0],
+            "yTempPoly": [0],
             "zTempPoly": [0]
         }
     ],
