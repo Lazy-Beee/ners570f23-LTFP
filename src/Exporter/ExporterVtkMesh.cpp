@@ -102,7 +102,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS Temperature float 1\n";
+        outfile << "SCALARS Temperature " << realStr << " 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {
@@ -122,7 +122,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS coolingRate float 1\n";
+        outfile << "SCALARS coolingRate " << realStr << " 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {
@@ -142,7 +142,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS TemperatureGradientX float 1\n";
+        outfile << "SCALARS TemperatureGradient " << realStr << " 3\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {
@@ -151,39 +151,7 @@ namespace LTFP
                 for (size_t i = 0; i < mesh->getSizeX(); i++)
                 {
                     Vector3r tempGrad = mesh->getTemperatureGrad(i, j, k);
-                    outfile << tempGrad[0] << " ";
-                }
-                outfile << "\n";
-            }
-        }
-        outfile << "\n";
-
-        outfile << "SCALARS TemperatureGradientY float 1\n";
-        outfile << "LOOKUP_TABLE default\n";
-        for (size_t k = 0; k < mesh->getSizeZ(); k++)
-        {
-            for (size_t j = 0; j < mesh->getSizeY(); j++)
-            {
-                for (size_t i = 0; i < mesh->getSizeX(); i++)
-                {
-                    Vector3r tempGrad = mesh->getTemperatureGrad(i, j, k);
-                    outfile << tempGrad[1] << " ";
-                }
-                outfile << "\n";
-            }
-        }
-        outfile << "\n";
-
-        outfile << "SCALARS TemperatureGradientZ float 1\n";
-        outfile << "LOOKUP_TABLE default\n";
-        for (size_t k = 0; k < mesh->getSizeZ(); k++)
-        {
-            for (size_t j = 0; j < mesh->getSizeY(); j++)
-            {
-                for (size_t i = 0; i < mesh->getSizeX(); i++)
-                {
-                    Vector3r tempGrad = mesh->getTemperatureGrad(i, j, k);
-                    outfile << tempGrad[2] << " ";
+                    outfile << tempGrad[0] << " " << tempGrad[1] << " " << tempGrad[2] << " ";
                 }
                 outfile << "\n";
             }
@@ -195,7 +163,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS LaserPower float 1\n";
+        outfile << "SCALARS LaserPower " << realStr << " 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {
@@ -215,7 +183,7 @@ namespace LTFP
     {
         MeshData *mesh = MeshData::getCurrent();
 
-        outfile << "SCALARS Enthalpy float 1\n";
+        outfile << "SCALARS Enthalpy " << realStr << " 1\n";
         outfile << "LOOKUP_TABLE default\n";
         for (size_t k = 0; k < mesh->getSizeZ(); k++)
         {

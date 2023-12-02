@@ -28,7 +28,7 @@
             {
                 "type": 0,
                 "period": 10,
-                "parameters": ["temperature"]
+                "parameters": ["temperature", "tempGrad"]
             },
             {
                 "type": 1,
