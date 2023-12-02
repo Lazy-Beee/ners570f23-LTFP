@@ -72,7 +72,7 @@ namespace LTFP
             // Allow specific heat to be loaded in tabulate switch mode
             if (config.type == SPECIFIC_HEAT && tr.size() == 0 && ps.size() == 0 && ts.size() == 0)
             {
-                LOG_INFO << "Property " << PropTypeName[config.type] << " loaded in tabulate switch mode";
+                LOG_INFO << "Property " << PropTypeName[config.type] << " loaded in tabulate switch mode, values will be interpolated from the enthalpy curve";
                 _propLoaded[config.type] = false;
                 continue;
             }

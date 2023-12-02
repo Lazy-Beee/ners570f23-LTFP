@@ -213,7 +213,7 @@ namespace LTFP
 
         for (size_t i = 1; i < durationConfig.size(); i++)
         {
-            Real tempDy, tempT1, tempT2;
+            Real tempDy = 0.0f, tempT1 = 0.0f, tempT2 = 0.0f;
             SceneLoader::readValue(thicknessConfig[i], tempDy);
             _incrementThickness.push_back(tempDy);
             SceneLoader::readValue(durationConfig[i - 1][1], tempT1);

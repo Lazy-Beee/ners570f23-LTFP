@@ -39,8 +39,6 @@ namespace LTFP
         const Real yInterval = md->getIntervalY();
         const Real zInterval = md->getIntervalZ();
 
-        Real TempGradX, TempGradY, TempGradZ;
-
 #pragma omp parallel for collapse(3) schedule(static)
         for (size_t i = 0; i < xSize; i++)
         {
@@ -48,6 +46,8 @@ namespace LTFP
             {
                 for (size_t k = 0; k < zSize; k++)
                 {
+                    Real TempGradX, TempGradY, TempGradZ;
+
                     if (i == 0) // Boundary (left x)
                     {
                         TempGradX = (md->getTemperature(i + 1, j, k) - md->getTemperature(i, j, k)) / xInterval;
@@ -106,7 +106,8 @@ namespace LTFP
             {
                 for (size_t k = 0; k < md->getSizeZ(); k++)
                 {
-                    md->setCoolingRate(i, j, k, (md->getTemperature(i, j, k) - md->getTemperatureOld(i, j, k)) / dt);
+                    Real dT_dt = (md->getTemperatureOld(i, j, k) - md->getTemperature(i, j, k)) / dt;
+                    md->setCoolingRate(i, j, k, dT_dt);
                 }
             }
         }

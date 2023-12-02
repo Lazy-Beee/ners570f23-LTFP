@@ -126,10 +126,12 @@ namespace LTFP
         _thermalSolver->updateTemperature();
         STOP_TIMING_AVG;
 
-        // Here we only compute cooling rate and temperature gradient before export
-        START_TIMING("Export");
+        START_TIMING("SolveTempGrad");
         _thermalSolver->computeCoolingRate();
         _thermalSolver->computeTemperatureGrad();
+        STOP_TIMING_AVG;
+
+        START_TIMING("Export");
         ExportManager::getCurrent()->step();
         STOP_TIMING_AVG;
 

@@ -22,9 +22,6 @@ namespace LTFP
     Real ThermalBoundary::getFlux([[maybe_unused]] const Vector3r &pos, [[maybe_unused]] const Real &temp)
     {
         LOG_WARN << "Function in ThermalBoundary base class is called, getFlux is not supported by the boundary type " << BoundaryTypeName[_type];
-#ifdef NDEBUG
-        exit(1);
-#endif
         return 0.0f;
     }
 
@@ -35,9 +32,6 @@ namespace LTFP
     Real ThermalBoundary::getTemp([[maybe_unused]] const Vector3r &pos, [[maybe_unused]] const Real &temp)
     {
         LOG_WARN << "Function in ThermalBoundary base class is called, getTemp is not supported by the boundary type " << BoundaryTypeName[_type];
-#ifdef NDEBUG
-        exit(1);
-#endif
         return 0.0f;
     }
 }
