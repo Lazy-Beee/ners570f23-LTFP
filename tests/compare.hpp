@@ -18,8 +18,8 @@ void COMPARE(bool compare, std::string message)
     testCount++;
 }
 
-template <typename T>
-void COMPARE(T val_1, T val_2, std::string message)
+template <typename T1, typename T2>
+void COMPARE(T1 val_1, T2 val_2, std::string message)
 {
     if (val_1 == val_2)
         std::cout << "Test " << testCount << " passed: " + message << std::endl;
@@ -33,8 +33,8 @@ void COMPARE(T val_1, T val_2, std::string message)
     testCount++;
 }
 
-template <typename T>
-void COMPARE(T val_1, T val_2, T eps, std::string message)
+template <typename T1, typename T2, typename T3>
+void COMPARE(T1 val_1, T2 val_2, T3 eps, std::string message)
 {
     if (fabs(val_1 - val_2) <= fabs(eps))
         std::cout << "Test " << testCount << " passed: " + message << std::endl;

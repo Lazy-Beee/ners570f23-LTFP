@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     {
         // sim.runSimulation("1D_diffusion_test.json");
         // sim.runSimulation("Conservation_test.json"); // TODO: seg fault when ySize=zSize=1
-        sim.runSimulation("ners570_demo_timing.json");
+        sim.runSimulation("ners570_demo_timing.json");  // TODO: SolveTempGrad and LaserSourcePrecompute time increased after parallelization
     }
     else if (argc == 2)
     {
