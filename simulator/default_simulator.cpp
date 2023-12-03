@@ -8,7 +8,8 @@ int main(int argc, char *argv[])
     if (argc == 1)
     {
         // sim.runSimulation("1D_diffusion_test.json");
-        sim.runSimulation("Conservation_test.json"); // TODO: seg fault when ySize=zSize=1
+        // sim.runSimulation("Conservation_test.json"); // TODO: seg fault when ySize=zSize=1
+        sim.runSimulation("ners570_demo_timing.json");
     }
     else if (argc == 2)
     {

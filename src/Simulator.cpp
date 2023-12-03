@@ -73,9 +73,7 @@ namespace LTFP
         LOG_INFO << "LTPF is running in single precision mode";
 #endif
 #ifndef NDEBUG
-        LOG_INFO << "LTPF is running in non-RELEASE mode";
-#else
-        LOG_INFO << "LTPF is running in RELEASE precision mode";
+        LOG_WARN << "LTPF is running in non-RELEASE mode";
 #endif
         LOG_INFO << "Available OpenMP threads: " << omp_get_max_threads();
         LOG_DEBUG << "Project path: " << _projectPath;
@@ -112,8 +110,6 @@ namespace LTFP
         MeshData::getCurrent()->init();
         LaserSource::getCurrent()->init();
         ExportManager::getCurrent()->init(_exportPath);
-
-        ExportManager::getCurrent()->forceExport();
     }
 
     /// @brief Advance one time step

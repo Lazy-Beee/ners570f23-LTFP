@@ -1,0 +1,80 @@
+{
+    "Time":
+    {
+        "minTimeStepSize": 1e-6,
+        "maxTimeStepSize": 1.0,
+        "endTime": 1.0
+    },
+    "ThermalSolver":
+    {
+        "type": 0,
+        "cflNumber": 0.02
+    },
+	"Mesh": 
+	{
+        "start": [0.0,0.0,0.0],
+        "end": [3e-3,1e-3,3e-3],
+        "meshSize": 1e-4,
+        "initialTemp": 300.0,
+        "layerFile": "path/ners570_demo_layer.json"
+    },
+    "Export":
+    {
+        "consolePeriod": 100,
+        "exporters":
+        [
+            {
+                "type": 0,
+                "period": 0.001,
+                "parameters": ["temperature", "coolingRate", "tempGrad", "laserPower"]
+            }
+        ]
+    },
+    "Boundary":
+    [
+        {
+            "index": 0,
+            "type": 1,
+            "location": 2,
+            "xTempPoly": [300],
+            "yTempPoly": [0],
+            "zTempPoly": [0]
+        }
+    ],
+    "MatProp":
+    [
+        {
+            "type": 0,
+            "tabulate": false,
+            "tempRange": [0.0, 10000.0],
+            "polynomials": [[6900]]
+        },
+        {
+            "type": 1,
+            "tabulate": true
+        },
+        {
+            "type": 2,
+            "tabulate": true,
+            "tempRange": [0, 1697, 1727, 10000],
+            "polynomials": [[712,0],[9907.833,-15605328.591],[837,60000]]
+        },
+        {
+            "type": 3,
+            "tabulate": true,
+            "tempRange": [0, 1697, 1727, 10000],
+            "polynomials": [[19.2],[0.553, -919.241],[38.5]]
+        }
+    ],
+    "Laser":
+    [
+        {
+            "index": 0,
+			"type": 0,
+			"power": 200,
+			"absorptivity": 0.5,
+			"laserPath": "path/ners570_demo_path.json",
+			"radius": 0.5e-3
+        }
+    ]
+}

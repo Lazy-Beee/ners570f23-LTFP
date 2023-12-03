@@ -17,7 +17,7 @@ namespace LTFP
 
     LaserSource::LaserSource()
     {
-        _laserActive = false;
+        _laserActive = true;
     }
 
     LaserSource::~LaserSource()
@@ -148,6 +148,11 @@ namespace LTFP
         Real currentTime = TimeManager::getCurrent()->getTime();
 
         resizeMeshReal(_laserPower, mesh->getSizeX(), mesh->getSizeY(), mesh->getSizeZ());
+#pragma omp parallel for collapse(3) schedule(static)
+        for (size_t i = 0; i < mesh->getSizeX(); i++)
+            for (size_t j = 0; j < mesh->getSizeY(); j++)
+                for (size_t k = 0; k < mesh->getSizeZ(); k++)
+                    _laserPower[i][j][k] = 0.0f;
 
         for (size_t laserId = 0; laserId < _lasers.size(); laserId++)
         {
@@ -170,6 +175,7 @@ namespace LTFP
                 }
                 else
                 {
+                    laser.on = false;
                     laser.currentPath++;
                     currentPath = paths[laser.currentPath];
                 }
@@ -182,7 +188,7 @@ namespace LTFP
             laser.currentPos = (currentTime - currentPath.t0) / (currentPath.t1 - currentPath.t0) * (currentPath.pos1 - currentPath.pos0) + currentPath.pos0;
 
             // Compute power distribution
-            vector<vector<vector<Real>>> cellPower;
+            MeshReal cellPower;
             resizeMeshReal(cellPower, mesh->getSizeX(), mesh->getSizeY(), mesh->getSizeZ());
             Real totalPower = 0.0f;
 
@@ -209,8 +215,8 @@ namespace LTFP
 
             Real correctionFactor = laser.power * laser.absorptivity / totalPower;
 
-            if (correctionFactor > 1.1 || correctionFactor < 0.9)
-                LOG_WARN << "Correction factor of laser " << laser.index << " is out of range [0.9, 1.1] at simulation time " << currentTime;
+            if (correctionFactor > 1.5 || correctionFactor < 0.7)
+                LOG_WARN << "Correction factor of laser " << laser.index << " is " << correctionFactor << " , out of range [0.7, 1.5] at simulation time " << currentTime;
 
 #pragma omp parallel for collapse(3) schedule(static)
             for (size_t i = 0; i < mesh->getSizeX(); i++)

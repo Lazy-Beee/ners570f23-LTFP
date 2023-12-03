@@ -124,6 +124,7 @@ namespace LTFP
         }
         else
         {
+            _incrementActive = true;
             readLayerFile(meshConfig.layerFile);
         }
     }
@@ -135,8 +136,9 @@ namespace LTFP
 
         Real time = TimeManager::getCurrent()->getTime();
         static size_t increaseCount = 0;
+        const static size_t maxIncrementCount = _incrementTime.size();
         size_t y_increment1, y_increment2;
-        if (time >= _incrementTime[increaseCount])
+        if (time >= _incrementTime[increaseCount] && increaseCount < maxIncrementCount)
         {
             if (increaseCount == 0)
             {
@@ -183,6 +185,8 @@ namespace LTFP
                 }
             }
             increaseCount++;
+
+            LOG_INFO << "Domain increased (count " << increaseCount << ") from " << y_increment1 << " to " << y_increment2;
         }
     }
 

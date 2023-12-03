@@ -33,6 +33,7 @@
             {
                 "type": 1,
                 "period": 10,
+                "outPrecision": 20,
                 "parameters": ["temperature", "enthalpy"]
             }
         ]

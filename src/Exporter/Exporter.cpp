@@ -49,7 +49,5 @@ namespace LTFP
             if (param != "temperature" && param != "coolingRate" && param != "tempGrad" && param != "laserPower" && param != "enthalpy")
                 LOG_WARN << "Unidentified output parameter [" << param << "]";
         }
-
-        _nextExportTime = _exportPeriod;
     }
 }

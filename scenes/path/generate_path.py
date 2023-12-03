@@ -54,7 +54,7 @@ def xy_line_scan(time_config, num_layers, scan_speed, domain, gap, increment_thi
     layer_pos_X = []
     scan_on_time = (x_max - x_min - gap) / scan_speed
     scan_full_time = scan_on_time + gap_time_scan
-    layer_scan_count_X = (int)((z_max - z_min) / gap - 1)
+    layer_scan_count_X = (int)((z_max - z_min) / gap)
     layer_duration_X = layer_scan_count_X * scan_full_time
     for i in range(layer_scan_count_X) :
         layer_time_X.append([scan_full_time * i, scan_full_time * i + scan_on_time])
@@ -64,7 +64,7 @@ def xy_line_scan(time_config, num_layers, scan_speed, domain, gap, increment_thi
     layer_pos_Z = []
     scan_on_time = (z_max - z_min - gap) / scan_speed
     scan_full_time = scan_on_time + gap_time_scan
-    layer_scan_count_Z = (int)((x_max - x_min) / gap - 1)
+    layer_scan_count_Z = (int)((x_max - x_min) / gap)
     layer_duration_Z = layer_scan_count_Z * scan_full_time
     for i in range(layer_scan_count_Z) :
         layer_time_Z.append([scan_full_time * i, scan_full_time * i + scan_on_time])
@@ -117,31 +117,10 @@ def xy_line_scan(time_config, num_layers, scan_speed, domain, gap, increment_thi
 
     return time_list, position_list, layer_info
 
-def plot_path(time_list, position_list, layer_info, case_name):
-    layer_scan_count = layer_info[0]
-    layer_duration = layer_info[1] 
-    layer_increment = layer_info[2]
-    
+def plot_path(position_list, case_name):
     output_dir = os.path.dirname(os.path.realpath(__file__)) + f'/{case_name}/'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
-    
-    j1 = 0
-    j2 = 0
-    for i in range(len(layer_scan_count)):
-        j1 = j2
-        j2 += layer_scan_count[i]
-        
-        plt.figure()
-        
-        for j in range(j1, j2) :
-            line = position_list[j]
-            plt.arrow(line[0][0], line[0][2], line[1][0] - line[0][0], line[1][2] - line[0][2], width=0.01, length_includes_head=True)
-        
-        plt.axis('equal')
-        plt.title(f'Layer {i} with y increment of {layer_increment[i]} from time {layer_duration[i][0]} to {layer_duration[i][1]}')
-        plt.savefig(output_dir + f'{i}.png')
-        plt.close()
         
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
@@ -151,8 +130,8 @@ def plot_path(time_list, position_list, layer_info, case_name):
     fig.savefig(output_dir + '3D.png')
 
 if __name__ == '__main__':
-    case_name = 'test'
+    case_name = 'ners570_demo'
     
-    time_list, position_list, layer_info = xy_line_scan([0.0, 0.1, 2.0], 4, 2.0, [0.0, 1.1, 0.0, 1.0, 0.0, 2.1], 0.1, 0.2)
+    time_list, position_list, layer_info = xy_line_scan([0.0, 0.005, 0.05], 4, 5e-2, [0.0, 3.0e-3, 0.0, 1.0e-3, 0.0, 3.0e-3], 0.75e-3, 0.2e-3)
     write_to_file(time_list, position_list, layer_info, case_name)
-    plot_path(time_list, position_list, layer_info, case_name)
+    plot_path(position_list, case_name)
