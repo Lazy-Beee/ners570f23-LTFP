@@ -7,3 +7,6 @@ Thermal field prediction of a multilayer laser scan pattern in LAAM
 #### Greatlakes modules dependencies
 - gcc/11.2.0
 - eigen/3.4.0
+
+
+The proposal, presentation slides, and report for course NERS570 are attached in the `doc` folder.
